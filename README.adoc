@@ -234,7 +234,7 @@ inventory entry with a `self` relationship:
 http://localhost:9081/LibertyProject/Inventory/systems/<hostname>
 ```
 
-=== Link to each running `System` service
+=== Link to each running System service
 
 Consider what happens when one of the return links does not work or when a link should be available
 for one object but not for another. In your case, its important that the `System` service is up and
