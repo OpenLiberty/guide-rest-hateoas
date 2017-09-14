@@ -317,7 +317,7 @@ include::finish/microprofile/src/test/java/it/io/openliberty/guides/hypermediare
 ----
 
 You can find more detailed explanations on how to define your own system properties and how to access
-them in the https://github.ibm.com/was-liberty/guide-microprofile[MicroProfile guide].
+them in the link:guides/microprofile-intro.html[MicroProfile guide].
 
 === Writing the tests
 
@@ -374,7 +374,7 @@ include::finish/microprofile/src/test/java/it/io/openliberty/guides/hypermediare
 
 === Running the tests
 
-To rebuild and run the tests, navigate to `guide-microprofile/start` and run `mvn clean install`
+To rebuild and run the tests, navigate to `guide-{projectid}/start` and run `mvn clean install`
 from the command line. It may take some before the tests are executed. A similar output displays if the tests run successfully:
 
 ```
