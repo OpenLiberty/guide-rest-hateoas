@@ -7,7 +7,7 @@
 //     IBM Corporation
 :projectid: rest-hateoas
 :page-layout: guide
-:page-duration: 15 minutes
+:page-duration: 30 minutes
 :page-description: Learn how to build a Hypermedia-driven RESTful web service
 :page-tags: ['REST', 'HATEOAS']
 :page-permalink: /guides/{projectid}
