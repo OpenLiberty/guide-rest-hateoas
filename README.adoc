@@ -131,7 +131,7 @@ if the host's `System` service is running, and points to it:
 
 ==== Other formats
 
-While you should stick to the format above for the purpose of this guide, it is also common to have
+While you should stick to the previous format for the purpose of this guide, it is also common to have
 the link be a direct property of the relationship:
 
 [source, java]
@@ -297,7 +297,7 @@ does not have an entry for the given hostname, then the `System` service that is
 is called instead. The system properties retrieved from the `System` service are then stored in
 the inventory and returned.
 
-If you have the servers running, you can hit each of the above URLs from your browser to test the application
+If you have the servers running, you can hit each of the previous URLs from your browser to test the application
 manually. However, you should always rely on automated tests since these will trigger a failure in
 the event a change introduces a bug. JUnit and the JAX-RS Client API provide a simple environment
 to test the application.
