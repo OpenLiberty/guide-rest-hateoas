@@ -10,7 +10,7 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>war</packaging>
 
-		<repositories>
+    <repositories>
         <repository>
             <id>openliberty-repo</id>
             <name>openliberty-repo</name>
@@ -92,9 +92,9 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-	        	<groupId>org.apache.commons</groupId>
-	        	<artifactId>commons-lang3</artifactId>
-	        	<version>3.6</version>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.6</version>
         </dependency>
     </dependencies>
 
@@ -134,9 +134,9 @@
                 <version>2.0</version>
                 <configuration>
                     <assemblyArtifact>
-		  									<groupId>io.openliberty</groupId>
-	  										<artifactId>openliberty-runtime</artifactId>
-  											<version>0.0.1-preview</version>
+                        <groupId>io.openliberty</groupId>
+                        <artifactId>openliberty-runtime</artifactId>
+                        <version>0.0.1-preview</version>
                         <type>zip</type>
                     </assemblyArtifact>
                     <configFile>src/main/liberty/config/server.xml</configFile>
