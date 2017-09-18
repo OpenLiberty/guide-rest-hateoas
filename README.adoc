@@ -26,9 +26,8 @@ RESTful web service.
 == What you'll learn
 
 You will learn to how to use hypermedia to create a specific style of a response JSON, the contents
-of which are used to navigate your REST service. You'll be building on top of a
-https://github.com/OpenLiberty/guide-microprofile-intro[MicroProfile application],
-providing a service at the following URL:
+of which are used to navigate your REST service. You'll be building on top of a simple inventory
+REST service developed with MicroProfile technologies, providing a service at the following URL:
 ```
 http://localhost:9080/inventory/hosts
 ```
@@ -220,8 +219,8 @@ This helper accepts a hostname and a target URL as arguments and builds a link t
 inventory entry with a `self` relationship, as well as a link that points to the `system` service with
 a `properties` relationship:
 
-* http://localhost:9080/inventory/hosts/<hostname>
-* http://<hostname>:9080/system/properties
+* `http://localhost:9080/inventory/hosts/<hostname>`
+* `http://<hostname>:9080/system/properties`
 
 === Link to inactive services or unavailable resources
 
@@ -292,7 +291,7 @@ include::finish/src/test/java/it/io/openliberty/guides/hateoas/EndpointTest.java
 ----
 
 You can find more detailed explanations on how to define your own system properties and how to access
-them in the link:guides/microprofile-intro.html[MicroProfile guide].
+them in the link:microprofile-intro.html[MicroProfile guide].
 
 === Writing the tests
 
@@ -353,7 +352,7 @@ To rebuild and run the tests, navigate to the `start` directory and run the `mvn
 from the command line.
 
 ```
-# If servers are still running from previous steps, stop them first
+# If server is still running from previous steps, stop it first
 mvn liberty:stop-server
 
 # Then execute
