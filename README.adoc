@@ -291,7 +291,7 @@ include::finish/src/test/java/it/io/openliberty/guides/hateoas/EndpointTest.java
 ----
 
 You can find more detailed explanations on how to define your own system properties and how to access
-them in the link:guides/microprofile-intro.html[MicroProfile guide].
+them in the link:microprofile-intro.html[MicroProfile guide].
 
 === Writing the tests
 
