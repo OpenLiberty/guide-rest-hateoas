@@ -56,7 +56,7 @@ public class InventoryManager {
                                               .build();
             systems.add(host, systemProps);
         }); 
-        systems.add("systems", systems);
+        systems.add("hosts", systems);
         systems.add("total", inv.size());
         return systems.build();
     }
