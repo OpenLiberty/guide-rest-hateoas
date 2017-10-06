@@ -13,7 +13,7 @@
 :page-permalink: /guides/{projectid}
 :common-includes: ../guides-common/
 :source-highlighter: prettify
-= Creating a Hypermedia-driven RESTful Web Service
+= Creating a Hypermedia-driven RESTful web service
 
 Explore how to use Hypermedia As The Engine Of Application State (HATEOAS) to drive your
 RESTful web service on top of Open Liberty.
@@ -28,14 +28,15 @@ RESTful web service on top of Open Liberty.
 You will learn how to use hypermedia to create a specific style of a response JSON, the contents
 of which are used to navigate your REST service. You'll be building on top of a simple inventory
 REST service developed with MicroProfile technologies, providing a service at the following URL:
-```
+
+````
 http://localhost:9080/inventory/hosts
-```
+````
 
 The service responds with a JSON containing an array of registered hosts, each with a collection
 of HATEOAS links:
 
-[source, json]
+[source, json, role="no_copy"]
 ----
 [
   {
@@ -88,7 +89,7 @@ resource object. The underscore is used so that the `_links` property does not c
 existing fields named `links`. The structure of HATEOAS links that you will be using in this
 guide is the following one:
 
-[source,json]
+[source, json, role="no_copy"]
 ----
   "_links": [
     {
@@ -104,7 +105,7 @@ Focus on two different types of links. The first has a `self` relationship with 
 object, is generated whenever a host has been registered, and points to that host entry
 in the inventory:
 
-[source, json]
+[source, json, role="no_copy"]
 ----
   {
     "href": "http://localhost:9080/inventory/hosts/<hostname>",
@@ -115,7 +116,7 @@ in the inventory:
 The second link has a `properties` relationship with the resource object, is generated
 if the host `system` service is running, and points to it:
 
-[source, json]
+[source, json, role="no_copy"]
 ----
   {
     "href": "http://<hostname>:9080/system/properties",
@@ -128,7 +129,7 @@ if the host `system` service is running, and points to it:
 Although you should stick to the previous format for the purpose of this guide, the link is also commonly
 a direct property of the relationship:
 
-[source, json]
+[source, json, role="no_copy"]
 ----
   "_links": {
       "self": "http://localhost:9080/inventory/hosts/<hostname>",
@@ -163,9 +164,10 @@ include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryResour
 
 The contents of your inventory are now under the `*` wildcard and reside at the following URL:
 
-```
+[source, role="no_copy"]
+----
 http://localhost:9080/inventory/hosts/*
-```
+----
 
 Next, add a simple `GET` request handler that is responsible for handling all `GET` requests that are
 made to our target URL. This method responds with a JSON containing HATEOAS links:
@@ -244,10 +246,11 @@ include::{common-includes}/mvnbuild.adoc[]
 
 To see the new application in action, run the Maven `liberty:start-server` command from the `start` directory:
 
-```
+[source, role="no_copy"]
+----
 cd start
 mvn liberty:start-server
-```
+----
 
 After the server is running, you can find your new Hypermedia-driven `inventory` service at the following URL:
 
@@ -351,18 +354,20 @@ include::finish/src/test/java/it/io/openliberty/guides/hateoas/EndpointTest.java
 To rebuild and run the tests, navigate to the `start` directory and run the `mvn clean install` command
 from the command line.
 
-```
+[source, role="no_copy"]
+----
 # If the server is still running from previous steps, stop it first:
 mvn liberty:stop-server
 
 # Then run the following command:
 mvn clean install
-```
+----
 
 Some time might elapse before the tests finish running. If the tests pass, you will see the following
 output:
 
-```
+[source, role="no_copy"]
+----
 -------------------------------------------------------
  T E S T S
 -------------------------------------------------------
@@ -372,7 +377,7 @@ Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.086 sec - in i
 Results :
 
 Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
-```
+----
 
 
 == Congratulations! You're done!
