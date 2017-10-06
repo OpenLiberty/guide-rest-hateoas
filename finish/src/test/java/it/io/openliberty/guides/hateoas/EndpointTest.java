@@ -79,13 +79,15 @@ public class EndpointTest {
         // tag::assertAndClose[]
         String expected, actual;
 
+        JsonArray links = sysArray.getJsonObject(0).getJsonArray("_links");
+
         expected = baseUrl + INVENTORY_HOSTS + "/*";
-        actual = sysArray.getJsonObject(0).getJsonArray("_links").getJsonObject(0).getString("href");
+        actual = links.getJsonObject(0).getString("href");
         assertEquals("Incorrect href", expected, actual);
         
         // asserting that rel was correct
         expected = "self";
-        actual = sysArray.getJsonObject(0).getJsonArray("_links").getJsonObject(0).getString("rel");
+        actual = links.getJsonObject(0).getString("rel");
         assertEquals("Incorrect rel", expected, actual);
         
         response.close();
@@ -107,25 +109,27 @@ public class EndpointTest {
         JsonArray sysArray = response.readEntity(JsonArray.class);
         
         String expected, actual;
+
+        JsonArray links = sysArray.getJsonObject(0).getJsonArray("_links");
         
         // testing the 'self' link
 
         expected = baseUrl + INVENTORY_HOSTS + "/localhost";
-        actual = sysArray.getJsonObject(0).getJsonArray("_links").getJsonObject(0).getString("href");
+        actual = links.getJsonObject(0).getString("href");
         assertEquals("Incorrect href", expected, actual);
         
         expected = "self";
-        actual = sysArray.getJsonObject(0).getJsonArray("_links").getJsonObject(0).getString("rel");
+        actual = links.getJsonObject(0).getString("rel");
         assertEquals("Incorrect rel", expected, actual);
         
         // testing the 'properties' link
         
         expected = baseUrl + SYSTEM_PROPERTIES;
-        actual = sysArray.getJsonObject(0).getJsonArray("_links").getJsonObject(1).getString("href");
+        actual = links.getJsonObject(1).getString("href");
         assertEquals("Incorrect href", expected, actual);
         
         expected = "properties";
-        actual = sysArray.getJsonObject(0).getJsonArray("_links").getJsonObject(1).getString("rel");
+        actual = links.getJsonObject(1).getString("rel");
         assertEquals("Incorrect rel", expected, actual);
     }
     // end::testLinksForSystem[]
