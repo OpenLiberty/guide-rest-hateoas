@@ -29,9 +29,9 @@ You will learn how to use hypermedia to create a specific style of a response JS
 of which are used to navigate your REST service. You'll be building on top of a simple inventory
 REST service developed with MicroProfile technologies, providing a service at the following URL:
 
-````
+```
 http://localhost:9080/inventory/hosts
-````
+```
 
 The service responds with a JSON containing an array of registered hosts, each with a collection
 of HATEOAS links:
