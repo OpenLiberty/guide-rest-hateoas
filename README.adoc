@@ -11,7 +11,7 @@
 :page-description: Learn how to build a hypermedia-driven RESTful web service
 :page-tags: ['REST', 'HATEOAS']
 :page-permalink: /guides/{projectid}
-:common-includes: ../guides-common/
+:common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/master
 :source-highlighter: prettify
 = Creating a Hypermedia-driven RESTful web service
 
