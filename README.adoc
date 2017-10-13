@@ -380,10 +380,9 @@ Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
 ----
 
 
-== Congratulations! You're done!
+== Good work! You're done!
 
-You have just built and tested a hypermedia-driven RESTful web service on top of
-Open Liberty.
+You have just built and tested a hypermedia-driven RESTful web service on top of Open Liberty.
 
 
 include::{common-includes}/finish.adoc[]
