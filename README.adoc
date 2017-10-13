@@ -380,7 +380,7 @@ Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
 ----
 
 
-== Good work! You're done!
+== Great work! You're done!
 
 You have just built and tested a hypermedia-driven RESTful web service on top of Open Liberty.
 
