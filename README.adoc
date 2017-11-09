@@ -8,6 +8,7 @@
 :projectid: rest-hateoas
 :page-layout: guide
 :page-duration: 30 minutes
+:page-date: 2017-09-13
 :page-description: Learn how to build a hypermedia-driven RESTful web service
 :page-tags: ['REST', 'HATEOAS']
 :page-permalink: /guides/{projectid}
