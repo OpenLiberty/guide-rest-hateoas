@@ -71,11 +71,11 @@ of HATEOAS links:
 
 === What is HATEOAS?
 
-Hypermedia As The Engine Of Application State (HATEOAS) is a unique constraint of REST architecture.
-The idea of HATEOAS is that, just like on any regular website, the end user is able to navigate
-your API by using simple links, and without the need to reference any documentation. In other words, your
-application tells the user where they can go and what they can access by providing them with a simple
-collection of links to other available resources.
+Hypermedia As The Engine Of Application State (HATEOAS) is a constrained form of REST application architecture.
+With HATEOAS, the client receives information about the available resources from the REST application.
+This means the client does not need to be hard-coded to a fixed set of resources and the application and client 
+can evolve independently. In other words, the application tells the clent where it can go and what it can access 
+by providing it with a simple collection of links to other available resources.
 
 === Response JSON
 
@@ -84,7 +84,7 @@ Whether they are JSON files, XML files, or in some other format, a good practice
 a clean and organized form. In the context of HATEOAS, each resource must contain a link reference to
 itself, commonly referred to as `self`. Each link must also have a relationship associated with it,
 although no strict rules exist as to how this relationship must be formatted. The collection
-of such links must be contained with a `_links` hash, which itself must be a direct property of the
+of such links must be contained with a `_links` array, which itself must be a direct property of the
 resource object. The underscore is used so that the `_links` property does not collide with any
 existing fields named `links`. The structure of HATEOAS links that you will be using in this
 guide is the following one:
@@ -101,8 +101,8 @@ guide is the following one:
 
 ==== Link types
 
-Focus on two different types of links. The first has a `self` relationship with the resource
-object, is generated whenever a host has been registered, and points to that host entry
+In this example we will have two different links. The first has a `self` relationship with the resource
+object and is generated whenever a host has been registered.  The link points to that host entry
 in the inventory:
 
 [source, json, role="no_copy"]
@@ -113,8 +113,8 @@ in the inventory:
   }
 ----
 
-The second link has a `properties` relationship with the resource object, is generated
-if the host `system` service is running, and points to it:
+The second link has a `properties` relationship with the resource object and is generated
+if the host `system` service is running.  The link points to the properties resource on the host:
 
 [source, json, role="no_copy"]
 ----
@@ -126,8 +126,7 @@ if the host `system` service is running, and points to it:
 
 ==== Other formats
 
-Although you should stick to the previous format for the purpose of this guide, the link is also commonly
-a direct property of the relationship:
+Although you should stick to the previous format for the purpose of this guide, another common convention has the link as the value of the relationship:
 
 [source, json, role="no_copy"]
 ----
@@ -147,13 +146,14 @@ include::{common-includes}/gitclone.adoc[]
 
 == Creating the response JSON
 
-Begin by building your response JSON, which is composed of the `_links` hash, as well
+Begin by building your response JSON, which is composed of the `_links` array, as well
 as the name of the host machine.
 
 === Linking to inventory contents
 
-First, you must tweak your existing request handlers in the `InventoryResource` class. Since the
-`.../inventory/hosts/` URL no longer responds with a JSON representation of the contents
+As mentioned, your starting point is an existing simple inventory REST service.
+First, you must tweak the request handlers in the `InventoryResource` class. Since the
+`.../inventory/hosts/` URL will no longer respond with a JSON representation of the contents
 of your inventory, the `listContents` method can be discarded and instead be integrated into the
 `getPropertiesForHost` method:
 
@@ -184,7 +184,7 @@ You also need a `UriInfo` object, which you use to build your HATEOAS links:
 include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryResource.java[tags=uriinfo]
 ----
 
-The `@Context` annotation is a part of CDI and indicates a context injection.
+The `@Context` annotation is a part of CDI and indicates a that the UriInfo will be injected when the resource is instantiated.
 
 Your new `InventoryResource` class is now finished. Next, let's implement the `getSystems` method and build
 the response JSON object.
@@ -200,7 +200,7 @@ include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryManage
 ----
 
 The `buildHostJson` helper method builds the actual JSON object. You use
-this method together with a simple map function to collect for each system the JSON object in an array.
+this method, together with a simple map function, to create an array of the JSON objects for each system.
 
 Let's implement the `buildHostJson` helper in the `InventoryUtil` class:
 
@@ -209,7 +209,7 @@ Let's implement the `buildHostJson` helper in the `InventoryUtil` class:
 include::finish/src/main/java/io/openliberty/guides/microprofile/util/InventoryUtil.java[tags=buildHostJson]
 ----
 
-You're creating a JSON object that contains the name of your host system and the `_links` hash, which
+You're creating a JSON object that contains the name of your host system and the `_links` array, which
 is generated separately in another helper:
 
 [source, java, indent=0]
@@ -228,11 +228,11 @@ a `properties` relationship:
 
 Consider what happens when one of the return links does not work or when a link should be available
 for one object but not for another. In other words, it is important that a resource or service is
-available and running before it is linked in the `_links` hash.
+available and running before it is linked in the `_links` array.
 
 Although this guide does not cover this case, you should nevertheless always make sure that the response
 code from a service is good before linking that service. Similarly, always make sure that the resource
-you're trying to link is acceptable to access by the particular object you're attaching it to.
+you're trying to link is appropriate to access by the particular object you're attaching it to.
 
 
 include::{common-includes}/mvnbuild.adoc[]
@@ -270,8 +270,8 @@ The `inventory` service that is now hypermedia-driven can be accessed at the fol
 
 The first URL returns the current contents of the inventory. The second returns the system
 properties for the given host name. These properties are retrieved from the inventory. If the inventory
-does not have an entry for the given host name, then the `system` service that is running on the same host name
-is called instead. The system properties retrieved from the `system` service are then stored in
+does not contain an entry for the host name specified in the URL, then the `system` service that is running on the requested host name
+is called instead. The system properties retrieved from that `system` service are then stored in
 the inventory and returned.
 
 If you have the servers running, you can access each of the previous URLs from your browser to test the application
@@ -283,8 +283,6 @@ to test the application.
 
 Create a test class `src/test/java/it/io/openliberty/guides/hateoas/EndpointTest.java`
 
-Each test method must be marked with the `@Test` annotation.
-
 You can use the `@Before` and `@After` annotations to perform any setup and teardown tasks for each
 of your individual tests.
 
@@ -293,14 +291,12 @@ of your individual tests.
 include::finish/src/test/java/it/io/openliberty/guides/hateoas/EndpointTest.java[tags=**;!comment;!class-contents;setup]
 ----
 
-You can find more detailed explanations on how to define your own system properties and how to access
-them in the link:microprofile-intro.html[MicroProfile guide].
-
 === Writing the tests
 
-Normally, the execution order of the test methods cannot be controlled. However, each test method can
-instead be placed within a single container method. This method is the only method labelled `@Test`.
-The following test suite contains four test methods, which are run in the order they appear in the suite:
+Each test method must be marked with the `@Test` annotation. Typically, the execution order of test methods is not 
+controlled, but if control is required, methods can be placed in a 
+single container test method. This container method is then the only one marked with the `@Test` annotation.
+The following test suite contains two test methods, which are run in the order they appear in the `testSuite` test method:
 
 [source, java, indent=0]
 ----
