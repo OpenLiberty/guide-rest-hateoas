@@ -153,7 +153,7 @@ the host machine.
 === Linking to inventory contents
 
 As mentioned before, your starting point is an existing simple inventory REST service. You can learn
-more about this service and how to build it by visiting https://openliberty.io/guides/rest-hateoas.html[Creating a Hypermedia-driven RESTful web service].
+more about this service and how to build it by visiting https://openliberty.io/guides/microprofile-intro.html[Creating a MicroProfile application].
 
 First, you must tweak the request handlers in the `InventoryResource` class. Since the `.../inventory/hosts/`
 URL will no longer respond with a JSON representation of the contents of your inventory, the `listContents`
