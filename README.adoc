@@ -13,27 +13,26 @@
 :page-permalink: /guides/{projectid}
 :common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/master
 :source-highlighter: prettify
-= Creating a Hypermedia-driven RESTful web service
-
-Explore how to use Hypermedia As The Engine Of Application State (HATEOAS) to drive your
-RESTful web service on top of Open Liberty.
-
+= Creating a hypermedia-driven RESTful web service
 
 // =================================================================================================
 // Introduction
 // =================================================================================================
 
+You'll explore how to use Hypermedia as the Engine of Application State (HATEOAS) to drive your
+RESTful web service on Open Liberty.
+
 == What you'll learn
 
-You will learn how to use hypermedia to create a specific style of a response JSON, the contents
-of which are used to navigate your REST service. You'll be building on top of a simple inventory
-REST service developed with MicroProfile technologies, providing a service at the following URL:
+You will learn how to use hypermedia to create a specific style of a response JSON, which has contents
+that you can use to navigate your REST service. You'll build on top of a simple inventory
+REST service that you can develop with MicroProfile technologies. You can find the service at the following URL:
 
 ```
 http://localhost:9080/inventory/hosts
 ```
 
-The service responds with a JSON containing an array of registered hosts, each with a collection
+The service responds with a JSON file that contains an array of registered hosts. Each host has a collection
 of HATEOAS links:
 
 [source, json, role="no_copy"]
@@ -71,9 +70,9 @@ of HATEOAS links:
 
 === What is HATEOAS?
 
-Hypermedia As The Engine Of Application State (HATEOAS) is a constrained form of REST application architecture.
+HATEOAS is a constrained form of REST application architecture.
 With HATEOAS, the client receives information about the available resources from the REST application.
-This means the client does not need to be hard-coded to a fixed set of resources and the application
+The client does not need to be hardcoded to a fixed set of resources, and the application
 and client can evolve independently. In other words, the application tells the client where it can go
 and what it can access by providing it with a simple collection of links to other available resources.
 
