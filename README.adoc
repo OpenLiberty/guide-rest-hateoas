@@ -73,9 +73,9 @@ of HATEOAS links:
 
 Hypermedia As The Engine Of Application State (HATEOAS) is a constrained form of REST application architecture.
 With HATEOAS, the client receives information about the available resources from the REST application.
-This means the client does not need to be hard-coded to a fixed set of resources and the application and client 
-can evolve independently. In other words, the application tells the clent where it can go and what it can access 
-by providing it with a simple collection of links to other available resources.
+This means the client does not need to be hard-coded to a fixed set of resources and the application
+and client can evolve independently. In other words, the application tells the client where it can go
+and what it can access by providing it with a simple collection of links to other available resources.
 
 === Response JSON
 
@@ -101,9 +101,9 @@ guide is the following one:
 
 ==== Link types
 
-In this example we will have two different links. The first has a `self` relationship with the resource
-object and is generated whenever a host has been registered.  The link points to that host entry
-in the inventory:
+In the following example there are two different links. The first has a `self` relationship with the
+resource object and is generated whenever a host has been registered. The link points to that host
+entry in the inventory:
 
 [source, json, role="no_copy"]
 ----
@@ -114,7 +114,7 @@ in the inventory:
 ----
 
 The second link has a `properties` relationship with the resource object and is generated
-if the host `system` service is running.  The link points to the properties resource on the host:
+if the host `system` service is running. The link points to the properties resource on the host:
 
 [source, json, role="no_copy"]
 ----
@@ -126,7 +126,8 @@ if the host `system` service is running.  The link points to the properties reso
 
 ==== Other formats
 
-Although you should stick to the previous format for the purpose of this guide, another common convention has the link as the value of the relationship:
+Although you should stick to the previous format for the purpose of this guide, another common
+convention has the link as the value of the relationship:
 
 [source, json, role="no_copy"]
 ----
@@ -146,16 +147,17 @@ include::{common-includes}/gitclone.adoc[]
 
 == Creating the response JSON
 
-Begin by building your response JSON, which is composed of the `_links` array, as well
-as the name of the host machine.
+Begin by building your response JSON, which is composed of the `_links` array, as well as the name of
+the host machine.
 
 === Linking to inventory contents
 
-As mentioned, your starting point is an existing simple inventory REST service.
-First, you must tweak the request handlers in the `InventoryResource` class. Since the
-`.../inventory/hosts/` URL will no longer respond with a JSON representation of the contents
-of your inventory, the `listContents` method can be discarded and instead be integrated into the
-`getPropertiesForHost` method:
+As mentioned before, your starting point is an existing simple inventory REST service. You can learn
+more about this service and how to build it by visiting https://openliberty.io/guides/rest-hateoas.html[Creating a Hypermedia-driven RESTful web service].
+
+First, you must tweak the request handlers in the `InventoryResource` class. Since the `.../inventory/hosts/`
+URL will no longer respond with a JSON representation of the contents of your inventory, the `listContents`
+method can be discarded and instead be integrated into the `getPropertiesForHost` method:
 
 [source, java, indent=0]
 ----
@@ -184,7 +186,8 @@ You also need a `UriInfo` object, which you use to build your HATEOAS links:
 include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryResource.java[tags=uriinfo]
 ----
 
-The `@Context` annotation is a part of CDI and indicates a that the UriInfo will be injected when the resource is instantiated.
+The `@Context` annotation is a part of CDI and indicates that the UriInfo will be injected when the
+resource is instantiated.
 
 Your new `InventoryResource` class is now finished. Next, let's implement the `getSystems` method and build
 the response JSON object.
@@ -199,8 +202,8 @@ target URL as an argument and returns a JSON object that contains HATEOAS links.
 include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryManager.java[tags=getSystems]
 ----
 
-The `buildHostJson` helper method builds the actual JSON object. You use
-this method, together with a simple map function, to create an array of the JSON objects for each system.
+The `buildHostJson` helper method builds the actual JSON object. Use this method, together with a
+simple map function, to create an array of the JSON objects for each system.
 
 Let's implement the `buildHostJson` helper in the `InventoryUtil` class:
 
@@ -230,9 +233,11 @@ Consider what happens when one of the return links does not work or when a link 
 for one object but not for another. In other words, it is important that a resource or service is
 available and running before it is linked in the `_links` array.
 
-Although this guide does not cover this case, you should nevertheless always make sure that the response
-code from a service is good before linking that service. Similarly, always make sure that the resource
-you're trying to link is appropriate to access by the particular object you're attaching it to.
+Although this guide does not cover this case, you should nevertheless always make sure that you receive
+a good response code from a service before linking that service. Similarly, it is also important that
+it makes sense for a particular object to access a resource it is linked to. For instance, it wouldn't
+make sense for an account holder to be able to withdraw money from their account when their balance is 0.
+Hence, they should not be linked to a resource which provides money withdrawal.
 
 
 include::{common-includes}/mvnbuild.adoc[]
@@ -268,16 +273,14 @@ The `inventory` service that is now hypermedia-driven can be accessed at the fol
 * `http://localhost:9080/inventory/hosts`
 * `http://localhost:9080/inventory/hosts/{hostname}`
 
-The first URL returns the current contents of the inventory. The second returns the system
-properties for the given host name. These properties are retrieved from the inventory. If the inventory
-does not contain an entry for the host name specified in the URL, then the `system` service that is running on the requested host name
-is called instead. The system properties retrieved from that `system` service are then stored in
-the inventory and returned.
+The first URL returns the current contents of the inventory and the second the system properties for
+the given host name. If the inventory does not contain an entry for the host name specified in the URL,
+then the `system` service that is running on the requested host name is called instead. The system
+properties are retrieved from that `system` service and then stored in the inventory and returned.
 
-If you have the servers running, you can access each of the previous URLs from your browser to test the application
-manually. However, you should always rely on automated tests since these tests will trigger a failure in
-the event a change introduces a defect. JUnit and the JAX-RS Client API provide a simple environment
-to test the application.
+If you have the servers running, you can point your browser to each of the previous URLs to test the
+application manually. Nevertheless, you should always rely on automated tests since they are more reliable
+and will always trigger a failure in the event a change introduces a defect.
 
 === Setting up your tests
 
@@ -293,10 +296,10 @@ include::finish/src/test/java/it/io/openliberty/guides/hateoas/EndpointTest.java
 
 === Writing the tests
 
-Each test method must be marked with the `@Test` annotation. Typically, the execution order of test methods is not 
-controlled, but if control is required, methods can be placed in a 
-single container test method. This container method is then the only one marked with the `@Test` annotation.
-The following test suite contains two test methods, which are run in the order they appear in the `testSuite` test method:
+Each test method must be marked with the `@Test` annotation. Typically, the execution order of test
+methods is not controlled, but if control is required, methods can be placed in a single container test
+method. This container method is then the only one marked with the `@Test` annotation. The following
+test suite contains two test methods, which are run in the order they appear:
 
 [source, java, indent=0]
 ----
@@ -378,7 +381,7 @@ Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
 
 == Great work! You're done!
 
-You have just built and tested a hypermedia-driven RESTful web service on top of Open Liberty.
+You've just built and tested a hypermedia-driven RESTful web service on top of Open Liberty.
 
 
 include::{common-includes}/finish.adoc[]
