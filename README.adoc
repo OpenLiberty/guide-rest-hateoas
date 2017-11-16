@@ -84,7 +84,7 @@ a clean and organized form. In the context of HATEOAS, each resource must contai
 itself, commonly referred to as `self`. Each link also needs a relationship to be associated with it,
 although no strict rules exist as to how you need to format this relationship. Contain the collection
 of such links with a `_links` array, which itself must be a direct property of the
-resource object. The underscore (_) is used so that the `_links` property does not collide with any
+resource object. The underscore is used so that the `_links` property does not collide with any
 existing fields that are named `links`. In this guide, you will use the following structure of HATEOAS links:
 
 [source, json, role="no_copy"]
