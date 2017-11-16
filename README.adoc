@@ -78,15 +78,14 @@ and what it can access by providing it with a simple collection of links to othe
 
 === Response JSON
 
-When you build a RESTful web service, it is important to consider the style of your response files.
+When you build a RESTful web service, consider the style of your response files.
 Whether they are JSON files, XML files, or in some other format, a good practice is to always have them in
 a clean and organized form. In the context of HATEOAS, each resource must contain a link reference to
 itself, commonly referred to as `self`. Each link must also have a relationship associated with it,
-although no strict rules exist as to how this relationship must be formatted. The collection
-of such links must be contained with a `_links` array, which itself must be a direct property of the
+although no strict rules exist as to how you need to format this relationship. Contain the collection
+of such links with a `_links` array, which itself must be a direct property of the
 resource object. The underscore is used so that the `_links` property does not collide with any
-existing fields named `links`. The structure of HATEOAS links that you will be using in this
-guide is the following one:
+existing fields named `links`. In this guide, you will use the following structure of HATEOAS links:
 
 [source, json, role="no_copy"]
 ----
@@ -100,8 +99,8 @@ guide is the following one:
 
 ==== Link types
 
-In the following example there are two different links. The first has a `self` relationship with the
-resource object and is generated whenever a host has been registered. The link points to that host
+The following example shows two different links. The first link has a `self` relationship with the
+resource object and is generated whenever you generate a host. The link points to that host
 entry in the inventory:
 
 [source, json, role="no_copy"]
@@ -154,16 +153,16 @@ the host machine.
 As mentioned before, your starting point is an existing simple inventory REST service. You can learn
 more about this service and how to build it by visiting https://openliberty.io/guides/microprofile-intro.html[Creating a MicroProfile application].
 
-First, you must tweak the request handlers in the `InventoryResource` class. Since the `.../inventory/hosts/`
-URL will no longer respond with a JSON representation of the contents of your inventory, the `listContents`
-method can be discarded and instead be integrated into the `getPropertiesForHost` method:
+First, tweak the request handlers in the `InventoryResource` class. Since the `.../inventory/hosts/`
+URL will no longer respond with a JSON representation of the contents of your inventory, you can discard the `listContents`
+method and integrate it into the `getPropertiesForHost` method:
 
 [source, java, indent=0]
 ----
 include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryResource.java[tags=getPropertiesForHost]
 ----
 
-The contents of your inventory are now under the `*` wildcard and reside at the following URL:
+The contents of your inventory are now under the asterisk (`*`) wildcard and reside at the following URL:
 
 [source, role="no_copy"]
 ----
@@ -171,7 +170,7 @@ http://localhost:9080/inventory/hosts/*
 ----
 
 Next, add a simple `GET` request handler that is responsible for handling all `GET` requests that are
-made to our target URL. This method responds with a JSON containing HATEOAS links:
+made to the target URL. This method responds with a JSON that contains HATEOAS links:
 
 [source, java, indent=0]
 ----
@@ -201,8 +200,8 @@ target URL as an argument and returns a JSON object that contains HATEOAS links.
 include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryManager.java[tags=getSystems]
 ----
 
-The `buildHostJson` helper method builds the actual JSON object. Use this method, together with a
-simple map function, to create an array of the JSON objects for each system.
+The `buildHostJson` helper method builds the actual JSON object. Use this method together with a
+simple map function to create an array of the JSON objects for each system.
 
 Let's implement the `buildHostJson` helper in the `InventoryUtil` class:
 
@@ -219,8 +218,8 @@ is generated separately in another helper:
 include::finish/src/main/java/io/openliberty/guides/microprofile/util/InventoryUtil.java[tags=buildLinksForHost]
 ----
 
-This helper accepts a host name and a target URL as arguments and builds a link that points to the
-inventory entry with a `self` relationship, as well as a link that points to the `system` service with
+This helper accepts a host name and a target URL as arguments. The helper builds a link that points to the
+inventory entry with a `self` relationship and also builds a link that points to the `system` service with
 a `properties` relationship:
 
 * `http://localhost:9080/inventory/hosts/<hostname>`
@@ -232,11 +231,11 @@ Consider what happens when one of the return links does not work or when a link 
 for one object but not for another. In other words, it is important that a resource or service is
 available and running before it is linked in the `_links` array.
 
-Although this guide does not cover this case, you should nevertheless always make sure that you receive
-a good response code from a service before linking that service. Similarly, it is also important that
-it makes sense for a particular object to access a resource it is linked to. For instance, it wouldn't
+Although this guide does not cover this case, always make sure that you receive
+a good response code from a service before linking that service. Similarly, make sure that
+it makes sense for a particular object to access a resource it is linked to. For instance, it doesn't
 make sense for an account holder to be able to withdraw money from their account when their balance is 0.
-Hence, they should not be linked to a resource which provides money withdrawal.
+Hence, the account holder should not be linked to a resource which provides money withdrawal.
 
 
 include::{common-includes}/mvnbuild.adoc[]
@@ -256,7 +255,7 @@ cd start
 mvn liberty:start-server
 ----
 
-After the server is running, you can find your new Hypermedia-driven `inventory` service at the following URL:
+After the server runs, you can find your new hypermedia-driven `inventory` service at the following URL:
 
 * `http://localhost:9080/inventory/hosts`
 
@@ -267,23 +266,23 @@ After the server is running, you can find your new Hypermedia-driven `inventory`
 
 == Testing the hypermedia-driven RESTful web service
 
-The `inventory` service that is now hypermedia-driven can be accessed at the following URLs:
+At the following URLs, access the `inventory` service that is now driven by hypermedia:
 
 * `http://localhost:9080/inventory/hosts`
 * `http://localhost:9080/inventory/hosts/{hostname}`
 
-The first URL returns the current contents of the inventory and the second the system properties for
-the given host name. If the inventory does not contain an entry for the host name specified in the URL,
+The first URL returns the current contents of the inventory, and the second URL returns the system properties for
+the given host name. If the inventory does not contain an entry for the host name that is specified in the URL,
 then the `system` service that is running on the requested host name is called instead. The system
 properties are retrieved from that `system` service and then stored in the inventory and returned.
 
 If you have the servers running, you can point your browser to each of the previous URLs to test the
-application manually. Nevertheless, you should always rely on automated tests since they are more reliable
-and will always trigger a failure in the event a change introduces a defect.
+application manually. Nevertheless, you should rely on automated tests since they are more reliable
+and trigger a failure in the event a change introduces a defect.
 
 === Setting up your tests
 
-Create a test class `src/test/java/it/io/openliberty/guides/hateoas/EndpointTest.java`
+Create a `src/test/java/it/io/openliberty/guides/hateoas/EndpointTest.java` test class.
 
 You can use the `@Before` and `@After` annotations to perform any setup and teardown tasks for each
 of your individual tests.
@@ -296,7 +295,7 @@ include::finish/src/test/java/it/io/openliberty/guides/hateoas/EndpointTest.java
 === Writing the tests
 
 Each test method must be marked with the `@Test` annotation. Typically, the execution order of test
-methods is not controlled, but if control is required, methods can be placed in a single container test
+methods is not controlled, but if control is required, you can place methods in a single container test
 method. This container method is then the only one marked with the `@Test` annotation. The following
 test suite contains two test methods, which are run in the order they appear:
 
@@ -330,9 +329,9 @@ include::finish/src/test/java/it/io/openliberty/guides/hateoas/EndpointTest.java
 ----
 
 Create a test called `testLinksForSystem`. This test is responsible for asserting that the correct
-HATEOAS links are created for the `localhost` system. This method checks for both the `self` link, pointing
-to the `inventory` service, and the `properties` link, pointing to the `system` service running on the
-`localhost`.
+HATEOAS links are created for the `localhost` system. This method checks for both the `self` link that points
+to the `inventory` service and the `properties` link that points to the `system` service running on the
+`localhost` system.
 
 [source, java, indent=0]
 ----
@@ -340,7 +339,7 @@ include::finish/src/test/java/it/io/openliberty/guides/hateoas/EndpointTest.java
 ----
 
 Write a helper method called `visitLocalhost`. This method creates a `GET` request to the
-`system` service, registering localhost:
+`system` service, registering the `localhost` system:
 
 [source, java, indent=0]
 ----
@@ -354,10 +353,10 @@ from the command line.
 
 [source, role="no_copy"]
 ----
-# If the server is still running from previous steps, stop it first:
+# If the server is still running from previous steps, stop it first with the following command:
 mvn liberty:stop-server
 
-# Then run the following command:
+# Then run this command:
 mvn clean install
 ----
 
