@@ -83,7 +83,7 @@ Whether they are JSON files, XML files, or in some other format, a good practice
 a clean and organized form. In the context of HATEOAS, each resource must contain a link reference to
 itself, commonly referred to as `self`. Each link also needs a relationship to be associated with it,
 although no strict rules exist as to how you need to format this relationship. Contain the collection
-of such links with a `_links` array, which itself must be a direct property of the
+of such links within a `_links` array, which itself must be a direct property of the
 resource object. The underscore in the `_links` property is used so that the property does not collide with any
 existing fields that are named `links`. In this guide, you will use the following structure of HATEOAS links:
 
@@ -100,7 +100,7 @@ existing fields that are named `links`. In this guide, you will use the followin
 ==== Link types
 
 The following example shows two different links. The first link has a `self` relationship with the
-resource object and is generated whenever you generate a host. The link points to that host
+resource object and is generated whenever you register a host. The link points to that host
 entry in the inventory:
 
 [source, json, role="no_copy"]
