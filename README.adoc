@@ -81,11 +81,11 @@ and what it can access by providing it with a simple collection of links to othe
 When you build a RESTful web service, consider the style of your response files.
 Whether they are JSON files, XML files, or in some other format, a good practice is to always have them in
 a clean and organized form. In the context of HATEOAS, each resource must contain a link reference to
-itself, commonly referred to as `self`. Each link must also have a relationship associated with it,
+itself, commonly referred to as `self`. Each link also needs a relationship to be associated with it,
 although no strict rules exist as to how you need to format this relationship. Contain the collection
 of such links with a `_links` array, which itself must be a direct property of the
-resource object. The underscore is used so that the `_links` property does not collide with any
-existing fields named `links`. In this guide, you will use the following structure of HATEOAS links:
+resource object. The underscore (_) is used so that the `_links` property does not collide with any
+existing fields that are named `links`. In this guide, you will use the following structure of HATEOAS links:
 
 [source, json, role="no_copy"]
 ----
@@ -162,7 +162,7 @@ method and integrate it into the `getPropertiesForHost` method:
 include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryResource.java[tags=getPropertiesForHost]
 ----
 
-The contents of your inventory are now under the asterisk (`*`) wildcard and reside at the following URL:
+The contents of your inventory are now under the asterisk (*) wildcard and reside at the following URL:
 
 [source, role="no_copy"]
 ----
@@ -232,10 +232,10 @@ for one object but not for another. In other words, it is important that a resou
 available and running before it is linked in the `_links` array.
 
 Although this guide does not cover this case, always make sure that you receive
-a good response code from a service before linking that service. Similarly, make sure that
+a good response code from a service before you link that service. Similarly, make sure that
 it makes sense for a particular object to access a resource it is linked to. For instance, it doesn't
 make sense for an account holder to be able to withdraw money from their account when their balance is 0.
-Hence, the account holder should not be linked to a resource which provides money withdrawal.
+Hence, the account holder should not be linked to a resource that provides money withdrawal.
 
 
 include::{common-includes}/mvnbuild.adoc[]
@@ -272,13 +272,13 @@ At the following URLs, access the `inventory` service that is now driven by hype
 * `http://localhost:9080/inventory/hosts/{hostname}`
 
 The first URL returns the current contents of the inventory, and the second URL returns the system properties for
-the given host name. If the inventory does not contain an entry for the host name that is specified in the URL,
-then the `system` service that is running on the requested host name is called instead. The system
+the host name. If the inventory does not contain an entry for the host name that is specified in the URL,
+the `system` service that is running on the requested host name is called instead. The system
 properties are retrieved from that `system` service and then stored in the inventory and returned.
 
-If you have the servers running, you can point your browser to each of the previous URLs to test the
+If the servers are running, you can point your browser to each of the previous URLs to test the
 application manually. Nevertheless, you should rely on automated tests since they are more reliable
-and trigger a failure in the event a change introduces a defect.
+and trigger a failure if a change introduces a defect.
 
 === Setting up your tests
 
@@ -297,7 +297,7 @@ include::finish/src/test/java/it/io/openliberty/guides/hateoas/EndpointTest.java
 Each test method must be marked with the `@Test` annotation. Typically, the execution order of test
 methods is not controlled, but if control is required, you can place methods in a single container test
 method. This container method is then the only one marked with the `@Test` annotation. The following
-test suite contains two test methods, which are run in the order they appear:
+test suite contains two test methods, which run in the order they appear:
 
 [source, java, indent=0]
 ----
@@ -313,7 +313,7 @@ include::finish/src/test/java/it/io/openliberty/guides/hateoas/EndpointTest.java
 ----
 
 Write a `getResponse` helper method to reuse the same line of code for retrieving a response from a
-given URL. This technique helps keep your code neat and organized:
+specific URL. This technique helps keep your code neat and organized:
 
 [source, java, indent=0]
 ----
@@ -330,7 +330,7 @@ include::finish/src/test/java/it/io/openliberty/guides/hateoas/EndpointTest.java
 
 Create a test called `testLinksForSystem`. This test is responsible for asserting that the correct
 HATEOAS links are created for the `localhost` system. This method checks for both the `self` link that points
-to the `inventory` service and the `properties` link that points to the `system` service running on the
+to the `inventory` service and the `properties` link that points to the `system` service that is running on the
 `localhost` system.
 
 [source, java, indent=0]
