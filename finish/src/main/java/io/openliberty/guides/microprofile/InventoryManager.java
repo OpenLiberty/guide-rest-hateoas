@@ -22,7 +22,7 @@ import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 
-import io.openliberty.guides.microprofile.util.ReadyJson;
+import io.openliberty.guides.microprofile.util.ErrorMessages;
 import io.openliberty.guides.microprofile.util.InventoryUtil;
 
 @ApplicationScoped
@@ -37,7 +37,7 @@ public class InventoryManager {
                 properties = InventoryUtil.getProperties(hostname);
                 this.add(hostname, properties);
             } else {
-                return ReadyJson.SERVICE_UNREACHABLE.getJson();
+                return ErrorMessages.SERVICE_UNREACHABLE.getJson();
             }
         }
         return properties;
@@ -63,10 +63,10 @@ public class InventoryManager {
     
     // tag::getSystems[]
     public JsonArray getSystems(String url) {
-        // inventory content
+        // Inventory content
         JsonObject content = InventoryUtil.buildHostJson("*", url); 
         
-        // collecting systems jsons
+        // Collecting individual host JSONs
         JsonArrayBuilder jsonArray = inv.keySet().stream().map(host -> {
             return InventoryUtil.buildHostJson(host, url);
         }).collect(Json::createArrayBuilder, JsonArrayBuilder::add, JsonArrayBuilder::add);
