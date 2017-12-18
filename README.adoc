@@ -355,10 +355,10 @@ If the server is still running from the previous steps, stop it first using the 
 mvn liberty:stort-server
 ```
 
-Then, to cleanup and rebuild and run the tests, run the `clean` and `install` goals:
+Then, verify that the tests pass using the `verify` goal:
 
 ```
-mvn clean install
+mvn very
 ```
 
 It may take some time before build is complete. If the tests pass, you will see a similar output:
