@@ -150,7 +150,7 @@ has been added to the JSON:
 ----
 
 The `self` link for `localhost` is used to link to its JVM's system properties, which are currently
-stored in the inventory service. The `properties` link is used to link to the properties service
+stored in the inventory service. The `properties` link is used to link to the system properties service
 running on `localhost`, which exposes its JVM's system properties and is accessed by the inventory
 service.
 
