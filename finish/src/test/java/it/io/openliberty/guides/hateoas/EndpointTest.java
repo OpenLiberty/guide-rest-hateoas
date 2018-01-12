@@ -13,12 +13,14 @@
 package it.io.openliberty.guides.hateoas;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import javax.json.JsonArray;
+import javax.json.JsonObject;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.core.Response;
@@ -77,18 +79,15 @@ public class EndpointTest {
         // end::jsonobj[]
         
         // tag::assertAndClose[]
-        String expected, actual;
+        JsonObject links = sysArray.getJsonObject(0).getJsonObject("_links");
 
-        JsonArray links = sysArray.getJsonObject(0).getJsonArray("_links");
-
-        expected = baseUrl + INVENTORY_HOSTS + "/*";
-        actual = links.getJsonObject(0).getString("href");
-        assertEquals("Incorrect href", expected, actual);
+        // Asserting that the self relationship actually exists.
+        assertTrue("No 'self' relationship exists", links.containsKey("self"));
         
-        // asserting that rel was correct
-        expected = "self";
-        actual = links.getJsonObject(0).getString("rel");
-        assertEquals("Incorrect rel", expected, actual);
+        // Asserting that the self link was as expected.
+        String expected = baseUrl + INVENTORY_HOSTS + "/*";
+        String actual = links.getString("self");
+        assertEquals("'self' relationship contains incorrect link", expected, actual);
         
         response.close();
         // end::assertAndClose[]
@@ -110,27 +109,23 @@ public class EndpointTest {
         
         String expected, actual;
 
-        JsonArray links = sysArray.getJsonObject(0).getJsonArray("_links");
+        JsonObject links = sysArray.getJsonObject(0).getJsonObject("_links");
         
-        // testing the 'self' link
+        // Testing 'self'.
+        assertTrue("No 'self' relationship exists", links.containsKey("self"));
 
         expected = baseUrl + INVENTORY_HOSTS + "/localhost";
-        actual = links.getJsonObject(0).getString("href");
-        assertEquals("Incorrect href", expected, actual);
-        
-        expected = "self";
-        actual = links.getJsonObject(0).getString("rel");
-        assertEquals("Incorrect rel", expected, actual);
-        
-        // testing the 'properties' link
+        actual = links.getString("self");
+        assertEquals("'self' relationship contains incorrect link", expected, actual);
+
+        // Testing 'properties'.
+        assertTrue("No 'properties' relationship exists", links.containsKey("properties"));
         
         expected = baseUrl + SYSTEM_PROPERTIES;
-        actual = links.getJsonObject(1).getString("href");
-        assertEquals("Incorrect href", expected, actual);
+        actual = links.getString("properties");
+        assertEquals("'properties' relationship contains incorrect link", expected, actual);
         
-        expected = "properties";
-        actual = links.getJsonObject(1).getString("rel");
-        assertEquals("Incorrect rel", expected, actual);
+        response.close();
     }
     // end::testLinksForSystem[]
     

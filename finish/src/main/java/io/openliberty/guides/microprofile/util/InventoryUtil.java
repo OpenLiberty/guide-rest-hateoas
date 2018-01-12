@@ -17,9 +17,8 @@ import java.net.URI;
 import java.net.URL;
 
 import javax.json.Json;
-import javax.json.JsonArray;
-import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.core.MediaType;
@@ -49,17 +48,15 @@ public class InventoryUtil {
     // end::buildHostJson[]
     
     // tag::buildLinksForHost[]
-    public static JsonArray buildLinksForHost(String hostname, String invUri) {
+    public static JsonObject buildLinksForHost(String hostname, String invUri) {
+        JsonObjectBuilder links = Json.createObjectBuilder(); 
         
-        JsonArrayBuilder links = Json.createArrayBuilder(); 
+        links.add("self", StringUtils.appendIfMissing(invUri, "/") + hostname);
         
-        links.add(Json.createObjectBuilder()
-                      .add("href", StringUtils.appendIfMissing(invUri, "/") + hostname)
-                      .add("rel", "self"));
-        
-        links.add(Json.createObjectBuilder()
-                .add("href", InventoryUtil.buildUri(hostname).toString())
-                .add("rel", "properties"));
+        // Skip * hostname.
+        if (!hostname.equals("*")) {
+            links.add("properties", InventoryUtil.buildUri(hostname).toString());
+        }
         
         return links.build();
     }

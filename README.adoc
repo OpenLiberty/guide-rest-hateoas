@@ -21,165 +21,176 @@
 // Introduction
 // =================================================================================================
 
-You'll explore how to use Hypermedia as the Engine of Application State (HATEOAS) to drive your
-RESTful web service on Open Liberty.
+Explore how to use hypermedia as the engine of application state (HATEOAS) to drive your RESTful web
+services in Open Liberty
 
 == What you'll learn
 
-You will learn how to use hypermedia to create a specific style of a response JSON, which has contents
-that you can use to navigate your REST service. You'll build on top of a simple inventory
-REST service that you can develop with MicroProfile technologies. You can find the service at the following URL:
+You will learn how to utilize HATEOAS to create a specific style of response JSON, whose contents
+can be used to navigate your REST service without the need of any external documentation or knowledge
+about how the service is structured. You will build on top of a simple inventory service and extend
+it to use hypermedia. To learn more about this service as well as how you can build it yourself,
+read https://openliberty.io/guides/microprofile-intro.html[Creating a MicroProfile application].
+
+Your inventory service will be located at the following URL:
 
 ```
 http://localhost:9080/inventory/hosts
 ```
 
-The service responds with a JSON file that contains an array of registered hosts. Each host has a collection
-of HATEOAS links:
+Which will respond with a JSON containing a list of hosts currently stored in the inventory, each
+with a collection of hypermedia links:
 
-[source, json, role="no_copy"]
+[source, JSON, role="no_copy"]
 ----
 [
   {
     "hostname": "foo",
-    "_links": [
-      {
-        "href": "http://localhost:9080/inventory/hosts/foo",
-        "rel": "self"
-      }
-    ]
+    "_links": {
+      "self": "http://localhost:9080/inventory/hosts/localhost",
+      "properties": "http://foo:9080/system/properties"
+    }
   },
   {
     "hostname": "bar",
-    "_links": [
-      {
-        "href": "http://localhost:9080/inventory/hosts/bar",
-        "rel": "self"
-      }
-    ]
+    "_links": {
+      "self": "http://localhost:9080/inventory/hosts/localhost",
+      "properties": "http://bar:9080/system/properties"
+    }
   },
   {
-  "hostname": "*",
-  "_links": [
-    {
-      "href": "http://localhost:9080/inventory/hosts/*",
-      "rel": "self"
+    "hostname": "*",
+    "_links": {
+      "self": "http://localhost:9080/inventory/hosts/*"
     }
-  ]
   }
 ]
 ----
 
 === What is HATEOAS?
 
-HATEOAS is a constrained form of REST application architecture.
-With HATEOAS, the client receives information about the available resources from the REST application.
-The client does not need to be hardcoded to a fixed set of resources, and the application
-and client can evolve independently. In other words, the application tells the client where it can go
-and what it can access by providing it with a simple collection of links to other available resources.
+HATEOAS is a constrained form of REST application architecture. With HATEOAS, a client receives
+a list of all resources it can access from the REST application. It can then use this list to
+navigate the application's resources without needing to know where these resources are actually located.
+In other words, a client doesn't need to know beforehand at what endpoints various resources
+are served. Instead, its given a list of URLs which it can access from the current endpoint.
 
 === Response JSON
 
-When you build a RESTful web service, consider the style of your response files.
-Whether they are JSON files, XML files, or in some other format, a good practice is to always have them in
-a clean and organized form. In the context of HATEOAS, each resource must contain a link reference to
-itself, commonly referred to as `self`. Each link also needs a relationship to be associated with it,
-although no strict rules exist as to how you need to format this relationship. Contain the collection
-of such links within a `_links` array, which itself must be a direct property of the
-resource object. The underscore in the `_links` property is used so that the property does not collide with any
-existing fields that are named `links`. In this guide, you will use the following structure of HATEOAS links:
+With HATEOAS, you are going to tweak the existing response JSON at the `/hosts` endpoint to include
+hypermedia links. Each such link will be in form `<rel>:<href>` where `rel` is the relationship
+between the link and the resource its attached to, and `href` is the link to the resource itself.
+As a general convention,
+every resource must contain a link reference to itself defined by the relationship `self`. As another
+convention, all hypermedia links are stored inside a `_links` array.
 
-[source, json, role="no_copy"]
-----
-  "_links": [
-    {
-      "href": ,
-      "rel":
-    }
-  ]
-----
+Note, you may find that there are a variety of ways of styling the `_links` array. Any format is
+acceptable although you should stick to the `<rel>:<href>` format for this guide. This format also
+makes it much easier to access the links using the relationships as keys.
 
-==== Link types
-
-The following example shows two different links. The first link has a `self` relationship with the
-resource object and is generated whenever you register a host. The link points to that host
-entry in the inventory:
-
-[source, json, role="no_copy"]
-----
-  {
-    "href": "http://localhost:9080/inventory/hosts/<hostname>",
-    "rel": "self"
-  }
-----
-
-The second link has a `properties` relationship with the resource object and is generated
-if the host `system` service is running. The link points to the properties resource on the host:
-
-[source, json, role="no_copy"]
-----
-  {
-    "href": "http://<hostname>:9080/system/properties",
-    "rel": "properties"
-  }
-----
-
-==== Other formats
-
-Although you should stick to the previous format for the purpose of this guide, another common
-convention has the link as the value of the relationship:
-
-[source, json, role="no_copy"]
-----
-  "_links": {
-      "self": "http://localhost:9080/inventory/hosts/<hostname>",
-      "properties": "http://<hostname>:9080/system/properties"
-  }
-----
-
+// =================================================================================================
+// Getting started
+// =================================================================================================
 
 include::{common-includes}/gitclone.adoc[]
+
+
+// =================================================================================================
+// Try it first
+// =================================================================================================
+
+== Try it first
+
+Feel free to try the finished version of what you will be building to get a feel of how everything
+will work. To do this, navigate backwards to the `finish` directory and execute the following:
+
+```
+mvn clean install liberty:start-server
+```
+
+Your hypermedia-driven inventory service will be available at http://localhost:9080/inventory/hosts.
+Visiting this URL will return the following JSON:
+
+[source, JSON, indent=0, role="no_copy"]
+----
+[
+  {
+    "hostname": "*",
+    "_links": {
+      "self": "http://localhost:9080/inventory/hosts/*"
+    }
+  }
+]
+----
+
+Clicking on the `self` URL will bring you to the original starting point of the MicroProfile guide,
+where you will get a JSON listing the current contents of the inventory.
+
+Visit http://localhost:9080/inventory/hosts/localhost to retrieve the system properties of your own
+machine's JVM. Next, go back to http://localhost:9080/inventory/hosts and you will see that `localhost`
+has been added to the JSON:
+
+[source, JSON, indent=0, role="no_copy"]
+----
+[
+  {
+    "hostname": "localhost",
+    "_links": {
+      "self": "http://localhost:9080/inventory/hosts/localhost",
+      "properties": "http://localhost:9080/system/properties"
+    }
+  },
+  {
+    "hostname": "*",
+    "_links": {
+      "self": "http://localhost:9080/inventory/hosts/*"
+    }
+  }
+]
+----
+
+The `self` link for `localhost` is used to link to its JVM's system properties, which are currently
+stored in the inventory service. The `properties` link is used to link to the system properties service
+running on `localhost`, which exposes its JVM's system properties and is accessed by the inventory
+service.
+
+If you are at any time confused about what these linked services do, reference the MicroProfile guide
+for more information: https://openliberty.io/guides/microprofile-intro.html[Creating a MicroProfile application].
 
 
 // =================================================================================================
 // Guide
 // =================================================================================================
 
-== Creating the response JSON
+== Adding hypermedia links to the response JSON
 
-Begin by building your response JSON, which is composed of the `_links` array, as well as the name of
-the host machine.
+Begin by tweaking the existing response JSON to include the `_links` array.
 
-=== Linking to inventory contents
+=== Linking to the inventory contents
 
-As mentioned before, your starting point is an existing simple inventory REST service. You can learn
-more about this service and how to build it by visiting https://openliberty.io/guides/microprofile-intro.html[Creating a MicroProfile application].
+First, since the `/hosts` endpoint will no longer respond with the contents of the inventory, you can
+discard the `listContents` method and instead integrate it into the `getPropertiesForHost` method.
 
-First, tweak the request handlers in the `InventoryResource` class. Since the `.../inventory/hosts/`
-URL will no longer respond with a JSON representation of the contents of your inventory, you can discard the `listContents`
-method and integrate it into the `getPropertiesForHost` method:
+Tweak `src/main/java/io/openliberty/guides/microprofile/InventoryResource.java`:
 
 [source, java, indent=0]
 ----
 include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryResource.java[tags=getPropertiesForHost]
 ----
 
-The contents of your inventory are now under the asterisk (*) wildcard and reside at the following URL:
-
-[source, role="no_copy"]
-----
+The contents of your inventory are now under the asterisk (\*) wildcard and will be located at
 http://localhost:9080/inventory/hosts/*
-----
 
-Next, add a simple `GET` request handler that is responsible for handling all `GET` requests that are
-made to the target URL. This method responds with a JSON that contains HATEOAS links:
+Next, add a simple GET request handler that will handle all GET requests made to the `/hosts` endpoint.
+This method will return your new response JSON containing hypermedia links:
 
 [source, java, indent=0]
 ----
 include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryResource.java[tags=handler]
 ----
 
-You also need a `UriInfo` object, which you use to build your HATEOAS links:
+You will also need a `UriInfo` object, which will be useful when building your hypermedia links. Inject
+it right after the `InventoryManager` injection:
 
 [source, java, indent=0]
 ----
@@ -189,55 +200,50 @@ include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryResour
 The `@Context` annotation is a part of CDI and indicates that the UriInfo will be injected when the
 resource is instantiated.
 
-Your new `InventoryResource` class is now finished. Next, let's implement the `getSystems` method and build
-the response JSON object.
+=== Creating the `_links` array
 
-=== Linking to each available resource
+Next, implement the `getSystems` method in the `InventoryManager` class. This method will accept a
+target URL as an argument and will return a JSON object that will be your HATEOAS response JSON.
 
-Let's implement the `getSystems` method in your `InventoryManager` class. This method accepts a
-target URL as an argument and returns a JSON object that contains HATEOAS links.
+Create `getSystems()` in `src/main/java/io/openliberty/guides/microprofile/InventoryManager.java`:
 
 [source, java, indent=0]
 ----
 include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryManager.java[tags=getSystems]
 ----
 
-The `buildHostJson` helper method builds the actual JSON object. Use this method together with a
-simple map function to create an array of the JSON objects for each system.
+Implement the `buildHostJson` helper in the `InventoryUtil` class. This helper will build the
+actual JSON objects for each host.
 
-Let's implement the `buildHostJson` helper in the `InventoryUtil` class:
+Create `buildHostJson()` in `src/main/java/io/openliberty/guides/microprofile/util/InventoryUtil.java`:
 
 [source, java, indent=0]
 ----
 include::finish/src/main/java/io/openliberty/guides/microprofile/util/InventoryUtil.java[tags=buildHostJson]
 ----
 
-You're creating a JSON object that contains the name of your host system and the `_links` array, which
-is generated separately in another helper:
+Create one more helper method called `buildLinksForHost`. This method will be responsible for building
+the `_links` array for each host.
+
+Create `buildLinksForHost()` in `src/main/java/io/openliberty/guides/microprofile/util/InventoryUtil.java`:
 
 [source, java, indent=0]
 ----
 include::finish/src/main/java/io/openliberty/guides/microprofile/util/InventoryUtil.java[tags=buildLinksForHost]
 ----
 
-This helper accepts a host name and a target URL as arguments. The helper builds a link that points to the
-inventory entry with a `self` relationship and also builds a link that points to the `system` service with
-a `properties` relationship:
-
-* `http://localhost:9080/inventory/hosts/<hostname>`
-* `http://<hostname>:9080/system/properties`
-
 === Linking to inactive services or unavailable resources
 
-Consider what happens when one of the return links does not work or when a link should be available
-for one object but not for another. In other words, it is important that a resource or service is
-available and running before it is linked in the `_links` array.
+Consider what happens when one of the hypermedia links doesn't work or when a link should be available
+for one client but not for another. In other words, it's important that a resource/service is
+running and makes sense to be accessed by the client before its added to the `_links` array
 
 Although this guide does not cover this case, always make sure that you receive
 a good response code from a service before you link that service. Similarly, make sure that
-it makes sense for a particular object to access a resource it is linked to. For instance, it doesn't
-make sense for an account holder to be able to withdraw money from their account when their balance is 0.
-Hence, the account holder should not be linked to a resource that provides money withdrawal.
+it makes sense for a particular client to access a resource it is linked to. For instance, it wouldn't
+make too much sense for an account holder to be able to withdraw money from their account when their
+balance is 0. Hence, that account holder should not be linked to a service that provides money
+withdrawal.
 
 
 include::{common-includes}/mvnbuild.adoc[]
@@ -249,45 +255,40 @@ include::{common-includes}/mvnbuild.adoc[]
 
 == Starting the application
 
-To see the new application in action, run the Maven `liberty:start-server` command from the `start` directory:
+Now that your application is built, run it to see it in action! To do this, run the Maven `liberty:start-server`
+goal from the `start` directory:
 
-[source, role="no_copy"]
-----
-cd start
+```
 mvn liberty:start-server
-----
+```
 
-After the server runs, you can find your new hypermedia-driven `inventory` service at the following URL:
-
-* `http://localhost:9080/inventory/hosts`
+After the server starts, you can find your new hypermedia-driven inventory service at
+http://localhost:9080/inventory/hosts
 
 
 // =================================================================================================
 // Testing
 // =================================================================================================
 
-== Testing the hypermedia-driven RESTful web service
+== Testing what you built
 
-At the following URLs, access the `inventory` service that is now driven by hypermedia:
+Your new inventory service has the following endpoints:
 
-* `http://localhost:9080/inventory/hosts`
-* `http://localhost:9080/inventory/hosts/{hostname}`
+* http://localhost:9080/inventory/hosts
+* http://localhost:9080/inventory/hosts/{hostname}
 
-The first URL returns the current contents of the inventory, and the second URL returns the system properties for
-the host name. If the inventory does not contain an entry for the host name that is specified in the URL,
-the `system` service that is running on the requested host name is called instead. The system
-properties are retrieved from that `system` service and then stored in the inventory and returned.
+The first URL returns hypermedia links that can be used to navigate your application, and the second
+URL returns the system properties for the specified hostname.
 
-If the servers are running, you can point your browser to each of the previous URLs to test the
-application manually. Nevertheless, you should rely on automated tests since they are more reliable
-and trigger a failure if a change introduces a defect.
+While you can test your application manually, you should always rely on automated tests to catch any
+bugs that might come up after new changes are made to the code.
 
 === Setting up your tests
 
 Create a `src/test/java/it/io/openliberty/guides/hateoas/EndpointTest.java` test class.
 
 You can use the `@Before` and `@After` annotations to perform any setup and teardown tasks for each
-of your individual tests.
+of your individual tests:
 
 [source, java]
 ----
@@ -296,18 +297,18 @@ include::finish/src/test/java/it/io/openliberty/guides/hateoas/EndpointTest.java
 
 === Writing the tests
 
-Each test method must be marked with the `@Test` annotation. Typically, the execution order of test
-methods is not controlled, but if control is required, you can place methods in a single container test
-method. This container method is then the only one marked with the `@Test` annotation. The following
-test suite contains two test methods, which run in the order they appear:
+Create a single test method called `testSuite` and mark it with the `@Test` annotation. Each of your
+test cases will go into this method so that they execute in a specific order.
+
+Create `testSuite()` in `src/test/java/it/io/openliberty/guides/hateoas/EndpointTest.java`:
 
 [source, java, indent=0]
 ----
 include::finish/src/test/java/it/io/openliberty/guides/hateoas/EndpointTest.java[tags=testSuite]
 ----
 
-Create a test called `testLinkForInventoryContents`. This test is responsible for asserting that
-the correct HATEOAS link is created for the inventory contents.
+Create a test case called `testLinkForInventoryContents`. This test case will be responsible for
+asserting that the correct `_links` array was generated for the `*` hostname:
 
 [source, java, indent=0]
 ----
@@ -315,33 +316,31 @@ include::finish/src/test/java/it/io/openliberty/guides/hateoas/EndpointTest.java
 ----
 
 Write a `getResponse` helper method to reuse the same line of code for retrieving a response from a
-specific URL. This technique helps keep your code neat and organized:
+specific URL. This will help you keep your code neat and organized:
 
 [source, java, indent=0]
 ----
 include::finish/src/test/java/it/io/openliberty/guides/hateoas/EndpointTest.java[tags=getResponse]
 ----
 
-Write another helper method called `assertResponse`. This method ensures that the response code that you receive is
-valid (200):
+Write another helper method called `assertResponse`. This method ensures that you receive a valid
+response code of 200:
 
 [source, java, indent=0]
 ----
 include::finish/src/test/java/it/io/openliberty/guides/hateoas/EndpointTest.java[tags=assertResponse]
 ----
 
-Create a test called `testLinksForSystem`. This test is responsible for asserting that the correct
-HATEOAS links are created for the `localhost` system. This method checks for both the `self` link that points
-to the `inventory` service and the `properties` link that points to the `system` service that is running on the
-`localhost` system.
+Create a test case called `testLinksForSystem`. This test will be responsible for asserting that the correct
+`_links` array was generated for the `localhost` host:
 
 [source, java, indent=0]
 ----
 include::finish/src/test/java/it/io/openliberty/guides/hateoas/EndpointTest.java[tags=testLinksForSystem]
 ----
 
-Write a helper method called `visitLocalhost`. This method creates a `GET` request to the
-`system` service, registering the `localhost` system:
+Write a helper method called `visitLocalhost`. This method will make a `GET` request to the `localhost's`
+`system` service to store its JVM's system properties in the inventory:
 
 [source, java, indent=0]
 ----
@@ -350,20 +349,19 @@ include::finish/src/test/java/it/io/openliberty/guides/hateoas/EndpointTest.java
 
 === Running the tests
 
-To rebuild and run the tests, navigate to the `start` directory and run the `mvn clean install` command
-from the command line.
+If the server is still running from the previous steps, stop it first using the Maven `liberty:stop-server` goal:
 
-[source, role="no_copy"]
-----
-# If the server is still running from previous steps, stop it first with the following command:
+```
 mvn liberty:stop-server
+```
 
-# Then run this command:
-mvn clean install
-----
+Then, verify that the tests pass using the `verify` goal:
 
-Some time might elapse before the tests finish running. If the tests pass, you will see the following
-output:
+```
+mvn verify
+```
+
+It may take some time before build is complete. If the tests pass, you will see a similar output:
 
 [source, role="no_copy"]
 ----
@@ -371,7 +369,7 @@ output:
  T E S T S
 -------------------------------------------------------
 Running it.io.openliberty.guides.hateoas.EndpointTest
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.086 sec - in it.io.openliberty.guides.hateoas.EndpointTest
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.197 sec - in it.io.openliberty.guides.hateoas.EndpointTest
 
 Results :
 

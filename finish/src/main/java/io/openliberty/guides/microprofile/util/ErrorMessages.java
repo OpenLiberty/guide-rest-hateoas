@@ -15,7 +15,7 @@ package io.openliberty.guides.microprofile.util;
 import javax.json.Json;
 import javax.json.JsonObject;
 
-public enum ReadyJson {
+public enum ErrorMessages {
 
     SERVICE_UNREACHABLE();
 
@@ -34,8 +34,8 @@ public enum ReadyJson {
 
     private void serviceUnreachable() {
         json = Json.createObjectBuilder()
-                .add("ERROR", "Unknown hostname or the resource may not be running on the host machine")
-                .build();
+                   .add("ERROR", "Unknown hostname or the resource may not be running on the host machine")
+                   .build();
     }
 
 }

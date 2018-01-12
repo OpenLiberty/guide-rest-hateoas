@@ -21,7 +21,7 @@ import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 
 import io.openliberty.guides.microprofile.util.InventoryUtil;
-import io.openliberty.guides.microprofile.util.ReadyJson;
+import io.openliberty.guides.microprofile.util.ErrorMessages;
 
 // tag::header[]
 // tag::cdi-scope[]
@@ -41,7 +41,7 @@ public class InventoryManager {
                 properties = InventoryUtil.getProperties(hostname);
                 this.add(hostname, properties);
             } else {
-                return ReadyJson.SERVICE_UNREACHABLE.getJson();
+                return ErrorMessages.SERVICE_UNREACHABLE.getJson();
             }
         }
         return properties;
