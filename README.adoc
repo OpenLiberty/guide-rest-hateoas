@@ -9,7 +9,7 @@
 :page-layout: guide
 :page-duration: 30 minutes
 :page-releasedate: 2017-09-19
-:page-description: Learn how to build a hypermedia-driven RESTful web service
+:page-description: Explore how to use Hypermedia as the Engine of Application State (HATEOAS) to drive your RESTful web service on Open Liberty.
 :page-tags: ['REST', 'HATEOAS']
 :page-related-guides: ['rest-intro', 'microprofile-intro']
 :page-permalink: /guides/{projectid}
