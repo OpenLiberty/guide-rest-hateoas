@@ -16,6 +16,7 @@ import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
 
+import java.util.Properties;
 import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonArrayBuilder;
@@ -33,10 +34,10 @@ public class InventoryUtil {
     private static final String PROTOCOL = "http";
     private static final String SYSTEM_PROPERTIES = "/system/properties";
 
-    public static JsonObject getProperties(String hostname) {
+    public static Properties getProperties(String hostname) {
         Client client = ClientBuilder.newClient();
         URI propURI = InventoryUtil.buildUri(hostname);
-        return client.target(propURI).request(MediaType.APPLICATION_JSON).get(JsonObject.class);
+        return client.target(propURI).request(MediaType.APPLICATION_JSON).get(Properties.class);
     }
     
     // tag::buildHostJson[]
