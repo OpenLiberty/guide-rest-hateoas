@@ -20,6 +20,18 @@
         <packaging.type>usr</packaging.type>
     </properties>
 
+        <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>io.openliberty.features</groupId>
+                <artifactId>features-bom</artifactId>
+                <version>18.0.0.2</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
