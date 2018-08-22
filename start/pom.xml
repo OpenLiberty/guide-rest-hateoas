@@ -61,6 +61,7 @@
             <groupId>io.openliberty.features</groupId>
             <artifactId>jaxrs-2.0</artifactId>
             <type>esa</type>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>io.openliberty.features</groupId>
@@ -72,12 +73,6 @@
             <groupId>io.openliberty.features</groupId>
             <artifactId>cdi-1.2</artifactId>
             <type>esa</type>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>javax.inject</groupId>
-            <artifactId>javax.inject</artifactId>
-            <version>1</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
