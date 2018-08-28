@@ -20,6 +20,14 @@
         <packaging.type>usr</packaging.type>
     </properties>
 
+    <repositories>
+        <repository>
+            <id>features</id>
+            <name>features</name>
+            <url>http://rtpgsa.ibm.com/home/w/a/wasngi/web/public/maven/</url>
+        </repository>
+    </repositories>
+
         <dependencyManagement>
         <dependencies>
             <dependency>
