@@ -159,12 +159,6 @@ InventoryResource.java
 include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryResource.java[tags=!comment]
 ----
 
-InventoryResource.java
-[source, java, linenums, role='code_column']
-----
-include::start/src/main/java/io/openliberty/guides/microprofile/InventoryResource.java[tags=!comment]
-----
-
 InventoryManager.java
 [source, java, linenums, role='code_column']
 ----
@@ -211,17 +205,10 @@ Edit the `InventoryResource` class.
 `src/main/java/io/openliberty/guides/microprofile/InventoryResource.java`
 ----
 
-InventoryUtil.java
-[source, java, linenums, role='code_column']
-----
-include::finish/src/main/java/io/openliberty/guides/microprofile/util/InventoryUtil.java[tags=!comment]
-----
-
-
 The [hotspot=22 file=0]`@Context` annotation is a part of CDI and indicates that the UriInfo will be injected when the
 resource is instantiated.
 
-Your new [hotspot=17-38 file=0]`InventoryResource` class is now finished. Next, let's implement the [hotspot=52-64 file=2]`getSystems` method and build
+Your new [hotspot=17-38 file=0]`InventoryResource` class is now finished. Next, let's implement the [hotspot=52-64 file=1]`getSystems` method and build
 the response JSON object.
 
 === Linking to each available resource
@@ -231,15 +218,22 @@ InventoryManager.java
 include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryManager.java[tags=!comment]
 ----
 
+InventoryUtil.java
+[source, java, linenums, role='code_column']
+----
+include::finish/src/main/java/io/openliberty/guides/microprofile/util/InventoryUtil.java[tags=!comment]
+----
+
+
 Let's implement the [hotspot=52-64 file=0]`getSystems` method in your [hotspot=17-66 file=0]`InventoryManager` class. This method accepts a
 target URL as an argument and returns a JSON object that contains HATEOAS links.
 
-The [hotspot=58 file=0]`buildHostJson` helper method builds the actual JSON object. Use this method together with a
+The [hotspot=30-35 file=1]`buildHostJson` helper method builds the actual JSON object. Use this method together with a
 simple map function to create an array of the JSON objects for each system.
 
-Let's implement the [hotspot=58 file=0]`buildHostJson` helper in the [hotspot=18-72 file=1]`InventoryUtil` class:
+Let's implement the [hotspot=30-35 file=1]`buildHostJson` helper in the [hotspot=18-72 file=1]`InventoryUtil` class:
 
-You're creating a JSON object that contains the name of your host system and the [hotspot=33 file=1]`_links` array, which
+You're creating a JSON object that contains the name of your host system and the [hotspot=39 file=1]`_links` array, which
 is generated separately in another helper:
 
 This helper accepts a hostname and a target URL as arguments. The helper builds a link that points to the
@@ -278,7 +272,7 @@ include::{common-includes}/mvnbuild.adoc[]
 
 To see the new application in action, run the Maven `liberty:start-server` command from the `start` directory:
 
-[source, role="no_copy"]
+[role=command]
 ----
 cd start
 mvn liberty:start-server
