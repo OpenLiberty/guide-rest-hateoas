@@ -252,7 +252,7 @@ include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryManage
 
 Consider what happens when one of the return links does not work or when a link should be available
 for one object but not for another. In other words, it is important that a resource or service is
-available and running before it is linked in the [hotspot=33]`_links` array.
+available and running before it is linked in the [hotspot=39]`_links` array.
 
 Although this guide does not cover this case, always make sure that you receive
 a good response code from a service before you link that service. Similarly, make sure that
@@ -317,43 +317,43 @@ Create the `EndpointTest` class.
 `src/test/java/it/io/openliberty/guides/hateoas/EndpointTest.java`
 ----
 
-You can use the [hotspot=26]`@Before` and [hotspot=35]`@After` annotations to perform any setup and teardown tasks for each
+You can use the [hotspot=25]`@Before` and [hotspot=34]`@After` annotations to perform any setup and teardown tasks for each
 of your individual tests.
 
 === Writing the tests
 
 Each test method must be marked with the [hotspot=40]`@Test` annotation. Typically, the execution order of test
 methods is not controlled, but if control is required, you can place methods in a single container test
-method. This container method is then the only one marked with the [hotspot=40]`@Test` annotation. The following
-[otspot=41-44]`testSuite()` contains two test methods, which run in the order they appear:
+method. This container method is then the only one marked with the [hotspot=39]`@Test` annotation. The following
+[otspot=40-43]`testSuite()` contains two test methods, which run in the order they appear:
 
-Create a test called [hotspot=49-69]`testLinkForInventoryContents`. This test is responsible for asserting that
+Create a test called [hotspot=48-68]`testLinkForInventoryContents`. This test is responsible for asserting that
 the correct HATEOAS link is created for the inventory contents.
 
-[role="code_command hotspot=49-69" subs="quotes"]
+[role="code_command hotspot=48-68" subs="quotes"]
 ----
 Edit the `EndpointTest` class.
 `src/test/java/it/io/openliberty/guides/hateoas/EndpointTest.java`
 ----
 
-Write a [hotspot=111-113]`getResponse` helper method to reuse the same line of code for retrieving a response from a
+Write a [hotspot=110-112]`getResponse` helper method to reuse the same line of code for retrieving a response from a
 specific URL. This technique helps keep your code neat and organized:
 
-Write another helper method called [hotspot=118-120]`assertResponse`. This method ensures that the response code that you receive is
+Write another helper method called [hotspot=117-119]`assertResponse`. This method ensures that the response code that you receive is
 valid (200):
 
-Create a test called [hotspot=75-106]`testLinksForSystem`. This test is responsible for asserting that the correct
+Create a test called [hotspot=74-105]`testLinksForSystem`. This test is responsible for asserting that the correct
 HATEOAS links are created for the `localhost` system. This method checks for both the `self` link that points
 to the `inventory` service and the `properties` link that points to the `system` service that is running on the
 `localhost` system.
 
-[role="code_command hotspot=75-106" subs="quotes"]
+[role="code_command hotspot=74-105" subs="quotes"]
 ----
 Edit the `EndpointTest` class.
 `src/test/java/it/io/openliberty/guides/hateoas/EndpointTest.java`
 ----
 
-Write a helper method called [hotspot=125-134]`visitLocalhost`. This method creates a [hotspot=132]`GET` request to the
+Write a helper method called [hotspot=124-133]`visitLocalhost`. This method creates a [hotspot=132]`GET` request to the
 `system` service, registering the `localhost` system:
 
 === Running the tests
