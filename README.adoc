@@ -244,10 +244,10 @@ a `properties` relationship:
 * `http://<hostname>:9080/system/properties`
 
 === Linking to inactive services or unavailable resources
-InventoryManager.java
+InventoryUtil.java
 [source, java, linenums, role='code_column']
 ----
-include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryManager.java[tags=!comment]
+include::finish/src/main/java/io/openliberty/guides/microprofile/util/InventoryUtil.java[tags=!comment]
 ----
 
 Consider what happens when one of the return links does not work or when a link should be available
@@ -322,7 +322,7 @@ of your individual tests.
 
 === Writing the tests
 
-Each test method must be marked with the [hotspot=40]`@Test` annotation. Typically, the execution order of test
+Each test method must be marked with the [hotspot=39]`@Test` annotation. Typically, the execution order of test
 methods is not controlled, but if control is required, you can place methods in a single container test
 method. This container method is then the only one marked with the [hotspot=39]`@Test` annotation. The following
 [otspot=40-43]`testSuite()` contains two test methods, which run in the order they appear:
