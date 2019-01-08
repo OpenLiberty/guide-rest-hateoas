@@ -135,7 +135,9 @@
                             <excludes>
                                 <exclude>**/it/**</exclude>
                             </excludes>
-                            <reportsDirectory>${project.build.directory}/test-reports/unit</reportsDirectory>
+                            <reportsDirectory>
+                                ${project.build.directory}/test-reports/unit
+                            </reportsDirectory>
                         </configuration>
                     </execution>
                 </executions>
@@ -194,7 +196,9 @@
                                 <include>**/it/**</include>
                             </includes>
                             <systemPropertyVariables>
-                                <liberty.test.port>${testServerHttpPort}</liberty.test.port>
+                                <liberty.test.port>
+                                    ${testServerHttpPort}
+                                </liberty.test.port>
                                 <running.bluemix>${running.bluemix}</running.bluemix>
                                 <cf.context.root>${cf.context.root}</cf.context.root>
                             </systemPropertyVariables>
@@ -208,8 +212,12 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <summaryFile>${project.build.directory}/test-reports/it/failsafe-summary.xml</summaryFile>
-                    <reportsDirectory>${project.build.directory}/test-reports/it</reportsDirectory>
+                    <summaryFile>
+                        ${project.build.directory}/test-reports/it/failsafe-summary.xml
+                    </summaryFile>
+                    <reportsDirectory>
+                        ${project.build.directory}/test-reports/it
+                    </reportsDirectory>
                 </configuration>
             </plugin>
         </plugins>

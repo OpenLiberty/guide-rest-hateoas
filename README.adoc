@@ -166,6 +166,12 @@ InventoryManager.java
 include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryManager.java[tags=!comment]
 ----
 
+InventoryResource.java
+[source, java, linenums, role='code_column']
+----
+include::start/src/main/java/io/openliberty/guides/microprofile/InventoryResource.java[tags=!comment]
+----
+
 As mentioned before, your starting point is an existing simple inventory REST service. You can learn
 more about this service and how to build it by visiting https://openliberty.io/guides/microprofile-intro.html[Creating a MicroProfile application].
 
@@ -178,7 +184,7 @@ Edit the `InventoryResource` class.
 ----
 
 Since the `.../inventory/hosts/`
-URL will no longer respond with a JSON representation of the contents of your inventory, you can discard the [hotspot=28-30 file=1]`listContents`
+URL will no longer respond with a JSON representation of the contents of your inventory, you can discard the [hotspot=28-30 file=2]`listContents`
 method and integrate it into the [hotspot=34-36 file=0]`getPropertiesForHost` method:
 
 
@@ -241,8 +247,8 @@ This helper accepts a hostname and a target URL as arguments. The helper builds 
 inventory entry with a `self` relationship and also builds a link that points to the `system` service with
 a `properties` relationship:
 
-* `http://localhost:9080/inventory/hosts/<hostname>`
-* `http://<hostname>:9080/system/properties`
+* http://localhost:9080/inventory/hosts/<hostname>
+* http://<hostname>:9080/system/properties
 
 === Linking to inactive services or unavailable resources
 InventoryUtil.java
@@ -281,7 +287,7 @@ mvn liberty:start-server
 
 After the server runs, you can find your new hypermedia-driven `inventory` service at the following URL:
 
-* `http://localhost:9080/inventory/hosts`
+* http://localhost:9080/inventory/hosts
 
 
 // =================================================================================================
@@ -292,8 +298,8 @@ After the server runs, you can find your new hypermedia-driven `inventory` servi
 
 At the following URLs, access the `inventory` service that is now driven by hypermedia:
 
-* `http://localhost:9080/inventory/hosts`
-* `http://localhost:9080/inventory/hosts/{hostname}`
+* http://localhost:9080/inventory/hosts
+* http://localhost:9080/inventory/hosts/{hostname}
 
 The first URL returns the current contents of the inventory, and the second URL returns the system properties for
 the host name. If the inventory does not contain an entry for the host name that is specified in the URL,
@@ -326,7 +332,7 @@ of your individual tests.
 Each test method must be marked with the [hotspot=39]`@Test` annotation. Typically, the execution order of test
 methods is not controlled, but if control is required, you can place methods in a single container test
 method. This container method is then the only one marked with the [hotspot=39]`@Test` annotation. The following
-[otspot=40-43]`testSuite()` contains two test methods, which run in the order they appear:
+[hotspot=40-43]`testSuite()` contains two test methods, which run in the order they appear:
 
 Create a test called [hotspot=48-68]`testLinkForInventoryContents`. This test is responsible for asserting that
 the correct HATEOAS link is created for the inventory contents.
