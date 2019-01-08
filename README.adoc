@@ -371,8 +371,7 @@ from the command line.
 If the server is still running from previous steps, stop it first with the following commands:
 [role=command]
 ----
-mvn liberty:stop-server
-mvn clean install
+mvn clean install liberty:stop-server
 ----
 
 Some time might elapse before the tests finish running. If the tests pass, you will see the following
