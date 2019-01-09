@@ -368,7 +368,8 @@ to the `inventory` service and the `properties` link that points to the `system`
 
 [role="code_command hotspot=74-105" subs="quotes"]
 ----
-#Add the `testLinksForSystem` method to the `EndpointTest` class.#
+#Add the `testLinksForSystem` method to the `EndpointTest` 
+class.#
 `src/test/java/it/io/openliberty/guides/hateoas/EndpointTest.java`
 ----
 
