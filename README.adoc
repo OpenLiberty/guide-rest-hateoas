@@ -169,7 +169,7 @@ include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryManage
 As mentioned before, your starting point is an existing simple inventory REST service. You can learn
 more about this service and how to build it by visiting https://openliberty.io/guides/microprofile-intro.html[Creating a MicroProfile application].
 
-First, tweak the request handlers in the [hotspot=17-38 file=0]`InventoryResource` class. 
+The request handlers in the [hotspot=17-38 file=0]`InventoryResource` class. 
 
 [role="code_command hotspot=34-36 file=0" subs="quotes"]
 ----
@@ -179,7 +179,7 @@ First, tweak the request handlers in the [hotspot=17-38 file=0]`InventoryResourc
 
 Since the `.../inventory/hosts/`
 URL will no longer respond with a JSON representation of the contents of your inventory, you can discard the [hotspot=28-30 file=2]`listContents`
-method and integrate it into the [hotspot=34-36 file=0]`getPropertiesForHost` method:
+method and integrate it into the [hotspot=34-36 file=0]`getPropertiesForHost` method.
 
 
 The contents of your inventory are now under the asterisk (*) wildcard and reside at the following URL:
@@ -189,22 +189,10 @@ The contents of your inventory are now under the asterisk (*) wildcard and resid
 http://localhost:9080/inventory/hosts/*
 ----
 
-Next, add a simple [hotspot=27-29 file=0]`GET` request handler that is responsible for handling all [hotspot=27-29 file=0]`GET` requests that are
-made to the target URL. This method responds with a JSON that contains HATEOAS links:
+The [hotspot=27-29 file=0]`GET` request handler is responsible for handling all [hotspot=27-29 file=0]`GET` requests that are
+made to the target URL. This method responds with a JSON that contains HATEOAS links.
 
-//[role="code_command hotspot=27-29 file=0" subs="quotes"]
-//----
-//#Add the `handler` method to the `InventoryResource` class.#
-//`src/main/java/io/openliberty/guides/microprofile/InventoryResource.java`
-//----
-
-You also need a [hotspot=23 file=0]`UriInfo` object, which you use to build your HATEOAS links:
-
-//[role="code_command hotspot=23 file=0" subs="quotes"]
-//----
-//#Add the `UriInfo` object to the `InventoryResource` class.#
-//`src/main/java/io/openliberty/guides/microprofile/InventoryResource.java`
-//----
+The [hotspot=23 file=0]`UriInfo` object is what is used to build your HATEOAS links.
 
 The [hotspot=22 file=0]`@Context` annotation is a part of CDI and indicates that the UriInfo will be injected when the
 resource is instantiated.
@@ -224,18 +212,16 @@ InventoryUtil.java
 ----
 include::finish/src/main/java/io/openliberty/guides/microprofile/util/InventoryUtil.java[tags=!comment]
 ----
+Take a look at your  [hotspot=* file=0]`InventoryManager` and [hotspot=* file=1]`InventoryUtil` files.
 
-
-Let's implement the [hotspot=52-64 file=0]`getSystems` method in your [hotspot=17-66 file=0]`InventoryManager` class. This method accepts a
+The [hotspot=52-64 file=0]`getSystems` method accepts a
 target URL as an argument and returns a JSON object that contains HATEOAS links.
 
 The [hotspot=30-35 file=1]`buildHostJson` helper method builds the actual JSON object. Use this method together with a
 simple map function to create an array of the JSON objects for each system.
 
-Let's implement the [hotspot=30-35 file=1]`buildHostJson` helper in the [hotspot=18-72 file=1]`InventoryUtil` class:
-
-You're creating a JSON object that contains the name of your host system and the [hotspot=39 file=1]`_links` array, which
-is generated separately in another helper:
+The [hotspot=30-35 file=1]`buildHostJson` helper in the `InventoryUtil` class creates a JSON object that contains the name of your host system and the [hotspot=39 file=1]`_links` array, which
+is generated separately in another helper.
 
 This helper accepts a hostname and a target URL as arguments. The helper builds a link that points to the
 inventory entry with a `self` relationship and also builds a link that points to the `system` service with
