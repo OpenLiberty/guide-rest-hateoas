@@ -212,7 +212,7 @@ InventoryUtil.java
 ----
 include::finish/src/main/java/io/openliberty/guides/microprofile/util/InventoryUtil.java[tags=!comment]
 ----
-Take a look at your  [hotspot=* file=0]`InventoryManager` and [hotspot=* file=1]`InventoryUtil` files.
+Take a look at your  [hotspot file=0]`InventoryManager` and [hotspot file=1]`InventoryUtil` files.
 
 The [hotspot=52-64 file=0]`getSystems` method accepts a
 target URL as an argument and returns a JSON object that contains HATEOAS links.
