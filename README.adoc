@@ -154,17 +154,8 @@ Begin by building your response JSON, which is composed of the `_links` array, a
 the host machine.
 
 === Linking to inventory contents
-InventoryResource.java
-[source, java, linenums, role='code_column']
-----
-include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryResource.java[tags=!comment]
-----
 
-InventoryManager.java
-[source, java, linenums, role='code_column']
-----
-include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryManager.java[tags=!comment]
-----
+
 
 As mentioned before, your starting point is an existing simple inventory REST service. You can learn
 more about this service and how to build it by visiting https://openliberty.io/guides/microprofile-intro.html[Creating a MicroProfile application^].
@@ -177,8 +168,14 @@ The request handlers in the [hotspot=17-38 file=0]`InventoryResource` class.
 `src/main/java/io/openliberty/guides/microprofile/InventoryResource.java`
 ----
 
+InventoryResource.java
+[source, java, linenums, role='code_column']
+----
+include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryResource.java[tags=!comment]
+----
+
 Since the `.../inventory/hosts/`
-URL will no longer respond with a JSON representation of the contents of your inventory, you can discard the [hotspot=28-30 file=2]`listContents`
+URL will no longer respond with a JSON representation of the contents of your inventory, you can discard the `listContents`
 method and integrate it into the [hotspot=34-36 file=0]`getPropertiesForHost` method.
 
 
@@ -200,18 +197,15 @@ resource is instantiated.
 Your new [hotspot=17-38 file=0]`InventoryResource` class is now finished. Next, let's implement the [hotspot=52-64 file=1]`getSystems` method and build
 the response JSON object.
 
-=== Linking to each available resource
 InventoryManager.java
 [source, java, linenums, role='code_column']
 ----
 include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryManager.java[tags=!comment]
 ----
 
-InventoryUtil.java
-[source, java, linenums, role='code_column']
-----
-include::finish/src/main/java/io/openliberty/guides/microprofile/util/InventoryUtil.java[tags=!comment]
-----
+=== Linking to each available resource
+
+
 Take a look at your  [hotspot file=0]`InventoryManager` and [hotspot file=1]`InventoryUtil` files.
 
 The [hotspot=52-64 file=0]`getSystems` method accepts a
@@ -230,6 +224,17 @@ a `properties` relationship:
 * http://localhost:9080/inventory/hosts/<hostname>
 * http://<hostname>:9080/system/properties
 
+InventoryManager.java
+[source, java, linenums, role='code_column']
+----
+include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryManager.java[tags=!comment]
+----
+
+InventoryUtil.java
+[source, java, linenums, role='code_column']
+----
+include::finish/src/main/java/io/openliberty/guides/microprofile/util/InventoryUtil.java[tags=!comment]
+----
 === Linking to inactive services or unavailable resources
 InventoryUtil.java
 [source, java, linenums, role='code_column']
