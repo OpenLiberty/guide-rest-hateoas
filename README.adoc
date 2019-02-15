@@ -150,6 +150,8 @@ include::{common-includes}/gitclone.adoc[]
 
 == Creating the response JSON
 
+Navigate to the `start` directory.
+
 Begin by building your response JSON, which is composed of the `_links` array, as well as the name of
 the host machine.
 
@@ -157,16 +159,9 @@ the host machine.
 
 
 
-As mentioned before, your starting point is an existing simple inventory REST service. You can learn
-more about this service and how to build it by visiting https://openliberty.io/guides/microprofile-intro.html[Creating a MicroProfile application^].
+As mentioned before, your starting point is an existing simple inventory REST service. 
 
-The request handlers in the [hotspot=17-38 file=0]`InventoryResource` class. 
-
-[role="code_command hotspot file=0" subs="quotes"]
-----
-#Create the `InventoryResource` class.#
-`src/main/java/io/openliberty/guides/microprofile/InventoryResource.java`
-----
+Take a look at the [hotspot=17-38 file=0]`request handlers` in the [hotspot file=0]`src/main/java/io/openliberty/guides/microprofile/InventoryResource.java` file.
 
 InventoryResource.java
 [source, java, linenums, role='code_column']
