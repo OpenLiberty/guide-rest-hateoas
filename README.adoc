@@ -1,4 +1,4 @@
-// Copyright (c) 2017 IBM Corporation and others.
+// Copyright (c) 2017, 2019 IBM Corporation and others.
 // Licensed under Creative Commons Attribution-NoDerivatives
 // 4.0 International (CC BY-ND 4.0)
 //   https://creativecommons.org/licenses/by-nd/4.0/
@@ -161,7 +161,7 @@ the host machine.
 
 As mentioned before, your starting point is an existing simple inventory REST service. 
 
-Take a look at the [hotspot=17-38 file=0]`request handlers` in the [hotspot file=0]`src/main/java/io/openliberty/guides/microprofile/InventoryResource.java` file.
+Take a look at the `request handlers` in the `src/main/java/io/openliberty/guides/microprofile/InventoryResource.java` file.
 
 InventoryResource.java
 [source, java, linenums, role='code_column']
@@ -173,6 +173,11 @@ Since the `.../inventory/hosts/`
 URL will no longer respond with a JSON representation of the contents of your inventory, you can discard the `listContents`
 method and integrate it into the [hotspot=34-36 file=0]`getPropertiesForHost` method.
 
+[role="code_command hotspot" subs="quotes"]
+----
+#Replace the `InventoryResource` class.#
+`src/main/java/io/openliberty/guides/microprofile/InventoryResource.java`
+----
 
 The contents of your inventory are now under the asterisk (*) wildcard and reside at the following URL:
 
@@ -189,7 +194,7 @@ The [hotspot=23 file=0]`UriInfo` object is what is used to build your HATEOAS li
 The [hotspot=22 file=0]`@Context` annotation is a part of CDI and indicates that the UriInfo will be injected when the
 resource is instantiated.
 
-Your new [hotspot=17-38 file=0]`InventoryResource` class is now finished. Next, let's implement the [hotspot=52-64 file=1]`getSystems` method and build
+Your new [hotspot=17-38 file=0]`InventoryResource` class is now replaced. Next, let's implement the [hotspot=52-64 file=1]`getSystems` method and build
 the response JSON object.
 
 InventoryManager.java
@@ -201,20 +206,30 @@ include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryManage
 === Linking to each available resource
 
 
-Take a look at your  [hotspot file=0]`InventoryManager` and [hotspot file=1]`InventoryUtil` files.
+Take a look at your `InventoryManager` and `InventoryUtil` files.
+
+[role="code_command hotspot" subs="quotes"]
+----
+#Replace the `InventoryManager` class.#
+`src/main/java/io/openliberty/guides/microprofile/InventoryManager.java`
+----
 
 The [hotspot=52-64 file=0]`getSystems` method accepts a
 target URL as an argument and returns a JSON object that contains HATEOAS links.
 
-The [hotspot=30-35 file=1]`buildHostJson` helper method builds the actual JSON object. Use this method together with a
-simple map function to create an array of the JSON objects for each system.
+[role="code_command hotspot" subs="quotes"]
+----
+#Replace the `InventoryUtil` class.#
+`src/main/java/io/openliberty/guides/microprofile/util/InventoryUtil.java`
+----
 
-The [hotspot=30-35 file=1]`buildHostJson` helper in the `InventoryUtil` class creates a JSON object that contains the name of your host system and the [hotspot=39 file=1]`_links` array, which
-is generated separately in another helper.
+The [hotspot=32-37 file=1]`buildHostJson` helper method builds in the `InventoryUtil` class. It
+creates a JSON object that contains the [hotspot=34 file=1]`hostname` of your system and the [hotspot=35 file=1]`_links` array, 
+which is generated separately in the [hotspot=39-52 file=1]`buildLinksForHost` helper method.
 
 This helper accepts a hostname and a target URL as arguments. The helper builds a link that points to the
-inventory entry with a `self` relationship and also builds a link that points to the `system` service with
-a `properties` relationship:
+inventory entry with a [hotspot=45 file=1]`self` relationship and also builds a link that points to the `system` service with
+a [hotspot=49 file=1]`properties` relationship:
 
 * \http://localhost:9080/inventory/hosts/<hostname>
 * \http://<hostname>:9080/system/properties
@@ -239,7 +254,7 @@ include::finish/src/main/java/io/openliberty/guides/microprofile/util/InventoryU
 
 Consider what happens when one of the return links does not work or when a link should be available
 for one object but not for another. In other words, it is important that a resource or service is
-available and running before it is linked in the [hotspot=39]`_links` array.
+available and running before it is linked in the `_links` array.
 
 Although this guide does not cover this case, always make sure that you receive
 a good response code from a service before you link that service. Similarly, make sure that
