@@ -278,8 +278,8 @@ After the server runs, you can find your new hypermedia-driven `inventory` servi
 
 At the following URLs, access the `inventory` service that is now driven by hypermedia:
 
-* \http://localhost:9080/inventory/hosts[http://localhost:9080/inventory/hosts^]
-* \http://localhost:9080/inventory/hosts/{hostname}[http://localhost:9080/inventory/hosts/{hostname}^]
+* http://localhost:9080/inventory/hosts[http://localhost:9080/inventory/hosts^]
+* http://localhost:9080/inventory/hosts/localhost[http://localhost:9080/inventory/hosts/{hostname}^]
 
 The first URL returns the current contents of the inventory, and the second URL returns the system properties for
 the host name. If the inventory does not contain an entry for the host name that is specified in the URL,
@@ -332,25 +332,8 @@ to the `inventory` service and the `properties` link that points to the `system`
 Finally, the method [hotspot=124-133]`visitLocalhost` creates a [hotspot=129-131]`GET` request to the
 `system` service, registering the `localhost` system.
 
-=== Running the tests
-First make sure, that the server is stopped. 
-
-[role='command']
-```
-mvn liberty:stop-server
-```
-
-To rebuild and run the tests, navigate to the `start` directory and run the `mvn clean install` command
-from the command line.
-
-If the server is still running from previous steps, stop it first with the following commands:
-[role=command]
-----
-mvn clean install liberty:stop-server
-----
-
-Some time might elapse before the tests finish running. If the tests pass, you will see the following
-output:
+[role="command"]
+include::{common-includes}/mvnverify.adoc[]
 
 [source, role="no_copy"]
 ----
