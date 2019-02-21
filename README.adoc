@@ -265,21 +265,6 @@ Hence, the account holder should not be linked to a resource that provides money
 [role=command]
 include::{common-includes}/mvnbuild.adoc[]
 
-
-// =================================================================================================
-// Starting the application
-// =================================================================================================
-
-== Starting the application
-
-To see the new application in action, run the Maven `liberty:start-server` command from the `start` directory:
-
-[role=command]
-----
-cd start
-mvn liberty:start-server
-----
-
 After the server runs, you can find your new hypermedia-driven `inventory` service at the following URL:
 
 * http://localhost:9080/inventory/hosts[http://localhost:9080/inventory/hosts^]
