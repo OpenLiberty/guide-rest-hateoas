@@ -157,8 +157,6 @@ the host machine.
 
 === Linking to inventory contents
 
-
-
 As mentioned before, your starting point is an existing simple inventory REST service. 
 
 Take a look at the `request handlers` in the `src/main/java/io/openliberty/guides/microprofile/InventoryResource.java` file.
@@ -205,7 +203,6 @@ include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryManage
 
 === Linking to each available resource
 
-
 Take a look at your `InventoryManager` and `InventoryUtil` files.
 
 [role="code_command hotspot" subs="quotes"]
@@ -214,13 +211,25 @@ Take a look at your `InventoryManager` and `InventoryUtil` files.
 `src/main/java/io/openliberty/guides/microprofile/InventoryManager.java`
 ----
 
+InventoryManager.java
+[source, java, linenums, role='code_column']
+----
+include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryManager.java[tags=!comment]
+----
+
 The [hotspot=52-64 file=0]`getSystems` method accepts a
 target URL as an argument and returns a JSON object that contains HATEOAS links.
 
-[role="code_command hotspot" subs="quotes"]
+[role="code_command hotspot file=1" subs="quotes"]
 ----
 #Replace the `InventoryUtil` class.#
 `src/main/java/io/openliberty/guides/microprofile/util/InventoryUtil.java`
+----
+
+InventoryUtil.java
+[source, java, linenums, role='code_column']
+----
+include::finish/src/main/java/io/openliberty/guides/microprofile/util/InventoryUtil.java[tags=!comment]
 ----
 
 The [hotspot=32-37 file=1]`buildHostJson` helper method builds in the `InventoryUtil` class. It
@@ -234,17 +243,6 @@ a [hotspot=49 file=1]`properties` relationship:
 * \http://localhost:9080/inventory/hosts/<hostname>
 * \http://<hostname>:9080/system/properties
 
-InventoryManager.java
-[source, java, linenums, role='code_column']
-----
-include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryManager.java[tags=!comment]
-----
-
-InventoryUtil.java
-[source, java, linenums, role='code_column']
-----
-include::finish/src/main/java/io/openliberty/guides/microprofile/util/InventoryUtil.java[tags=!comment]
-----
 === Linking to inactive services or unavailable resources
 InventoryUtil.java
 [source, java, linenums, role='code_column']
