@@ -352,4 +352,4 @@ Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
 You've just built and tested a hypermedia-driven RESTful web service on top of Open Liberty.
 
 
-include::https://raw.githubusercontent.com/OpenLiberty/guides-common/multipane/attribution.adoc[subs="attributes"]
+include::{common-includes}/attribution.adoc[subs="attributes"]
