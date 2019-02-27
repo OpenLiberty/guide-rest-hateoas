@@ -1,4 +1,4 @@
-// Copyright (c) 2017 IBM Corporation and others.
+// Copyright (c) 2017, 2019 IBM Corporation and others.
 // Licensed under Creative Commons Attribution-NoDerivatives
 // 4.0 International (CC BY-ND 4.0)
 //   https://creativecommons.org/licenses/by-nd/4.0/
@@ -6,15 +6,15 @@
 // Contributors:
 //     IBM Corporation
 :projectid: rest-hateoas
-:page-layout: guide
+:page-layout: guide-multipane
 :page-duration: 30 minutes
 :page-releasedate: 2017-09-19
 :page-description: Learn how to build a hypermedia-driven RESTful web service
-:page-tags: ['REST', 'HATEOAS']
 :page-related-guides: ['rest-intro', 'microprofile-intro']
 :page-permalink: /guides/{projectid}
 :common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/master
 :source-highlighter: prettify
+:guide-author: Open Liberty
 = Creating a hypermedia-driven RESTful web service
 
 [.hidden]
@@ -140,7 +140,7 @@ convention has the link as the value of the relationship:
   }
 ----
 
-
+[role=command]
 include::{common-includes}/gitclone.adoc[]
 
 
@@ -150,21 +150,31 @@ include::{common-includes}/gitclone.adoc[]
 
 == Creating the response JSON
 
+Navigate to the `start` directory.
+
 Begin by building your response JSON, which is composed of the `_links` array, as well as the name of
 the host machine.
 
 === Linking to inventory contents
 
-As mentioned before, your starting point is an existing simple inventory REST service. You can learn
-more about this service and how to build it by visiting https://openliberty.io/guides/microprofile-intro.html[Creating a MicroProfile application].
+As mentioned before, your starting point is an existing simple inventory REST service. 
 
-First, tweak the request handlers in the `InventoryResource` class. Since the `.../inventory/hosts/`
-URL will no longer respond with a JSON representation of the contents of your inventory, you can discard the `listContents`
-method and integrate it into the `getPropertiesForHost` method:
+Take a look at the `request handlers` in the `src/main/java/io/openliberty/guides/microprofile/InventoryResource.java` file.
 
-[source, java, indent=0]
+InventoryResource.java
+[source, java, linenums, role='code_column']
 ----
-include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryResource.java[tags=getPropertiesForHost]
+include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryResource.java[tags=!comment]
+----
+
+Since the `.../inventory/hosts/`
+URL will no longer respond with a JSON representation of the contents of your inventory, you can discard the `listContents`
+method and integrate it into the [hotspot=34-36 file=0]`getPropertiesForHost` method.
+
+[role="code_command hotspot" subs="quotes"]
+----
+#Replace the `InventoryResource` class.#
+`src/main/java/io/openliberty/guides/microprofile/InventoryResource.java`
 ----
 
 The contents of your inventory are now under the asterisk (*) wildcard and reside at the following URL:
@@ -174,63 +184,71 @@ The contents of your inventory are now under the asterisk (*) wildcard and resid
 http://localhost:9080/inventory/hosts/*
 ----
 
-Next, add a simple `GET` request handler that is responsible for handling all `GET` requests that are
-made to the target URL. This method responds with a JSON that contains HATEOAS links:
+The [hotspot=27-29 file=0]`GET` request handler is responsible for handling all [hotspot=27-29 file=0]`GET` requests that are
+made to the target URL. This method responds with a JSON that contains HATEOAS links.
 
-[source, java, indent=0]
-----
-include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryResource.java[tags=handler]
-----
+The [hotspot=23 file=0]`UriInfo` object is what is used to build your HATEOAS links.
 
-You also need a `UriInfo` object, which you use to build your HATEOAS links:
-
-[source, java, indent=0]
-----
-include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryResource.java[tags=uriinfo]
-----
-
-The `@Context` annotation is a part of CDI and indicates that the UriInfo will be injected when the
+The [hotspot=22 file=0]`@Context` annotation is a part of CDI and indicates that the UriInfo will be injected when the
 resource is instantiated.
 
-Your new `InventoryResource` class is now finished. Next, let's implement the `getSystems` method and build
+Your new [hotspot=17-38 file=0]`InventoryResource` class is now replaced. Next, let's implement the [hotspot=52-64 file=1]`getSystems` method and build
 the response JSON object.
+
+InventoryManager.java
+[source, java, linenums, role='code_column']
+----
+include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryManager.java[tags=!comment]
+----
 
 === Linking to each available resource
 
-Let's implement the `getSystems` method in your `InventoryManager` class. This method accepts a
+Take a look at your `InventoryManager` and `InventoryUtil` files.
+
+[role="code_command hotspot" subs="quotes"]
+----
+#Replace the `InventoryManager` class.#
+`src/main/java/io/openliberty/guides/microprofile/InventoryManager.java`
+----
+
+InventoryManager.java
+[source, java, linenums, role='code_column']
+----
+include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryManager.java[tags=!comment]
+----
+
+The [hotspot=52-64 file=0]`getSystems` method accepts a
 target URL as an argument and returns a JSON object that contains HATEOAS links.
 
-[source, java, indent=0]
+[role="code_command hotspot file=1" subs="quotes"]
 ----
-include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryManager.java[tags=getSystems]
-----
-
-The `buildHostJson` helper method builds the actual JSON object. Use this method together with a
-simple map function to create an array of the JSON objects for each system.
-
-Let's implement the `buildHostJson` helper in the `InventoryUtil` class:
-
-[source, java, indent=0]
-----
-include::finish/src/main/java/io/openliberty/guides/microprofile/util/InventoryUtil.java[tags=buildHostJson]
+#Replace the `InventoryUtil` class.#
+`src/main/java/io/openliberty/guides/microprofile/util/InventoryUtil.java`
 ----
 
-You're creating a JSON object that contains the name of your host system and the `_links` array, which
-is generated separately in another helper:
-
-[source, java, indent=0]
+InventoryUtil.java
+[source, java, linenums, role='code_column']
 ----
-include::finish/src/main/java/io/openliberty/guides/microprofile/util/InventoryUtil.java[tags=buildLinksForHost]
+include::finish/src/main/java/io/openliberty/guides/microprofile/util/InventoryUtil.java[tags=!comment]
 ----
 
-This helper accepts a host name and a target URL as arguments. The helper builds a link that points to the
-inventory entry with a `self` relationship and also builds a link that points to the `system` service with
-a `properties` relationship:
+The [hotspot=32-37 file=1]`buildHostJson` helper method builds in the `InventoryUtil` class. It
+creates a JSON object that contains the [hotspot=34 file=1]`hostname` of your system and the [hotspot=35 file=1]`_links` array, 
+which is generated separately in the [hotspot=39-52 file=1]`buildLinksForHost` helper method.
 
-* `http://localhost:9080/inventory/hosts/<hostname>`
-* `http://<hostname>:9080/system/properties`
+This helper accepts a hostname and a target URL as arguments. The helper builds a link that points to the
+inventory entry with a [hotspot=45 file=1]`self` relationship and also builds a link that points to the `system` service with
+a [hotspot=49 file=1]`properties` relationship:
+
+* \http://localhost:9080/inventory/hosts/<hostname>
+* \http://<hostname>:9080/system/properties
 
 === Linking to inactive services or unavailable resources
+InventoryUtil.java
+[source, java, linenums, role='code_column']
+----
+include::finish/src/main/java/io/openliberty/guides/microprofile/util/InventoryUtil.java[tags=!comment]
+----
 
 Consider what happens when one of the return links does not work or when a link should be available
 for one object but not for another. In other words, it is important that a resource or service is
@@ -242,27 +260,12 @@ it makes sense for a particular object to access a resource it is linked to. For
 make sense for an account holder to be able to withdraw money from their account when their balance is 0.
 Hence, the account holder should not be linked to a resource that provides money withdrawal.
 
-
+[role=command]
 include::{common-includes}/mvnbuild.adoc[]
-
-
-// =================================================================================================
-// Starting the application
-// =================================================================================================
-
-== Starting the application
-
-To see the new application in action, run the Maven `liberty:start-server` command from the `start` directory:
-
-[source, role="no_copy"]
-----
-cd start
-mvn liberty:start-server
-----
 
 After the server runs, you can find your new hypermedia-driven `inventory` service at the following URL:
 
-* `http://localhost:9080/inventory/hosts`
+* http://localhost:9080/inventory/hosts[http://localhost:9080/inventory/hosts^]
 
 
 // =================================================================================================
@@ -273,8 +276,8 @@ After the server runs, you can find your new hypermedia-driven `inventory` servi
 
 At the following URLs, access the `inventory` service that is now driven by hypermedia:
 
-* `http://localhost:9080/inventory/hosts`
-* `http://localhost:9080/inventory/hosts/{hostname}`
+* http://localhost:9080/inventory/hosts[http://localhost:9080/inventory/hosts^]
+* http://localhost:9080/inventory/hosts/localhost[http://localhost:9080/inventory/hosts/{hostname}^]
 
 The first URL returns the current contents of the inventory, and the second URL returns the system properties for
 the host name. If the inventory does not contain an entry for the host name that is specified in the URL,
@@ -287,86 +290,48 @@ and trigger a failure if a change introduces a defect.
 
 === Setting up your tests
 
-Create a `src/test/java/it/io/openliberty/guides/hateoas/EndpointTest.java` test class.
+EndpointTest.java
+[source, java, linenums, role='code_column']
+----
+include::finish/src/test/java/it/io/openliberty/guides/hateoas/EndpointTest.java[tags=!comment]
+----
 
-You can use the `@Before` and `@After` annotations to perform any setup and teardown tasks for each
+[role="code_command hotspot" subs="quotes"]
+----
+#Create the `EndpointTest` class.#
+`src/test/java/it/io/openliberty/guides/hateoas/EndpointTest.java`
+----
+
+You can use the [hotspot=25]`@Before` and [hotspot=34]`@After` annotations to perform any setup and teardown tasks for each
 of your individual tests.
-
-[source, java]
-----
-include::finish/src/test/java/it/io/openliberty/guides/hateoas/EndpointTest.java[tags=**;!comment;!class-contents;setup]
-----
 
 === Writing the tests
 
-Each test method must be marked with the `@Test` annotation. Typically, the execution order of test
+Each test method must be marked with the [hotspot=39]`@Test` annotation. Typically, the execution order of test
 methods is not controlled, but if control is required, you can place methods in a single container test
-method. This container method is then the only one marked with the `@Test` annotation. The following
-test suite contains two test methods, which run in the order they appear:
+method. This container method is then the only one marked with the [hotspot=39]`@Test` annotation. The following
+[hotspot=40-43]`testSuite()` contains two test methods, which run in the order they appear:
 
-[source, java, indent=0]
-----
-include::finish/src/test/java/it/io/openliberty/guides/hateoas/EndpointTest.java[tags=testSuite]
-----
-
-Create a test called `testLinkForInventoryContents`. This test is responsible for asserting that
+The test [hotspot=48-68]`testLinkForInventoryContents` is responsible for asserting that
 the correct HATEOAS link is created for the inventory contents.
 
-[source, java, indent=0]
-----
-include::finish/src/test/java/it/io/openliberty/guides/hateoas/EndpointTest.java[tags=testLinkForInventoryContents]
-----
 
-Write a `getResponse` helper method to reuse the same line of code for retrieving a response from a
-specific URL. This technique helps keep your code neat and organized:
+The [hotspot=110-112]`getResponse` helper method reuses the same line of code for retrieving a response from a
+specific URL. This technique helps keep your code neat and organized.
 
-[source, java, indent=0]
-----
-include::finish/src/test/java/it/io/openliberty/guides/hateoas/EndpointTest.java[tags=getResponse]
-----
+The [hotspot=117-119]`assertResponse` method ensures that the response code that you receive is
+valid (200).
 
-Write another helper method called `assertResponse`. This method ensures that the response code that you receive is
-valid (200):
-
-[source, java, indent=0]
-----
-include::finish/src/test/java/it/io/openliberty/guides/hateoas/EndpointTest.java[tags=assertResponse]
-----
-
-Create a test called `testLinksForSystem`. This test is responsible for asserting that the correct
+The [hotspot=74-105]`testLinksForSystem` test is responsible for asserting that the correct
 HATEOAS links are created for the `localhost` system. This method checks for both the `self` link that points
 to the `inventory` service and the `properties` link that points to the `system` service that is running on the
 `localhost` system.
 
-[source, java, indent=0]
-----
-include::finish/src/test/java/it/io/openliberty/guides/hateoas/EndpointTest.java[tags=testLinksForSystem]
-----
+Finally, the method [hotspot=124-133]`visitLocalhost` creates a [hotspot=129-131]`GET` request to the
+`system` service, registering the `localhost` system.
 
-Write a helper method called `visitLocalhost`. This method creates a `GET` request to the
-`system` service, registering the `localhost` system:
-
-[source, java, indent=0]
-----
-include::finish/src/test/java/it/io/openliberty/guides/hateoas/EndpointTest.java[tags=visitLocalhost]
-----
-
-=== Running the tests
-
-To rebuild and run the tests, navigate to the `start` directory and run the `mvn clean install` command
-from the command line.
-
-[source, role="no_copy"]
-----
-# If the server is still running from previous steps, stop it first with the following command:
-mvn liberty:stop-server
-
-# Then run this command:
-mvn clean install
-----
-
-Some time might elapse before the tests finish running. If the tests pass, you will see the following
-output:
+[role="command"]
+include::{common-includes}/mvnverify.adoc[]
 
 [source, role="no_copy"]
 ----
@@ -387,4 +352,4 @@ Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
 You've just built and tested a hypermedia-driven RESTful web service on top of Open Liberty.
 
 
-include::{common-includes}/finish.adoc[]
+include::{common-includes}/attribution.adoc[subs="attributes"]
