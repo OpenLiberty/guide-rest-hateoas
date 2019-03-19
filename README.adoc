@@ -143,8 +143,6 @@ convention has the link as the value of the relationship:
 [role=command]
 include::{common-includes}/gitclone.adoc[]
 
-=== Try what you'll build
-
 include::{common-includes}/trywhatyoubuild-beg.adoc[]
 
 This goal starts an Open Liberty server instance. Your Maven `pom.xml` is already configured to start
