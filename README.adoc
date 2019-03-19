@@ -145,9 +145,6 @@ include::{common-includes}/gitclone.adoc[]
 
 include::{common-includes}/trywhatyoubuild-beg.adoc[]
 
-This goal starts an Open Liberty server instance. Your Maven `pom.xml` is already configured to start
-the application in this server instance.
-
 After the server runs, you can find your hypermedia-driven `inventory` service at the following URL:
 
 * http://localhost:9080/inventory/hosts[http://localhost:9080/inventory/hosts^]
