@@ -147,7 +147,7 @@ include::{common-includes}/trywhatyoubuild-beg.adoc[]
 
 After the server runs, you can find your hypermedia-driven `inventory` service at the following URL:
 
-* http://localhost:9080/inventory/hosts[http://localhost:9080/inventory/hosts^]
+* http://localhost:9080/inventory/hosts[^]
 
 [role=command]
 include::{common-includes}/trywhatyoubuild-end.adoc[]
