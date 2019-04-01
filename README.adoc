@@ -9,7 +9,7 @@
 :page-layout: guide-multipane
 :page-duration: 30 minutes
 :page-releasedate: 2017-09-19
-:page-description: Learn how to to use Hypermedia as the Engine of Application State (HATEOAS) to drive your RESTful web service
+:page-description: Learn how to use Hypermedia as the Engine of Application State (HATEOAS) to drive your RESTful web service
 :page-related-guides: ['rest-intro', 'microprofile-intro']
 :page-permalink: /guides/{projectid}
 :common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/master
