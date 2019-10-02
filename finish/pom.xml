@@ -10,7 +10,7 @@
     </parent>
 
     <groupId>io.openliberty.guides</groupId>
-    <artifactId>io.openliberty.guides.hateoas</artifactId>
+    <artifactId>guide-rest-hateoas</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>war</packaging>
 

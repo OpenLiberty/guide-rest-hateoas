@@ -10,7 +10,7 @@
  *     IBM Corporation - Initial implementation
  *******************************************************************************/
  // end::comment[]
-package it.io.openliberty.guides.hateoas;
+package it.guide-rest-hateoas;
 
 import static org.junit.Assert.assertEquals;
 
@@ -37,7 +37,9 @@ public class EndpointTest {
     private final String SYSTEM_PROPERTIES = "system/properties";
     private final String INVENTORY_HOSTS = "inventory/hosts";
     
+    // tag::Before[]
     @Before
+    // end::Before[]
     public void setup() {
         // tag::urlCreation[]
         port = System.getProperty("liberty.test.port");
@@ -49,15 +51,18 @@ public class EndpointTest {
         client.register(JsrJsonpProvider.class);
         // end::clientInit[]
     }
-    
+    // tag::After[]
     @After
+    // end::After[]
     public void teardown() {
         client.close();
     }
     // end::setup[]
     
     // tag::testSuite[]
+    // tag::Test[]
     @Test
+    // end::Test[]
     public void testSuite() {
         this.testLinkForInventoryContents();
         this.testLinksForSystem();
@@ -160,10 +165,11 @@ public class EndpointTest {
         Response response = this.getResponse(baseUrl + SYSTEM_PROPERTIES);
         this.assertResponse(baseUrl, response);
         response.close();
-            
+        // tag::targetResponse[]
         Response targetResponse = client.target(baseUrl + INVENTORY_HOSTS + "/localhost")
                                         .request()
                                         .get();
+        // end::targetResponse[]
         targetResponse.close();
     }
     // end::visitLocalhost[]
