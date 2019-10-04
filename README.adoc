@@ -171,9 +171,9 @@ As mentioned before, your starting point is an existing simple inventory REST se
 Take a look at the `request handlers` in the `src/main/java/io/openliberty/guides/microprofile/InventoryResource.java` file.
 
 InventoryResource.java
-[source, java, linenums, role='code_column']
+[source, java, linenums, role='code_column hide_tags=comment']
 ----
-include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryResource.java[tags=!comment]
+include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryResource.java[]
 ----
 
 Since the `.../inventory/hosts/`
@@ -205,9 +205,9 @@ Your new [hotspot=InventoryResource file=0]`InventoryResource` class is now repl
 the response JSON object.
 
 InventoryManager.java
-[source, java, linenums, role='code_column']
+[source, java, linenums, role='code_column hide_tags=comment']
 ----
-include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryManager.java[tags=!comment]
+include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryManager.java[]
 ----
 
 === Linking to each available resource
@@ -221,9 +221,9 @@ Take a look at your `InventoryManager` and `InventoryUtil` files.
 ----
 
 InventoryManager.java
-[source, java, linenums, role='code_column']
+[source, java, linenums, role='code_column hide_tags=comment']
 ----
-include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryManager.java[tags=!comment]
+include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryManager.java[]
 ----
 
 The [hotspot=getSystems file=0]`getSystems` method accepts a
@@ -236,9 +236,9 @@ target URL as an argument and returns a JSON object that contains HATEOAS links.
 ----
 
 InventoryUtil.java
-[source, java, linenums, role='code_column']
+[source, java, linenums, role='code_column hide_tags=comment']
 ----
-include::finish/src/main/java/io/openliberty/guides/microprofile/util/InventoryUtil.java[tags=!comment]
+include::finish/src/main/java/io/openliberty/guides/microprofile/util/InventoryUtil.java[]
 ----
 
 The [hotspot=buildHostJson file=1]`buildHostJson` helper method builds in the `InventoryUtil` class. It
@@ -254,9 +254,9 @@ a [hotspot=properties file=1]`properties` relationship:
 
 === Linking to inactive services or unavailable resources
 InventoryUtil.java
-[source, java, linenums, role='code_column']
+[source, java, linenums, role='code_column hide_tags=comment']
 ----
-include::finish/src/main/java/io/openliberty/guides/microprofile/util/InventoryUtil.java[tags=!comment]
+include::finish/src/main/java/io/openliberty/guides/microprofile/util/InventoryUtil.java[]
 ----
 
 Consider what happens when one of the return links does not work or when a link should be available
@@ -300,9 +300,9 @@ and trigger a failure if a change introduces a defect.
 === Setting up your tests
 
 EndpointTest.java
-[source, java, linenums, role='code_column']
+[source, java, linenums, role='code_column hide_tags=comment']
 ----
-include::finish/src/test/java/it/io/openliberty/guides/hateoas/EndpointTest.java[tags=!comment]
+include::finish/src/test/java/it/io/openliberty/guides/hateoas/EndpointTest.java[]
 ----
 
 [role="code_command hotspot" subs="quotes"]
