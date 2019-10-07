@@ -10,7 +10,7 @@
  *     IBM Corporation - Initial implementation
  *******************************************************************************/
  // end::comment[]
-package it.guide-rest-hateoas;
+package it.io.openliberty.guides.hateoas;
 
 import static org.junit.Assert.assertEquals;
 
