@@ -242,7 +242,7 @@ include::finish/src/main/java/io/openliberty/guides/microprofile/util/InventoryU
 ----
 
 The [hotspot=buildHostJson file=1]`buildHostJson` helper method builds in the `InventoryUtil` class. It
-creates a JSON object that contains the [hotspot=hotspot file=1]`hostname` of your system and the [hotspot=links file=1]`_links` array, 
+creates a JSON object that contains the [hotspot=hostname file=1]`hostname` of your system and the [hotspot=links file=1]`_links` array, 
 which is generated separately in the [hotspot=buildLinksForHost file=1]`buildLinksForHost` helper method.
 
 This helper accepts a hostname and a target URL as arguments. The helper builds a link that points to the
@@ -336,7 +336,7 @@ HATEOAS links are created for the `localhost` system. This method checks for bot
 to the `inventory` service and the `properties` link that points to the `system` service that is running on the
 `localhost` system.
 
-Finally, the method [hotspot=visitLocalhost`visitLocalhost` creates a [hotspot=targetResponse]`GET` request to the
+Finally, the method [hotspot=visitLocalhost]`visitLocalhost` creates a [hotspot=targetResponse]`GET` request to the
 `system` service, registering the `localhost` system.
 
 [role="command"]
