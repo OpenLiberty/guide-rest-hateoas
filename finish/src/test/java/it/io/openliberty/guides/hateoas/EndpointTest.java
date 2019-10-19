@@ -51,6 +51,7 @@ public class EndpointTest {
         client.register(JsrJsonpProvider.class);
         // end::clientInit[]
     }
+    
     // tag::After[]
     @After
     // end::After[]
@@ -59,10 +60,10 @@ public class EndpointTest {
     }
     // end::setup[]
     
-    // tag::testSuite[]
     // tag::Test[]
     @Test
     // end::Test[]
+    // tag::testSuite[]
     public void testSuite() {
         this.testLinkForInventoryContents();
         this.testLinksForSystem();

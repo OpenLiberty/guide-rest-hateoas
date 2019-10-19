@@ -32,10 +32,10 @@ public class InventoryResource {
     @Inject
     InventoryManager manager;
     
-    // tag::UriInfo[]
     // tag::Context[]
     @Context
     // end::Context[]
+    // tag::UriInfo[]
     UriInfo uriInfo;
     // end::UriInfo[]
     
