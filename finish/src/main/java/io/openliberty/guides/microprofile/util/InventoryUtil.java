@@ -44,8 +44,12 @@ public class InventoryUtil {
     // tag::buildHostJson[]
     public static JsonObject buildHostJson(String hostname, String url) {
         return Json.createObjectBuilder()
+                   // tag::hostname[]
                    .add("hostname", hostname)
+                   // end::hostname[]
+                   // tag::links[]
                    .add("_links", InventoryUtil.buildLinksForHost(hostname, url))
+                   // end::links[]
                    .build();
     }
     // end::buildHostJson[]
@@ -57,11 +61,15 @@ public class InventoryUtil {
         
         links.add(Json.createObjectBuilder()
                       .add("href", StringUtils.appendIfMissing(invUri, "/") + hostname)
+                      // tag::self[]
                       .add("rel", "self"));
+                      // end::self[]
         
         links.add(Json.createObjectBuilder()
                 .add("href", InventoryUtil.buildUri(hostname).toString())
+                // tag::properties[]
                 .add("rel", "properties"));
+                // end::properties[]
         
         return links.build();
     }

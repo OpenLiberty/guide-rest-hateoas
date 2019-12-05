@@ -26,31 +26,34 @@ import javax.ws.rs.core.UriInfo;
 
 @ApplicationScoped
 @Path("hosts")
+// tag::InventoryResource[]
 public class InventoryResource {
     
     @Inject
     InventoryManager manager;
     
-    // tag::uriinfo[]
+    // tag::Context[]
     @Context
+    // end::Context[]
+    // tag::UriInfo[]
     UriInfo uriInfo;
-    // end::uriinfo[]
+    // end::UriInfo[]
     
-    // tag::handler[]
     @GET
     @Produces(MediaType.APPLICATION_JSON)
+    // tag::handler[]
     public JsonArray handler() { 
         return manager.getSystems(uriInfo.getAbsolutePath().toString());
     }
     // end::handler[]
     
-    // tag::getPropertiesForHost[]
     @GET
     @Path("{hostname}")
     @Produces(MediaType.APPLICATION_JSON)
+    // tag::PropertiesForHost[]
     public JsonObject getPropertiesForHost(@PathParam("hostname") String hostname) {
         return (hostname.equals("*")) ? manager.list() : manager.get(hostname);
     }
-    // end::getPropertiesForHost[]
-
+    // end::PropertiesForHost[]
 }
+// end::InventoryResource[]
