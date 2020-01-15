@@ -13,6 +13,8 @@
 :page-related-guides: ['rest-intro', 'microprofile-intro']
 :page-permalink: /guides/{projectid}
 :common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/master
+:page-seo-title: Building a hypermedia-driven RESTful Java microservice using Hypermedia as the Engine of Application State (HATEOAS)
+:page-seo-description: A getting started tutorial on how to define and traverse through hypermedia links in a RESTful Java microservice's JSON response to navigate to the appropriate resource using Hypermedia as the Engine of Application State (HATEOAS)
 :source-highlighter: prettify
 :guide-author: Open Liberty
 = Creating a hypermedia-driven RESTful web service
