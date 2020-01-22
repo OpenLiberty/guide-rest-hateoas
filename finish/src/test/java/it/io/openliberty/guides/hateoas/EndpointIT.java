@@ -13,6 +13,8 @@
 package it.io.openliberty.guides.hateoas;
 
 import javax.json.JsonArray;
+import javax.json.JsonObject;
+import javax.json.JsonValue;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.core.Response;
@@ -24,6 +26,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 // tag::class[]
 public class EndpointIT {
@@ -75,17 +78,33 @@ public class EndpointIT {
         
         // tag::assertAndClose[]
         String expected, actual;
+        boolean isFound = false;
 
-        JsonArray links = sysArray.getJsonObject(0).getJsonArray("_links");
+        for (JsonValue hostValue : sysArray) {
+            // Try to find the JSON object for hostname *
+            JsonObject host = hostValue.asJsonObject();
+            String hostname = host.getJsonString("hostname").getString();
 
-        expected = baseUrl + INVENTORY_HOSTS + "/*";
-        actual = links.getJsonObject(0).getString("href");
-        assertEquals(expected, actual, "Incorrect href");
-        
-        // asserting that rel was correct
-        expected = "self";
-        actual = links.getJsonObject(0).getString("rel");
-        assertEquals(expected, actual, "Incorrect rel");
+            if (hostname.equals("*")) {
+                JsonArray links = host.getJsonArray("_links");
+
+                expected = baseUrl + INVENTORY_HOSTS + "/*";
+                actual = links.getJsonObject(0).getString("href");
+                assertEquals(expected, actual, "Incorrect href");
+
+                // asserting that rel was correct
+                expected = "self";
+                actual = links.getJsonObject(0).getString("rel");
+                assertEquals(expected, actual, "Incorrect rel");
+
+                // Assuming rel and href were correct, mark that the correct host info was found
+                isFound = true;
+                break;
+            }
+        }
+
+        // If the hostname '*' was not even found, need to fail the testcase
+        assertTrue(isFound, "Could not find system with hostname *");
         
         response.close();
         // end::assertAndClose[]
