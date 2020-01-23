@@ -145,14 +145,18 @@ convention has the link as the value of the relationship:
 [role=command]
 include::{common-includes}/gitclone.adoc[]
 
-include::{common-includes}/trywhatyoubuild-beg.adoc[]
+include::{common-includes}/twyb-intro.adoc[]
 
 After the server runs, you can find your hypermedia-driven `inventory` service at the following URL:
 
 * http://localhost:9080/inventory/hosts[^]
 
 [role=command]
-include::{common-includes}/trywhatyoubuild-end.adoc[]
+include::{common-includes}/twyb-end.adoc[]
+
+include::{common-includes}/devmode-start.adoc[]
+
+include::{common-includes}/devmode-quit.adoc[]
 
 
 // =================================================================================================
@@ -161,7 +165,12 @@ include::{common-includes}/trywhatyoubuild-end.adoc[]
 
 == Creating the response JSON
 
-Navigate to the `start` directory.
+Navigate to the `start` directory. Start Open Liberty in development mode:
+
+[role=command]
+```
+mvn liberty:dev
+```
 
 Begin by building your response JSON, which is composed of the `_links` array, as well as the name of
 the host machine.
@@ -272,9 +281,9 @@ make sense for an account holder to be able to withdraw money from their account
 Hence, the account holder should not be linked to a resource that provides money withdrawal.
 
 [role=command]
-include::{common-includes}/mvnbuild.adoc[]
+include::{common-includes}/devmode-build.adoc[]
 
-After the server runs, you can find your new hypermedia-driven `inventory` service at the following URL:
+After the server updates, you can find your new hypermedia-driven `inventory` service at the following URL:
 
 * http://localhost:9080/inventory/hosts[http://localhost:9080/inventory/hosts^]
 
@@ -301,56 +310,56 @@ and trigger a failure if a change introduces a defect.
 
 === Setting up your tests
 
-EndpointTest.java
+EndpointIT.java
 [source, java, linenums, role='code_column hide_tags=comment']
 ----
-include::finish/src/test/java/it/io/openliberty/guides/hateoas/EndpointTest.java[]
+include::finish/src/test/java/it/io/openliberty/guides/hateoas/EndpointIT.java[]
 ----
 
 [role="code_command hotspot" subs="quotes"]
 ----
-#Create the `EndpointTest` class.#
-`src/test/java/it/io/openliberty/guides/hateoas/EndpointTest.java`
+#Create the `EndpointIT` class.#
+`src/test/java/it/io/openliberty/guides/hateoas/EndpointIT.java`
 ----
 
-You can use the [hotspot=Before]`@Before` and [hotspot=After]`@After` annotations to perform any setup and teardown tasks for each
+You can use the [hotspot=Before]`@BeforeEach` and [hotspot=After]`@AfterEach` annotations to perform any setup and teardown tasks for each
 of your individual tests.
 
 === Writing the tests
 
-Each test method must be marked with the [hotspot=Test]`@Test` annotation. Typically, the execution order of test
-methods is not controlled, but if control is required, you can place methods in a single container test
-method. This container method is then the only one marked with the [hotspot=Test]`@Test` annotation. The following
-[hotspot=testSuite]`testSuite()` contains two test methods, which run in the order they appear:
+Each test method must be marked with the [hotspot=Test1 hotspot=Test2]`@Test` annotation. The execution order of test methods
+is controlled by marking them with the [hotspot=Order1 hotspot=Order2]`@Order` annotation. The value passed into the annotation
+denotes the order in which the methods are run.
 
-The test [hotspot=testLinkForInventoryContents]`testLinkForInventoryContents` is responsible for asserting that
-the correct HATEOAS link is created for the inventory contents.
-
+The test class contains three helper methods and two test methods:
 
 The [hotspot=getResponse]`getResponse` helper method reuses the same line of code for retrieving a response from a
 specific URL. This technique helps keep your code neat and organized.
 
-The [hotspot=assertResponse]`assertResponse` method ensures that the response code that you receive is
+The [hotspot=assertResponse]`assertResponse` helper method ensures that the response code that you receive is
 valid (200).
 
-The [hotspot=testLinksForSystem]`testLinksForSystem` test is responsible for asserting that the correct
+The method [hotspot=visitLocalhost]`visitLocalhost` creates a [hotspot=targetResponse]`GET` request to the
+`system` service, registering the `localhost` system.
+
+The test [hotspot=testLinkForInventoryContents]`testLinkForInventoryContents` is responsible for asserting that
+the correct HATEOAS link is created for the inventory contents.
+
+Finally, the test [hotspot=testLinksForSystem]`testLinksForSystem` test is responsible for asserting that the correct
 HATEOAS links are created for the `localhost` system. This method checks for both the `self` link that points
 to the `inventory` service and the `properties` link that points to the `system` service that is running on the
 `localhost` system.
 
-Finally, the method [hotspot=visitLocalhost]`visitLocalhost` creates a [hotspot=targetResponse]`GET` request to the
-`system` service, registering the `localhost` system.
-
 [role="command"]
-include::{common-includes}/mvnverify.adoc[]
+include::{common-includes}/devmode-test.adoc[]
 
 [source, role="no_copy"]
 ----
 -------------------------------------------------------
  T E S T S
 -------------------------------------------------------
-Running it.guide-rest-hateoas.EndpointTest
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.086 sec - in it.guide-rest-hateoas.EndpointTest
+Running it.guide-rest-hateoas.EndpointIT
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.086 sec - in it.guide-rest-hateoas.EndpointIT
 
 Results :
 
