@@ -154,10 +154,6 @@ After the server runs, you can find your hypermedia-driven `inventory` service a
 [role=command]
 include::{common-includes}/twyb-end.adoc[]
 
-include::{common-includes}/devmode-start.adoc[]
-
-include::{common-includes}/devmode-quit.adoc[]
-
 
 // =================================================================================================
 // Guide
@@ -165,12 +161,10 @@ include::{common-includes}/devmode-quit.adoc[]
 
 == Creating the response JSON
 
-Navigate to the `start` directory. Start Open Liberty in development mode:
+Navigate to the `start` directory.
 
 [role=command]
-```
-mvn liberty:dev
-```
+include::{common-includes}/devmode-start.adoc[]
 
 Begin by building your response JSON, which is composed of the `_links` array, as well as the name of
 the host machine.
@@ -350,22 +344,27 @@ HATEOAS links are created for the `localhost` system. This method checks for bot
 to the `inventory` service and the `properties` link that points to the `system` service that is running on the
 `localhost` system.
 
-[role="command"]
+[role=command]
 include::{common-includes}/devmode-test.adoc[]
+You will see the following output:
 
 [source, role="no_copy"]
 ----
 -------------------------------------------------------
  T E S T S
 -------------------------------------------------------
-Running it.guide-rest-hateoas.EndpointIT
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.086 sec - in it.guide-rest-hateoas.EndpointIT
+Running it.io.openliberty.guides.hateoas.EndpointIT
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.951 s - in it.io.openliberty.guides.hateoas.EndpointIT
 
-Results :
+Results:
 
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0
+
+Integration tests finished.
 ----
 
+[role=command]
+include::{common-includes}/devmode-quit.adoc[]
 
 == Great work! You're done!
 
