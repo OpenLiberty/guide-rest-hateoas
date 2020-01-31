@@ -19,9 +19,6 @@
         <version.maven-failsafe-plugin>2.22.2</version.maven-failsafe-plugin>
         <version.liberty-maven-plugin>3.1</version.liberty-maven-plugin>
 
-        <testServerHttpPort>9080</testServerHttpPort>
-        <testServerHttpsPort>9443</testServerHttpsPort>
-
         <liberty.var.default.http.port>9080</liberty.var.default.http.port>
         <liberty.var.default.https.port>9443</liberty.var.default.https.port>
     </properties>
@@ -96,7 +93,7 @@
                 <version>${version.maven-failsafe-plugin}</version>
                 <configuration>
                     <systemPropertyVariables>
-                        <liberty.test.port>${testServerHttpPort}</liberty.test.port>
+                        <liberty.test.port>${liberty.var.default.http.port}</liberty.test.port>
                     </systemPropertyVariables>
                 </configuration>
             </plugin>

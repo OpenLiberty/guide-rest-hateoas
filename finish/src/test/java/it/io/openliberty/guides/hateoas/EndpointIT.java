@@ -103,7 +103,8 @@ public class EndpointIT {
                 actual = links.getJsonObject(0).getString("rel");
                 assertEquals(expected, actual, "Incorrect rel");
 
-                // Assuming rel and href were correct, mark that the correct host info was found
+                // Assuming rel and href were correct, 
+                // mark that the correct host info was found
                 isFound = true;
                 break;
             }
@@ -118,8 +119,8 @@ public class EndpointIT {
     // end::testLinkForInventoryContents[]
     
     /**
-     * Checks that the HATEOAS links, with relationships 'self' and 'properties' for a simple 
-     * localhost system is as expected.
+     * Checks that the HATEOAS links, with relationships 'self' and 'properties' for 
+     * a simple localhost system is as expected.
      */
     // tag::testLinksForSystem[]
     // tag::Test2[]
