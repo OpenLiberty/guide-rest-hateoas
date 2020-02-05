@@ -21,15 +21,14 @@ import javax.ws.rs.core.Response;
 
 import org.apache.cxf.jaxrs.provider.jsrjsonp.JsrJsonpProvider;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 // tag::class[]
+@TestMethodOrder(OrderAnnotation.class)
 public class EndpointIT {
     // tag::class-contents[]
     // tag::setup[]
@@ -87,6 +86,9 @@ public class EndpointIT {
         boolean isFound = false;
 
         for (JsonValue hostValue : sysArray) {
+            // mark that the correct host info was found
+            isFound = true;
+
             // Try to find the JSON object for hostname *
             JsonObject host = hostValue.asJsonObject();
             String hostname = host.getJsonString("hostname").getString();
@@ -103,9 +105,7 @@ public class EndpointIT {
                 actual = links.getJsonObject(0).getString("rel");
                 assertEquals(expected, actual, "Incorrect rel");
 
-                // Assuming rel and href were correct, 
-                // mark that the correct host info was found
-                isFound = true;
+                // Exit loop since hostname has been found
                 break;
             }
         }
@@ -136,28 +136,47 @@ public class EndpointIT {
         this.assertResponse(baseUrl, response);
         
         JsonArray sysArray = response.readEntity(JsonArray.class);
-        
-        String expected, actual;
 
-        JsonArray links = sysArray.getJsonObject(0).getJsonArray("_links");
-        
-        // testing the 'self' link
-        expected = baseUrl + INVENTORY_HOSTS + "/localhost";
-        actual = links.getJsonObject(0).getString("href");
-        assertEquals(expected, actual, "Incorrect href");
-        
-        expected = "self";
-        actual = links.getJsonObject(0).getString("rel");
-        assertEquals(expected, actual, "Incorrect rel");
-        
-        // testing the 'properties' link
-        expected = baseUrl + SYSTEM_PROPERTIES;
-        actual = links.getJsonObject(1).getString("href");
-        assertEquals(expected, actual, "Incorrect href");
-        
-        expected = "properties";
-        actual = links.getJsonObject(1).getString("rel");
-        assertEquals(expected, actual, "Incorrect rel");
+        String expected, actual;
+        boolean isHostnameFound = false;
+
+        for (JsonValue hostValue : sysArray) {
+            isHostnameFound = true;
+
+            // Try to find the JSON object for hostname localhost
+            JsonObject host = hostValue.asJsonObject();
+            String hostname = host.getJsonString("hostname").getString();
+
+            if (hostname.equals("localhost")) {
+                JsonArray links = host.getJsonArray("_links");
+
+                // testing the 'self' link
+                expected = baseUrl + INVENTORY_HOSTS + "/localhost";
+                actual = links.getJsonObject(0).getString("href");
+                assertEquals(expected, actual, "Incorrect href");
+
+                expected = "self";
+                actual = links.getJsonObject(0).getString("rel");
+                assertEquals(expected, actual, "Incorrect rel");
+
+                // testing the 'properties' link
+                expected = baseUrl + SYSTEM_PROPERTIES;
+                actual = links.getJsonObject(1).getString("href");
+                assertEquals(expected, actual, "Incorrect href");
+
+                expected = "properties";
+                actual = links.getJsonObject(1).getString("rel");
+
+                assertEquals(expected, actual, "Incorrect rel");
+
+                break;
+            }
+        }
+
+        // If the hostname 'localhost' was not even found, need to fail the testcase
+        assertTrue(isHostnameFound, "Could not find system with hostname *");
+        response.close();
+
     }
     // end::testLinksForSystem[]
     
