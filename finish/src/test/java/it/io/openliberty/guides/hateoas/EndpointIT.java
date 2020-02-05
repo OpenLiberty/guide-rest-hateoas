@@ -46,7 +46,7 @@ public class EndpointIT {
     // end::Before[]
     public void setup() {
         // tag::urlCreation[]
-        port = System.getProperty("liberty.test.port");
+        port = System.getProperty("http.port");
         baseUrl = "http://localhost:" + port + "/";
         // end::urlCreation[]
         
