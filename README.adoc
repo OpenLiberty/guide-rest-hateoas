@@ -173,7 +173,7 @@ the host machine.
 
 As mentioned before, your starting point is an existing simple inventory REST service. 
 
-Take a look at the `request handlers` in the [file=0]`src/main/java/io/openliberty/guides/microprofile/InventoryResource.java` file.
+Take a look at the `request handlers` in the [hotspot file=0]`src/main/java/io/openliberty/guides/microprofile/InventoryResource.java` file.
 
 InventoryResource.java
 [source, java, linenums, role='code_column hide_tags=comment']
@@ -191,7 +191,7 @@ method and integrate it into the [hotspot=PropertiesForHost file=0]`getPropertie
 `src/main/java/io/openliberty/guides/microprofile/InventoryResource.java`
 ----
 
-The contents of your inventory are now under the asterisk (*) wildcard and reside at the following URL:
+The contents of your inventory are now under the asterisk (\*) wildcard and reside at the following URL:
 http://localhost:9080/inventory/hosts/*[http://localhost:9080/inventory/hosts/*^]
 
 
@@ -214,7 +214,7 @@ include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryManage
 
 === Linking to each available resource
 
-Take a look at your [file=0]`InventoryManager` and [file=1]`InventoryUtil` files.
+Take a look at your [hotspot file=0]`InventoryManager` and [hotspot file=1]`InventoryUtil` files.
 
 [role="code_command hotspot" subs="quotes"]
 ----
@@ -243,7 +243,7 @@ InventoryUtil.java
 include::finish/src/main/java/io/openliberty/guides/microprofile/util/InventoryUtil.java[]
 ----
 
-The [hotspot=buildHostJson file=1]`buildHostJson` helper method builds in the [file=1]`InventoryUtil` class. It
+The [hotspot=buildHostJson file=1]`buildHostJson` helper method builds in the [hotspot file=1]`InventoryUtil` class. It
 creates a JSON object that contains the [hotspot=hostname file=1]`hostname` of your system and the [hotspot=links file=1]`_links` array, 
 which is generated separately in the [hotspot=buildLinksForHost file=1]`buildLinksForHost` helper method.
 
@@ -288,7 +288,7 @@ After the server updates, you can find your new hypermedia-driven `inventory` se
 At the following URLs, access the `inventory` service that is now driven by hypermedia:
 
 * http://localhost:9080/inventory/hosts[http://localhost:9080/inventory/hosts^]
-* http://localhost:9080/inventory/hosts/localhost[http://localhost:9080/inventory/hosts/localhost}^]
+* http://localhost:9080/inventory/hosts/localhost[http://localhost:9080/inventory/hosts/localhost^]
 
 The first URL returns the current contents of the inventory, and the second URL returns the system properties for
 `localhost`. If the inventory does not contain an entry for the host name that is specified in the URL, which is
