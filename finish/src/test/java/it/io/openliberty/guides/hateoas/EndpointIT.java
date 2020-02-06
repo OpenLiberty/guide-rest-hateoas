@@ -66,13 +66,13 @@ public class EndpointIT {
     /**
      * Checks if the HATEOAS link for the inventory contents (hostname=*) is as expected.
      */
-    // tag::testLinkForInventoryContents[]
     // tag::Test1[]
     @Test
     // end::Test1[]
     // tag::Order1[]
     @Order(1)
     // end::Order1[]
+    // tag::testLinkForInventoryContents[]
     public void testLinkForInventoryContents() {
         Response response = this.getResponse(baseUrl + INVENTORY_HOSTS);
         this.assertResponse(baseUrl, response);
@@ -122,13 +122,13 @@ public class EndpointIT {
      * Checks that the HATEOAS links, with relationships 'self' and 'properties' for 
      * a simple localhost system is as expected.
      */
-    // tag::testLinksForSystem[]
     // tag::Test2[]
     @Test
     // end::Test2[]
     // tag::Order2[]
     @Order(2)
     // end::Order2[]
+    // tag::testLinksForSystem[]
     public void testLinksForSystem() {
         this.visitLocalhost();
         
