@@ -166,7 +166,7 @@ Navigate to the `start` directory.
 [role=command]
 include::{common-includes}/devmode-start.adoc[]
 
-Begin by building your response JSON, which is composed of the `_links` array, as well as the name of
+Begin by building your response JSON, which is composed of the `_links` array and the name of
 the host machine.
 
 === Linking to inventory contents
@@ -320,7 +320,7 @@ of your individual tests.
 === Writing the tests
 
 Each test method must be marked with the [hotspot=Test1 hotspot=Test2]`@Test` annotation. The execution order of test methods
-is controlled by marking them with the [hotspot=Order1 hotspot=Order2]`@Order` annotation. The value passed into the annotation
+is controlled by marking them with the [hotspot=Order1 hotspot=Order2]`@Order` annotation. The value that is passed into the annotation
 denotes the order in which the methods are run.
 
 The test class contains three helper methods and two test methods:
@@ -331,15 +331,15 @@ specific URL. This technique helps keep your code neat and organized.
 The [hotspot=assertResponse]`assertResponse` helper method ensures that the response that you receive is
 valid, with a `200` response code.
 
-The method [hotspot=visitLocalhost]`visitLocalhost` creates a [hotspot=targetResponse]`GET` request to the
-`system` service, registering the `localhost` system.
+The [hotspot=visitLocalhost]`visitLocalhost` method creates a [hotspot=targetResponse]`GET` request to the
+`system` service, which registers the `localhost` system.
 
-The test [hotspot=testLinkForInventoryContents]`testLinkForInventoryContents` is responsible for asserting that
+The [hotspot=testLinkForInventoryContents]`testLinkForInventoryContents` test is responsible for asserting that
 the correct HATEOAS link is created for the inventory contents.
 
-Finally, the test [hotspot=testLinksForSystem]`testLinksForSystem` test is responsible for asserting that the correct
+Finally, the [hotspot=testLinksForSystem]`testLinksForSystem` test is responsible for asserting that the correct
 HATEOAS links are created for the `localhost` system. This method checks for both the `self` link that points
-to the `inventory` service and the `properties` link that points to the `system` service that is running on the
+to the `inventory` service and the `properties` link that points to the `system` service, which is running on the
 `localhost` system.
 
 [role=command]
