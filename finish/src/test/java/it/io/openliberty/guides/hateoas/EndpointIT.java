@@ -86,14 +86,13 @@ public class EndpointIT {
         boolean isFound = false;
 
         for (JsonValue hostValue : sysArray) {
-            // mark that the correct host info was found
-            isFound = true;
-
             // Try to find the JSON object for hostname *
             JsonObject host = hostValue.asJsonObject();
             String hostname = host.getJsonString("hostname").getString();
 
             if (hostname.equals("*")) {
+                // mark that the correct host info was found
+                isFound = true;
                 JsonArray links = host.getJsonArray("_links");
 
                 expected = baseUrl + INVENTORY_HOSTS + "/*";
@@ -141,13 +140,12 @@ public class EndpointIT {
         boolean isHostnameFound = false;
 
         for (JsonValue hostValue : sysArray) {
-            isHostnameFound = true;
-
             // Try to find the JSON object for hostname localhost
             JsonObject host = hostValue.asJsonObject();
             String hostname = host.getJsonString("hostname").getString();
 
             if (hostname.equals("localhost")) {
+                isHostnameFound = true;
                 JsonArray links = host.getJsonArray("_links");
 
                 // testing the 'self' link
