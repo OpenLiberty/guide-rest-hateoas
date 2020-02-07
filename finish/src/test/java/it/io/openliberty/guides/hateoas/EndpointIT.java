@@ -1,6 +1,6 @@
 // tag::comment[]
 /*******************************************************************************
- * Copyright (c) 2017 IBM Corporation and others.
+ * Copyright (c) 2017, 2020 IBM Corporation and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,21 +12,24 @@
  // end::comment[]
 package it.io.openliberty.guides.hateoas;
 
-import static org.junit.Assert.assertEquals;
-
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-
 import javax.json.JsonArray;
+import javax.json.JsonObject;
+import javax.json.JsonValue;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.core.Response;
 
 import org.apache.cxf.jaxrs.provider.jsrjsonp.JsrJsonpProvider;
 
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 // tag::class[]
-public class EndpointTest {
+@TestMethodOrder(OrderAnnotation.class)
+public class EndpointIT {
     // tag::class-contents[]
     // tag::setup[]
     private String port;
@@ -38,11 +41,11 @@ public class EndpointTest {
     private final String INVENTORY_HOSTS = "inventory/hosts";
     
     // tag::Before[]
-    @Before
+    @BeforeEach
     // end::Before[]
     public void setup() {
         // tag::urlCreation[]
-        port = System.getProperty("liberty.test.port");
+        port = System.getProperty("http.port");
         baseUrl = "http://localhost:" + port + "/";
         // end::urlCreation[]
         
@@ -53,26 +56,22 @@ public class EndpointTest {
     }
     
     // tag::After[]
-    @After
+    @AfterEach
     // end::After[]
     public void teardown() {
         client.close();
     }
     // end::setup[]
     
-    // tag::Test[]
-    @Test
-    // end::Test[]
-    // tag::testSuite[]
-    public void testSuite() {
-        this.testLinkForInventoryContents();
-        this.testLinksForSystem();
-    }
-    // end::testSuite[]
-    
     /**
      * Checks if the HATEOAS link for the inventory contents (hostname=*) is as expected.
      */
+    // tag::Test1[]
+    @Test
+    // end::Test1[]
+    // tag::Order1[]
+    @Order(1)
+    // end::Order1[]
     // tag::testLinkForInventoryContents[]
     public void testLinkForInventoryContents() {
         Response response = this.getResponse(baseUrl + INVENTORY_HOSTS);
@@ -84,17 +83,34 @@ public class EndpointTest {
         
         // tag::assertAndClose[]
         String expected, actual;
+        boolean isFound = false;
 
-        JsonArray links = sysArray.getJsonObject(0).getJsonArray("_links");
+        for (JsonValue hostValue : sysArray) {
+            // Try to find the JSON object for hostname *
+            JsonObject host = hostValue.asJsonObject();
+            String hostname = host.getJsonString("hostname").getString();
 
-        expected = baseUrl + INVENTORY_HOSTS + "/*";
-        actual = links.getJsonObject(0).getString("href");
-        assertEquals("Incorrect href", expected, actual);
-        
-        // asserting that rel was correct
-        expected = "self";
-        actual = links.getJsonObject(0).getString("rel");
-        assertEquals("Incorrect rel", expected, actual);
+            if (hostname.equals("*")) {
+                // mark that the correct host info was found
+                isFound = true;
+                JsonArray links = host.getJsonArray("_links");
+
+                expected = baseUrl + INVENTORY_HOSTS + "/*";
+                actual = links.getJsonObject(0).getString("href");
+                assertEquals(expected, actual, "Incorrect href");
+
+                // asserting that rel was correct
+                expected = "self";
+                actual = links.getJsonObject(0).getString("rel");
+                assertEquals(expected, actual, "Incorrect rel");
+
+                // Exit loop since hostname has been found
+                break;
+            }
+        }
+
+        // If the hostname '*' was not even found, need to fail the testcase
+        assertTrue(isFound, "Could not find system with hostname *");
         
         response.close();
         // end::assertAndClose[]
@@ -102,9 +118,15 @@ public class EndpointTest {
     // end::testLinkForInventoryContents[]
     
     /**
-     * Checks that the HATEOAS links, with relationships 'self' and 'properties' for a simple 
-     * localhost system is as expected.
+     * Checks that the HATEOAS links, with relationships 'self' and 'properties' for 
+     * a simple localhost system is as expected.
      */
+    // tag::Test2[]
+    @Test
+    // end::Test2[]
+    // tag::Order2[]
+    @Order(2)
+    // end::Order2[]
     // tag::testLinksForSystem[]
     public void testLinksForSystem() {
         this.visitLocalhost();
@@ -113,30 +135,46 @@ public class EndpointTest {
         this.assertResponse(baseUrl, response);
         
         JsonArray sysArray = response.readEntity(JsonArray.class);
-        
+
         String expected, actual;
+        boolean isHostnameFound = false;
 
-        JsonArray links = sysArray.getJsonObject(0).getJsonArray("_links");
-        
-        // testing the 'self' link
+        for (JsonValue hostValue : sysArray) {
+            // Try to find the JSON object for hostname localhost
+            JsonObject host = hostValue.asJsonObject();
+            String hostname = host.getJsonString("hostname").getString();
 
-        expected = baseUrl + INVENTORY_HOSTS + "/localhost";
-        actual = links.getJsonObject(0).getString("href");
-        assertEquals("Incorrect href", expected, actual);
-        
-        expected = "self";
-        actual = links.getJsonObject(0).getString("rel");
-        assertEquals("Incorrect rel", expected, actual);
-        
-        // testing the 'properties' link
-        
-        expected = baseUrl + SYSTEM_PROPERTIES;
-        actual = links.getJsonObject(1).getString("href");
-        assertEquals("Incorrect href", expected, actual);
-        
-        expected = "properties";
-        actual = links.getJsonObject(1).getString("rel");
-        assertEquals("Incorrect rel", expected, actual);
+            if (hostname.equals("localhost")) {
+                isHostnameFound = true;
+                JsonArray links = host.getJsonArray("_links");
+
+                // testing the 'self' link
+                expected = baseUrl + INVENTORY_HOSTS + "/localhost";
+                actual = links.getJsonObject(0).getString("href");
+                assertEquals(expected, actual, "Incorrect href");
+
+                expected = "self";
+                actual = links.getJsonObject(0).getString("rel");
+                assertEquals(expected, actual, "Incorrect rel");
+
+                // testing the 'properties' link
+                expected = baseUrl + SYSTEM_PROPERTIES;
+                actual = links.getJsonObject(1).getString("href");
+                assertEquals(expected, actual, "Incorrect href");
+
+                expected = "properties";
+                actual = links.getJsonObject(1).getString("rel");
+
+                assertEquals(expected, actual, "Incorrect rel");
+
+                break;
+            }
+        }
+
+        // If the hostname 'localhost' was not even found, need to fail the testcase
+        assertTrue(isHostnameFound, "Could not find system with hostname *");
+        response.close();
+
     }
     // end::testLinksForSystem[]
     
@@ -154,7 +192,7 @@ public class EndpointTest {
      */
     // tag::assertResponse[]
     private void assertResponse(String url, Response response) {
-        assertEquals("Incorrect response code from " + url, 200, response.getStatus());;
+        assertEquals(200, response.getStatus(), "Incorrect response code from " + url);;
     }
     // end::assertResponse[]
     
