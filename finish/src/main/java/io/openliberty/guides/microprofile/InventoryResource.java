@@ -42,7 +42,7 @@ public class InventoryResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     // tag::handler[]
-    public JsonArray handler() { 
+    public JsonObject handler() { 
         return manager.getSystems(uriInfo.getAbsolutePath().toString());
     }
     // end::handler[]

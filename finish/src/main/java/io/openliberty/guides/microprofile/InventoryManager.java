@@ -62,18 +62,17 @@ public class InventoryManager {
     }
     
     // tag::getSystems[]
-    public JsonArray getSystems(String url) {
+    public JsonObject getSystems(String url) {
         // inventory content
-        JsonObject content = InventoryUtil.buildHostJson("*", url); 
+        JsonObjectBuilder systems = Json.createObjectBuilder();
+        systems.add("*", InventoryUtil.buildLinksForHost("*", url));
         
         // collecting systems jsons
-        JsonArrayBuilder jsonArray = inv.keySet().stream().map(host -> {
-            return InventoryUtil.buildHostJson(host, url);
-        }).collect(Json::createArrayBuilder, JsonArrayBuilder::add, JsonArrayBuilder::add);
+        for (String host : inv.keySet()) {
+            systems.add(host, InventoryUtil.buildLinksForHost(host, url));
+        }
         
-        jsonArray.add(content);
-        
-        return jsonArray.build();
+        return systems.build();
     }
     // end::getSystems[]
 
