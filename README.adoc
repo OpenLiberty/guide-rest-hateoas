@@ -157,7 +157,7 @@ Begin by building your response JSON, which is composed of the name of the host 
 
 As mentioned before, your starting point is an existing simple inventory REST service. 
 
-Take a look at the `request handlers` in the [hotspot file=0]`src/main/java/io/openliberty/guides/microprofile/InventoryResource.java` file.
+Take a look at the request handlers in the [hotspot file=0]`InventoryResource.java` file.
 
 InventoryResource.java
 [source, java, linenums, role='code_column hide_tags=comment']
@@ -185,7 +185,7 @@ The [hotspot=UriInfo file=0]`UriInfo` object is what will be used to build your 
 The [hotspot=Context file=0]`@Context` annotation is a part of CDI and indicates that the `UriInfo` will be injected when the
 resource is instantiated.
 
-Your new [hotspot=InventoryResource file=0]`InventoryResource` class is now replaced. Next, we will implement the [hotspot=getSystems file=1]`getSystems` method and build the response JSON object.
+Your new [hotspot=InventoryResource file=0]`InventoryResource` class is now replaced. Next, you will implement the [hotspot=getSystems file=1]`getSystems` method and build the response JSON object.
 
 InventoryManager.java
 [source, java, linenums, role='code_column hide_tags=comment']
@@ -283,8 +283,7 @@ include::finish/src/test/java/it/io/openliberty/guides/hateoas/EndpointIT.java[]
 `src/test/java/it/io/openliberty/guides/hateoas/EndpointIT.java`
 ----
 
-You can use the [hotspot=Before]`@BeforeEach` and [hotspot=After]`@AfterEach` annotations to perform any setup and teardown tasks for each
-of your individual tests.
+The [hotspot=Before]`@BeforeEach` and [hotspot=After]`@AfterEach` annotations are placed on setup and teardown tasks run for each individual test.
 
 === Writing the tests
 
