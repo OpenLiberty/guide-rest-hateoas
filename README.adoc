@@ -76,8 +76,7 @@ and what it can access by providing it with a simple collection of links to othe
 
 === Response JSON
 
-In the context of HATEOAS, each resource must contain a link reference to
-itself, commonly referred to as `self`. In this guide, the JSON structure will feature a mapping between the hostname and its corresponding list of HATEOAS links:
+In the context of HATEOAS, each resource must contain a link reference to itself, which is commonly referred to as `self`. In this guide, the JSON structure features a mapping between the hostname and its corresponding list of HATEOAS links:
 
 [source, json, role="no_copy"]
 ----
@@ -157,7 +156,7 @@ Begin by building your response JSON, which is composed of the name of the host 
 
 As mentioned before, your starting point is an existing simple inventory REST service. 
 
-Take a look at the request handlers in the [hotspot file=0]`InventoryResource.java` file.
+Look at the request handlers in the [hotspot file=0]`InventoryResource.java` file.
 
 InventoryResource.java
 [source, java, linenums, role='code_column hide_tags=comment']
@@ -165,7 +164,7 @@ InventoryResource.java
 include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryResource.java[]
 ----
 
-Since the `.../inventory/hosts/` URL will no longer respond with a JSON representation of the contents of your inventory, you can discard the `listContents` method and integrate it into the [hotspot=PropertiesForHost file=0]`getPropertiesForHost` method.
+The `.../inventory/hosts/` URL will no longer respond with a JSON representation of your inventory contents, so you can discard the `listContents` method and integrate it into the [hotspot=PropertiesForHost file=0]`getPropertiesForHost` method.
 
 [role="code_command hotspot" subs="quotes"]
 ----
@@ -224,7 +223,7 @@ InventoryUtil.java
 include::finish/src/main/java/io/openliberty/guides/microprofile/util/InventoryUtil.java[]
 ----
 
-The [hotspot=buildLinksForHost file=1]`buildLinksForHost` helper method accepts a hostname and a target URL as arguments. The helper builds a link that points to the inventory entry with a [hotspot=self file=1]`self` relationship and also builds a link that points to the `system` service with a [hotspot=properties file=1]`properties` relationship:
+The helper builds a link that points to the inventory entry with a [hotspot=self file=1]`self` relationship. The helper also builds a link that points to the `system` service with a [hotspot=properties file=1]`properties` relationship:
 
 * \http://localhost:9080/inventory/hosts/<hostname>
 * \http://<hostname>:9080/system/properties
@@ -238,7 +237,7 @@ include::finish/src/main/java/io/openliberty/guides/microprofile/util/InventoryU
 
 Consider what happens when one of the return links does not work or when a link should be available
 for one object but not for another. In other words, it is important that a resource or service is
-available and running before it is added in the hostnames HATEOAS links array.
+available and running before it is added in the HATEOAS links array of the hostname.
 
 Although this guide does not cover this case, always make sure that you receive
 a good response code from a service before you link that service. Similarly, make sure that
@@ -283,7 +282,7 @@ include::finish/src/test/java/it/io/openliberty/guides/hateoas/EndpointIT.java[]
 `src/test/java/it/io/openliberty/guides/hateoas/EndpointIT.java`
 ----
 
-The [hotspot=Before]`@BeforeEach` and [hotspot=After]`@AfterEach` annotations are placed on setup and teardown tasks run for each individual test.
+The [hotspot=Before]`@BeforeEach` and [hotspot=After]`@AfterEach` annotations are placed on setup and teardown tasks that are run for each individual test.
 
 === Writing the tests
 
