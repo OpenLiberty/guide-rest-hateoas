@@ -221,7 +221,7 @@ The [hotspot=Context file=0]`@Context` annotation is a part of CDI and indicates
 resource is instantiated.
 
 At the URL http://localhost:9080/inventory/hosts[http://localhost:9080/inventory/hosts^] you will see links as built by the helper functions in the [hotspot file=1]`InventoryUtil` class.
-A link points to an inventory entry of form `http://localhost:9080/inventory/hosts/<hostname>` with a [hotspot=self file=1]`self` relationship. 
+A link points to an inventory entry of form with a [hotspot=self file=1]`self` relationship. 
 A link also points to the `system` service with a [hotspot=properties file=1]`properties` relationship.
 
 InventoryUtil.java
