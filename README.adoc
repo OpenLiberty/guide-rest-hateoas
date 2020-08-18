@@ -154,12 +154,6 @@ Begin by building your response JSON, which is composed of the name of the host 
 
 === Linking to each available resource
 
-InventoryManager.java
-[source, java, linenums, role='code_column hide_tags=comment']
-----
-include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryManager.java[]
-----
-
 Take a look at your [hotspot file=0]`InventoryManager` and [hotspot file=1]`InventoryUtil` files.
 
 [role="code_command hotspot" subs="quotes"]
@@ -191,6 +185,14 @@ include::finish/src/main/java/io/openliberty/guides/microprofile/util/InventoryU
 
 The helper builds a link that points to the inventory entry with a [hotspot=self file=1]`self` relationship. The helper also builds a link that points to the `system` service with a [hotspot=properties file=1]`properties` relationship.
 
+With the changes to the [hotspot file=0]`InventoryManager` and [hotspot file=1]`InventoryUtil` files, you will next modify the `...​/inventory/hosts/` URL in the [hotspot file=2]`InventoryResource` file.
+
+InventoryResource.java
+[source, java, linenums, role='code_column hide_tags=comment']
+----
+include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryResource.java[]
+----
+
 === Linking to inventory contents
 
 Look at the request handlers in the [hotspot file=0]`InventoryResource.java` file.
@@ -220,7 +222,7 @@ The [hotspot=UriInfo file=0]`UriInfo` object is what will be used to build your 
 The [hotspot=Context file=0]`@Context` annotation is a part of CDI and indicates that the `UriInfo` will be injected when the
 resource is instantiated.
 
-Your new [hotspot=InventoryResource file=0]`InventoryResource` class is now replaced. Next, you will implement the [hotspot=getSystems file=1]`getSystems` method and build the response JSON object.
+Your new [hotspot=InventoryResource file=0]`InventoryResource` class is now replaced.
 
 === Linking to inactive services or unavailable resources
 InventoryUtil.java
