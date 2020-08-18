@@ -183,8 +183,6 @@ InventoryUtil.java
 include::finish/src/main/java/io/openliberty/guides/microprofile/util/InventoryUtil.java[]
 ----
 
-The helper builds a link that points to the inventory entry with a [hotspot=self file=1]`self` relationship. The helper also builds a link that points to the `system` service with a [hotspot=properties file=1]`properties` relationship.
-
 With the changes to the [hotspot file=0]`InventoryManager` and [hotspot file=1]`InventoryUtil` files, you will next modify the `...​/inventory/hosts/` URL in the [hotspot file=2]`InventoryResource` file.
 
 InventoryResource.java
@@ -222,7 +220,15 @@ The [hotspot=UriInfo file=0]`UriInfo` object is what will be used to build your 
 The [hotspot=Context file=0]`@Context` annotation is a part of CDI and indicates that the `UriInfo` will be injected when the
 resource is instantiated.
 
-Your new [hotspot=InventoryResource file=0]`InventoryResource` class is now replaced.
+At the URL http://localhost:9080/inventory/hosts[http://localhost:9080/inventory/hosts^] you will see links as built by the helper functions in the [hotspot file=1]`InventoryUtil` class.
+A link points to an inventory entry of form `http://localhost:9080/inventory/hosts/<hostname>` with a [hotspot=self file=1]`self` relationship. 
+A link also points to the `system` service with a [hotspot=properties file=1]`properties` relationship.
+
+InventoryUtil.java
+[source, java, linenums, role='code_column hide_tags=comment']
+----
+include::finish/src/main/java/io/openliberty/guides/microprofile/util/InventoryUtil.java[]
+----
 
 === Linking to inactive services or unavailable resources
 InventoryUtil.java
