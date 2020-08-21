@@ -75,39 +75,32 @@ public class EndpointIT {
     // tag::testLinkForInventoryContents[]
     public void testLinkForInventoryContents() {
         Response response = this.getResponse(baseUrl + INVENTORY_HOSTS);
-        this.assertResponse(baseUrl, response);
+        assertEquals(200, response.getStatus(), "Incorrect response code from " + baseUrl);
         
         // tag::jsonobj[]
-        JsonArray sysArray = response.readEntity(JsonArray.class);
+        JsonObject systems = response.readEntity(JsonObject.class);
         // end::jsonobj[]
         
         // tag::assertAndClose[]
         String expected, actual;
         boolean isFound = false;
 
-        for (JsonValue hostValue : sysArray) {
-            // Try to find the JSON object for hostname *
-            JsonObject host = hostValue.asJsonObject();
-            String hostname = host.getJsonString("hostname").getString();
 
-            if (hostname.equals("*")) {
-                // mark that the correct host info was found
-                isFound = true;
-                JsonArray links = host.getJsonArray("_links");
+        if (!systems.isNull("*")) {
+            // mark that the correct host info was found
+            isFound = true;
+            JsonArray links = systems.getJsonArray("*");
 
-                expected = baseUrl + INVENTORY_HOSTS + "/*";
-                actual = links.getJsonObject(0).getString("href");
-                assertEquals(expected, actual, "Incorrect href");
+            expected = baseUrl + INVENTORY_HOSTS + "/*";
+            actual = links.getJsonObject(0).getString("href");
+            assertEquals(expected, actual, "Incorrect href");
 
-                // asserting that rel was correct
-                expected = "self";
-                actual = links.getJsonObject(0).getString("rel");
-                assertEquals(expected, actual, "Incorrect rel");
-
-                // Exit loop since hostname has been found
-                break;
-            }
+            // asserting that rel was correct
+            expected = "self";
+            actual = links.getJsonObject(0).getString("rel");
+            assertEquals(expected, actual, "Incorrect rel");
         }
+        
 
         // If the hostname '*' was not even found, need to fail the testcase
         assertTrue(isFound, "Could not find system with hostname *");
@@ -132,44 +125,39 @@ public class EndpointIT {
         this.visitLocalhost();
         
         Response response = this.getResponse(baseUrl + INVENTORY_HOSTS);
-        this.assertResponse(baseUrl, response);
+        assertEquals(200, response.getStatus(), "Incorrect response code from " + baseUrl);
         
-        JsonArray sysArray = response.readEntity(JsonArray.class);
+        JsonObject systems = response.readEntity(JsonObject.class);
 
         String expected, actual;
         boolean isHostnameFound = false;
 
-        for (JsonValue hostValue : sysArray) {
-            // Try to find the JSON object for hostname localhost
-            JsonObject host = hostValue.asJsonObject();
-            String hostname = host.getJsonString("hostname").getString();
+        
+        // Try to find the JSON object for hostname localhost
+        if (!systems.isNull("localhost")) {
+            isHostnameFound = true;
+            JsonArray links = systems.getJsonArray("localhost");
 
-            if (hostname.equals("localhost")) {
-                isHostnameFound = true;
-                JsonArray links = host.getJsonArray("_links");
+            // testing the 'self' link
+            expected = baseUrl + INVENTORY_HOSTS + "/localhost";
+            actual = links.getJsonObject(0).getString("href");
+            assertEquals(expected, actual, "Incorrect href");
 
-                // testing the 'self' link
-                expected = baseUrl + INVENTORY_HOSTS + "/localhost";
-                actual = links.getJsonObject(0).getString("href");
-                assertEquals(expected, actual, "Incorrect href");
+            expected = "self";
+            actual = links.getJsonObject(0).getString("rel");
+            assertEquals(expected, actual, "Incorrect rel");
 
-                expected = "self";
-                actual = links.getJsonObject(0).getString("rel");
-                assertEquals(expected, actual, "Incorrect rel");
+            // testing the 'properties' link
+            expected = baseUrl + SYSTEM_PROPERTIES;
+            actual = links.getJsonObject(1).getString("href");
+            assertEquals(expected, actual, "Incorrect href");
 
-                // testing the 'properties' link
-                expected = baseUrl + SYSTEM_PROPERTIES;
-                actual = links.getJsonObject(1).getString("href");
-                assertEquals(expected, actual, "Incorrect href");
+            expected = "properties";
+            actual = links.getJsonObject(1).getString("rel");
 
-                expected = "properties";
-                actual = links.getJsonObject(1).getString("rel");
-
-                assertEquals(expected, actual, "Incorrect rel");
-
-                break;
-            }
+            assertEquals(expected, actual, "Incorrect rel");
         }
+        
 
         // If the hostname 'localhost' was not even found, need to fail the testcase
         assertTrue(isHostnameFound, "Could not find system with hostname *");
@@ -181,28 +169,16 @@ public class EndpointIT {
     /**
      * Returns a Response object for the specified URL.
      */
-    // tag::getResponse[]
     private Response getResponse(String url) {
         return client.target(url).request().get();
     }
-    // end::getResponse[]
-    
-    /**
-     * Asserts that the given URL has the correct (200) response code.
-     */
-    // tag::assertResponse[]
-    private void assertResponse(String url, Response response) {
-        assertEquals(200, response.getStatus(), "Incorrect response code from " + url);;
-    }
-    // end::assertResponse[]
-    
+     
     /**
      * Makes a GET request to localhost at the Inventory service.
      */
-    // tag::visitLocalhost[]
     private void visitLocalhost() {
         Response response = this.getResponse(baseUrl + SYSTEM_PROPERTIES);
-        this.assertResponse(baseUrl, response);
+        assertEquals(200, response.getStatus(), "Incorrect response code from " + baseUrl);
         response.close();
         // tag::targetResponse[]
         Response targetResponse = client.target(baseUrl + INVENTORY_HOSTS + "/localhost")
@@ -211,7 +187,6 @@ public class EndpointIT {
         // end::targetResponse[]
         targetResponse.close();
     }
-    // end::visitLocalhost[]
     // end::class-contents[]
 }
 // end::class[]

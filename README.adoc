@@ -39,40 +39,31 @@ REST service that you can develop with MicroProfile technologies. You can find t
 http://localhost:9080/inventory/hosts
 ```
 
-The service responds with a JSON file that contains an array of registered hosts. Each host has a collection
+The service responds with a JSON file that contains all of the registered hosts. Each host has a collection
 of HATEOAS links:
 
 [source, json, role="no_copy"]
 ----
-[
-  {
-    "hostname": "foo",
-    "_links": [
-      {
-        "href": "http://localhost:9080/inventory/hosts/foo",
-        "rel": "self"
-      }
-    ]
-  },
-  {
-    "hostname": "bar",
-    "_links": [
-      {
-        "href": "http://localhost:9080/inventory/hosts/bar",
-        "rel": "self"
-      }
-    ]
-  },
-  {
-  "hostname": "*",
-  "_links": [
+{
+  "foo": [
+    {
+      "href": "http://localhost:9080/inventory/hosts/foo",
+      "rel": "self"
+    }
+  ],
+  "bar": [
+    {
+      "href": "http://localhost:9080/inventory/hosts/bar",
+      "rel": "self"
+    }
+  ],
+  "*": [
     {
       "href": "http://localhost:9080/inventory/hosts/*",
       "rel": "self"
     }
   ]
-  }
-]
+}
 ----
 
 === What is HATEOAS?
@@ -85,21 +76,14 @@ and what it can access by providing it with a simple collection of links to othe
 
 === Response JSON
 
-When you build a RESTful web service, consider the style of your response files.
-Whether they are JSON files, XML files, or in some other format, a good practice is to always have them in
-a clean and organized form. In the context of HATEOAS, each resource must contain a link reference to
-itself, commonly referred to as `self`. Each link also needs a relationship to be associated with it,
-although no strict rules exist as to how you need to format this relationship. Contain the collection
-of such links within a `_links` array, which itself must be a direct property of the
-resource object. The underscore in the `_links` property is used so that the property does not collide with any
-existing fields that are named `links`. In this guide, you will use the following structure of HATEOAS links:
+In the context of HATEOAS, each resource must contain a link reference to itself, which is commonly referred to as `self`. In this guide, the JSON structure features a mapping between the hostname and its corresponding list of HATEOAS links:
 
 [source, json, role="no_copy"]
 ----
-  "_links": [
+  "*": [
     {
-      "href": ,
-      "rel":
+      "href": "http://localhost:9080/inventory/hosts/*",
+      "rel": "self"
     }
   ]
 ----
@@ -166,14 +150,13 @@ Navigate to the `start` directory.
 [role=command]
 include::{common-includes}/devmode-start.adoc[]
 
-Begin by building your response JSON, which is composed of the `_links` array and the name of
-the host machine.
+Begin by building your response JSON, which is composed of the name of the host machine and its list of HATEOAS links.
 
 === Linking to inventory contents
 
 As mentioned before, your starting point is an existing simple inventory REST service. 
 
-Take a look at the `request handlers` in the [hotspot file=0]`src/main/java/io/openliberty/guides/microprofile/InventoryResource.java` file.
+Look at the request handlers in the [hotspot file=0]`InventoryResource.java` file.
 
 InventoryResource.java
 [source, java, linenums, role='code_column hide_tags=comment']
@@ -181,9 +164,7 @@ InventoryResource.java
 include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryResource.java[]
 ----
 
-Since the `.../inventory/hosts/`
-URL will no longer respond with a JSON representation of the contents of your inventory, you can discard the `listContents`
-method and integrate it into the [hotspot=PropertiesForHost file=0]`getPropertiesForHost` method.
+The `.../inventory/hosts/` URL will no longer respond with a JSON representation of your inventory contents, so you can discard the `listContents` method and integrate it into the [hotspot=PropertiesForHost file=0]`getPropertiesForHost` method.
 
 [role="code_command hotspot" subs="quotes"]
 ----
@@ -198,13 +179,12 @@ http://localhost:9080/inventory/hosts/*[http://localhost:9080/inventory/hosts/*^
 The [hotspot=handler file=0]`GET` request handler is responsible for handling all [hotspot=handler file=0]`GET` requests that are
 made to the target URL. This method responds with a JSON that contains HATEOAS links.
 
-The [hotspot=UriInfo file=0]`UriInfo` object is what is used to build your HATEOAS links.
+The [hotspot=UriInfo file=0]`UriInfo` object is what will be used to build your HATEOAS links.
 
 The [hotspot=Context file=0]`@Context` annotation is a part of CDI and indicates that the `UriInfo` will be injected when the
 resource is instantiated.
 
-Your new [hotspot=InventoryResource file=0]`InventoryResource` class is now replaced. Next, let's implement the [hotspot=getSystems file=1]`getSystems` method and build
-the response JSON object.
+Your new [hotspot=InventoryResource file=0]`InventoryResource` class is now replaced. Next, you will implement the [hotspot=getSystems file=1]`getSystems` method and build the response JSON object.
 
 InventoryManager.java
 [source, java, linenums, role='code_column hide_tags=comment']
@@ -243,13 +223,7 @@ InventoryUtil.java
 include::finish/src/main/java/io/openliberty/guides/microprofile/util/InventoryUtil.java[]
 ----
 
-The [hotspot=buildHostJson file=1]`buildHostJson` helper method builds in the [hotspot file=1]`InventoryUtil` class. It
-creates a JSON object that contains the [hotspot=hostname file=1]`hostname` of your system and the [hotspot=links file=1]`_links` array, 
-which is generated separately in the [hotspot=buildLinksForHost file=1]`buildLinksForHost` helper method.
-
-This helper accepts a hostname and a target URL as arguments. The helper builds a link that points to the
-inventory entry with a [hotspot=self file=1]`self` relationship and also builds a link that points to the `system` service with
-a [hotspot=properties file=1]`properties` relationship:
+The helper builds a link that points to the inventory entry with a [hotspot=self file=1]`self` relationship. The helper also builds a link that points to the `system` service with a [hotspot=properties file=1]`properties` relationship:
 
 * \http://localhost:9080/inventory/hosts/<hostname>
 * \http://<hostname>:9080/system/properties
@@ -263,7 +237,7 @@ include::finish/src/main/java/io/openliberty/guides/microprofile/util/InventoryU
 
 Consider what happens when one of the return links does not work or when a link should be available
 for one object but not for another. In other words, it is important that a resource or service is
-available and running before it is linked in the `_links` array.
+available and running before it is added in the HATEOAS links array of the hostname.
 
 Although this guide does not cover this case, always make sure that you receive
 a good response code from a service before you link that service. Similarly, make sure that
@@ -290,12 +264,6 @@ At the following URLs, access the `inventory` service that is now driven by hype
 * http://localhost:9080/inventory/hosts[http://localhost:9080/inventory/hosts^]
 * http://localhost:9080/inventory/hosts/localhost[http://localhost:9080/inventory/hosts/localhost^]
 
-The first URL returns the current contents of the inventory, and the second URL returns the system properties for
-`localhost`. If the inventory does not contain an entry for the host name that is specified in the URL, which is
-`localhost` in this case,
-the `system` service that is running on the requested host name is called instead. The system
-properties are retrieved from that `system` service and then stored in the inventory and returned.
-
 If the servers are running, you can point your browser to each of the previous URLs to test the
 application manually. Nevertheless, you should rely on automated tests since they are more reliable
 and trigger a failure if a change introduces a defect.
@@ -314,25 +282,13 @@ include::finish/src/test/java/it/io/openliberty/guides/hateoas/EndpointIT.java[]
 `src/test/java/it/io/openliberty/guides/hateoas/EndpointIT.java`
 ----
 
-You can use the [hotspot=Before]`@BeforeEach` and [hotspot=After]`@AfterEach` annotations to perform any setup and teardown tasks for each
-of your individual tests.
+The [hotspot=Before]`@BeforeEach` and [hotspot=After]`@AfterEach` annotations are placed on setup and teardown tasks that are run for each individual test.
 
 === Writing the tests
 
 Each test method must be marked with the [hotspot=Test1 hotspot=Test2]`@Test` annotation. The execution order of test methods
 is controlled by marking them with the [hotspot=Order1 hotspot=Order2]`@Order` annotation. The value that is passed into the annotation
 denotes the order in which the methods are run.
-
-The test class contains three helper methods and two test methods:
-
-The [hotspot=getResponse]`getResponse` helper method reuses the same line of code for retrieving a response from a
-specific URL. This technique helps keep your code neat and organized.
-
-The [hotspot=assertResponse]`assertResponse` helper method ensures that the response that you receive is
-valid, with a `200` response code.
-
-The [hotspot=visitLocalhost]`visitLocalhost` method creates a [hotspot=targetResponse]`GET` request to the
-`system` service, which registers the `localhost` system.
 
 The [hotspot=testLinkForInventoryContents]`testLinkForInventoryContents` test is responsible for asserting that
 the correct HATEOAS link is created for the inventory contents.
