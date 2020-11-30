@@ -23,7 +23,7 @@ jobs:
       - run: unset _JAVA_OPTIONS
 
       - name: Run tests
-        run: sudo ../scripts/travisTest.sh
+        run: sudo ../scripts/testApp.sh
 
       - name: Post tests
         if: always()
