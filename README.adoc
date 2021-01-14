@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2019 IBM Corporation and others.
+// Copyright (c) 2017, 2021 IBM Corporation and others.
 // Licensed under Creative Commons Attribution-NoDerivatives
 // 4.0 International (CC BY-ND 4.0)
 //   https://creativecommons.org/licenses/by-nd/4.0/
@@ -172,9 +172,7 @@ The `.../inventory/hosts/` URL will no longer respond with a JSON representation
 `src/main/java/io/openliberty/guides/microprofile/InventoryResource.java`
 ----
 
-The contents of your inventory are now under the asterisk (\*) wildcard and reside at the following URL:
-http://localhost:9080/inventory/hosts/*[http://localhost:9080/inventory/hosts/*^]
-
+The contents of your inventory are now under the asterisk (\*) wildcard and reside at the `\http://localhost:9080/inventory/hosts/*` URL.
 
 The [hotspot=handler file=0]`GET` request handler is responsible for handling all [hotspot=handler file=0]`GET` requests that are
 made to the target URL. This method responds with a JSON that contains HATEOAS links.
