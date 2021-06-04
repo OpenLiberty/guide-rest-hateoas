@@ -148,7 +148,7 @@ include::{common-includes}/twyb-end.adoc[]
 Navigate to the `start` directory.
 
 [role=command]
-include::{common-includes}/devmode-start.adoc[]
+include::{common-includes}/devmode-lmp33-start.adoc[]
 
 Begin by building your response JSON, which is composed of the name of the host machine and its list of HATEOAS links.
 
