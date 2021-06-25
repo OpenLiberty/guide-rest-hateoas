@@ -12,7 +12,7 @@
 :page-description: Learn how to use Hypermedia As The Engine Of Application State (HATEOAS) to drive your RESTful web service
 :page-related-guides: ['rest-intro', 'microprofile-intro']
 :page-permalink: /guides/{projectid}
-:common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/master
+:common-includes: https://raw.githubusercontent.com/OpenLiberty/guides-common/prod
 :page-seo-title: Building a hypermedia-driven RESTful Java microservice using Hypermedia as the Engine of Application State (HATEOAS)
 :page-seo-description: A getting started tutorial on how to use Hypermedia as the Engine of Application State (HATEOAS) to drive a RESTful Java microservice. Learn how to define a JSON response with hypermedia links to navigate your microservice to the appropriate resources.
 :source-highlighter: prettify
