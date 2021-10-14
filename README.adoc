@@ -131,12 +131,9 @@ include::{common-includes}/gitclone.adoc[]
 
 include::{common-includes}/twyb-intro.adoc[]
 
-// Static guide instruction
-ifndef::cloud-hosted[]
 After the server runs, you can find your hypermedia-driven `inventory` service at the following URL:
 
-* http://localhost:9080/inventory/hosts[^]
-endif::[]
+* \http://localhost:9080/inventory/hosts[^]
 
 [role=command]
 include::{common-includes}/twyb-end.adoc[]
@@ -251,7 +248,7 @@ include::{common-includes}/devmode-build.adoc[]
 
 After the server updates, you can find your new hypermedia-driven `inventory` service at the following URL:
 
-* http://localhost:9080/inventory/hosts[http://localhost:9080/inventory/hosts^]
+* \http://localhost:9080/inventory/hosts[http://localhost:9080/inventory/hosts^]
 
 
 // =================================================================================================
@@ -262,8 +259,8 @@ After the server updates, you can find your new hypermedia-driven `inventory` se
 
 At the following URLs, access the `inventory` service that is now driven by hypermedia:
 
-* http://localhost:9080/inventory/hosts[http://localhost:9080/inventory/hosts^]
-* http://localhost:9080/inventory/hosts/localhost[http://localhost:9080/inventory/hosts/localhost^]
+* \http://localhost:9080/inventory/hosts[http://localhost:9080/inventory/hosts^]
+* \http://localhost:9080/inventory/hosts/localhost[http://localhost:9080/inventory/hosts/localhost^]
 
 If the servers are running, you can point your browser to each of the previous URLs to test the
 application manually. Nevertheless, you should rely on automated tests since they are more reliable
