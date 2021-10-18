@@ -146,6 +146,13 @@ include::{common-includes}/twyb-end.adoc[]
 == Creating the response JSON
 
 Navigate to the `start` directory.
+// cloud hosted instruction
+ifdef::cloud-hosted[]
+```
+cd /home/project/guide-rest-hateoas/start
+```
+{: codeblock}
+endif::[]
 
 [role=command]
 include::{common-includes}/devmode-lmp33-start.adoc[]
