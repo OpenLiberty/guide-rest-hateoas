@@ -130,12 +130,11 @@ include::{common-includes}/gitclone.adoc[]
 
 include::{common-includes}/twyb-intro.adoc[]
 
-// Static guide instruction
-ifndef::cloud-hosted[]
+
 After the server runs, you can find your hypermedia-driven `inventory` service at the following URL:
 
-* \`http://localhost:9080/inventory/hosts[^]`
-endif::[]
+* \http://localhost:9080/inventory/hosts[^]
+
 
 [role=command]
 include::{common-includes}/twyb-end.adoc[]
@@ -181,7 +180,15 @@ The `.../inventory/hosts/` URL will no longer respond with a JSON representation
 `src/main/java/io/openliberty/guides/microprofile/InventoryResource.java`
 ----
 
+// Static guide instruction
+ifndef::cloud-hosted[]
+The contents of your inventory are now under the asterisk (*) wildcard and reside at the http://localhost:9080/inventory/hosts/* URL.
+endif::[]
+
+// Cloud hosted guide instruction
+ifdef::cloud-hosted[]
 The contents of your inventory are now under the asterisk (`*`) wildcard and reside at the `http://localhost:9080/inventory/hosts/*`URL.
+endif::[]
 
 The [hotspot=handler file=0]`GET` request handler is responsible for handling all [hotspot=handler file=0]`GET` requests that are
 made to the target URL. This method responds with a JSON that contains HATEOAS links.
@@ -233,7 +240,7 @@ include::finish/src/main/java/io/openliberty/guides/microprofile/util/InventoryU
 The helper builds a link that points to the inventory entry with a [hotspot=self file=1]`self` relationship. The helper also builds a link that points to the `system` service with a [hotspot=properties file=1]`properties` relationship:
 
 * \`http://localhost:9080/inventory/hosts/<hostname>`
-* \`http://<hostname\:9080/system/properties`
+* \`http://<hostname>\:9080/system/properties`
 
 === Linking to inactive services or unavailable resources
 InventoryUtil.java
