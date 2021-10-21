@@ -133,8 +133,15 @@ include::{common-includes}/twyb-intro.adoc[]
 
 After the server runs, you can find your hypermedia-driven `inventory` service at the following URL:
 
-* \http://localhost:9080/inventory/hosts[^]
+// Cloud hosted guide instruction
+ifdef::cloud-hosted[]
+http://localhost:9080/inventory/hosts[^]
+endif::[]
 
+// Static guide instruction
+ifndef::cloud-hosted[]
+* \http://localhost:9080/inventory/hosts[^]
+endif::[]
 
 [role=command]
 include::{common-includes}/twyb-end.adoc[]
@@ -147,7 +154,7 @@ include::{common-includes}/twyb-end.adoc[]
 == Creating the response JSON
 
 Navigate to the `start` directory.
-// cloud hosted instruction
+// Cloud hosted guide instruction
 ifdef::cloud-hosted[]
 ```
 cd /home/project/guide-rest-hateoas/start
@@ -187,7 +194,7 @@ endif::[]
 
 // Cloud hosted guide instruction
 ifdef::cloud-hosted[]
-The contents of your inventory are now under the asterisk (`*`) wildcard and reside at the `http://localhost:9080/inventory/hosts/*`URL.
+The contents of your inventory are now under the asterisk (`*`) wildcard and reside at the `http://localhost:9080/inventory/hosts/*` URL.
 endif::[]
 
 The [hotspot=handler file=0]`GET` request handler is responsible for handling all [hotspot=handler file=0]`GET` requests that are
@@ -239,8 +246,17 @@ include::finish/src/main/java/io/openliberty/guides/microprofile/util/InventoryU
 
 The helper builds a link that points to the inventory entry with a [hotspot=self file=1]`self` relationship. The helper also builds a link that points to the `system` service with a [hotspot=properties file=1]`properties` relationship:
 
+// Cloud hosted guide instruction
+ifdef::cloud-hosted[]
 * \`http://localhost:9080/inventory/hosts/<hostname>`
 * \`http://<hostname>\:9080/system/properties`
+endif::[]
+
+// Static guide instruction
+ifndef::cloud-hosted[]
+* \http://localhost:9080/inventory/hosts/<hostname>
+* \http://<hostname>\:9080/system/properties
+endif::[]
 
 === Linking to inactive services or unavailable resources
 InventoryUtil.java
@@ -264,8 +280,15 @@ include::{common-includes}/devmode-build.adoc[]
 
 After the server updates, you can find your new hypermedia-driven `inventory` service at the following URL:
 
+// Cloud hosted guide instruction
+ifdef::cloud-hosted[]
 * \http://localhost:9080/inventory/hosts[http://localhost:9080/inventory/hosts^]
+endif::[]
 
+// Static guide instruction
+ifndef::cloud-hosted[]
+* http://localhost:9080/inventory/hosts[http://localhost:9080/inventory/hosts^]
+endif::[]
 
 // =================================================================================================
 // Testing
@@ -275,8 +298,17 @@ After the server updates, you can find your new hypermedia-driven `inventory` se
 
 At the following URLs, access the `inventory` service that is now driven by hypermedia:
 
+// Cloud hosted guide instruction
+ifdef::cloud-hosted[]
 * \http://localhost:9080/inventory/hosts[http://localhost:9080/inventory/hosts^]
 * \http://localhost:9080/inventory/hosts/localhost[http://localhost:9080/inventory/hosts/localhost^]
+endif::[]
+
+// Static guide instruction
+ifndef::cloud-hosted[]
+* http://localhost:9080/inventory/hosts[http://localhost:9080/inventory/hosts^]
+* http://localhost:9080/inventory/hosts/localhost[http://localhost:9080/inventory/hosts/localhost^]
+endif::[]
 
 If the servers are running, you can point your browser to each of the previous URLs to test the
 application manually. Nevertheless, you should rely on automated tests since they are more reliable
