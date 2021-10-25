@@ -135,11 +135,19 @@ After the server runs, you can find your hypermedia-driven `inventory` service a
 
 // Cloud hosted guide instruction
 ifdef::cloud-hosted[]
-* http://localhost:9080/inventory/hosts[http://localhost:9080/inventory/hosts^]
+Open another command-line session by selecting **Terminal** > **New Terminal** from the menu of the IDE.
+
+After the server runs, you can find your hypermedia-driven `inventory` service at the **http://localhost:9080/inventory/hosts** endpoint by running the following curl command:
+```
+curl -s http://localhost:9080/inventory/hosts | jq
+```
+{: codeblock}
 endif::[]
 
 // Static guide instruction
 ifndef::cloud-hosted[]
+After the server runs, you can find your hypermedia-driven `inventory` service at the following URL:
+
 * http://localhost:9080/inventory/hosts[^]
 endif::[]
 
@@ -249,13 +257,13 @@ The helper builds a link that points to the inventory entry with a [hotspot=self
 // Cloud hosted guide instruction
 ifdef::cloud-hosted[]
 * `http://localhost:9080/inventory/hosts/<hostname>`
-* `http://<hostname>\:9080/system/properties`
+* `http://<hostname>:9080/system/properties`
 endif::[]
 
 // Static guide instruction
 ifndef::cloud-hosted[]
 * http://localhost:9080/inventory/hosts/<hostname>
-* http://<hostname>\:9080/system/properties
+* http://<hostname>:9080/system/properties
 endif::[]
 
 === Linking to inactive services or unavailable resources
@@ -278,16 +286,22 @@ Hence, the account holder should not be linked to a resource that provides money
 [role=command]
 include::{common-includes}/devmode-build.adoc[]
 
-After the server updates, you can find your new hypermedia-driven `inventory` service at the following URL:
-
 // Cloud hosted guide instruction
 ifdef::cloud-hosted[]
-* http://localhost:9080/inventory/hosts[http://localhost:9080/inventory/hosts^]
+Open another command-line session by selecting **Terminal** > **New Terminal** from the menu of the IDE.
+
+After the server updates, you can find your new hypermedia-driven `inventory` service at the **http://localhost:9080/inventory/hosts** endpoint by running the following curl command:
+```
+curl -s http://localhost:9080/inventory/hosts | jq
+```
+{: codeblock}
 endif::[]
 
 // Static guide instruction
 ifndef::cloud-hosted[]
-* http://localhost:9080/inventory/hosts[http://localhost:9080/inventory/hosts^]
+After the server updates, you can find your new hypermedia-driven `inventory` service at the following URL:
+
+* http://localhost:9080/inventory/hosts[^]
 endif::[]
 
 // =================================================================================================
@@ -300,8 +314,19 @@ At the following URLs, access the `inventory` service that is now driven by hype
 
 // Cloud hosted guide instruction
 ifdef::cloud-hosted[]
-* http://localhost:9080/inventory/hosts[http://localhost:9080/inventory/hosts^]
-* http://localhost:9080/inventory/hosts/localhost[http://localhost:9080/inventory/hosts/localhost^]
+Open another command-line session by selecting **Terminal** > **New Terminal** from the menu of the IDE.
+
+At the following URLs, you can access the `inventory` service that is now driven by hypermedia by running the following curl commands:
+
+```
+curl -s http://localhost:9080/inventory/hosts | jq
+```
+{: codeblock}
+
+```
+curl -s http://localhost:9080/inventory/hosts/localhost| jq
+```
+{: codeblock}
 endif::[]
 
 // Static guide instruction
