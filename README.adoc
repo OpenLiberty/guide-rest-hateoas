@@ -250,16 +250,16 @@ include::finish/src/main/java/io/openliberty/guides/microprofile/util/InventoryU
 
 The helper builds a link that points to the inventory entry with a [hotspot=self file=1]`self` relationship. The helper also builds a link that points to the `system` service with a [hotspot=properties file=1]`properties` relationship:
 
-// Cloud hosted guide instruction
-ifdef::cloud-hosted[]
-* `http://localhost:9080/inventory/hosts/<hostname>`
-* `http://<hostname>:9080/system/properties`
-endif::[]
-
 // Static guide instruction
 ifndef::cloud-hosted[]
 * http://localhost:9080/inventory/hosts/<hostname>
 * http://<hostname>:9080/system/properties
+endif::[]
+
+// Cloud hosted guide instruction
+ifdef::cloud-hosted[]
+* `http://localhost:9080/inventory/hosts/<hostname>`
+* `http://<hostname>:9080/system/properties`
 endif::[]
 
 === Linking to inactive services or unavailable resources
