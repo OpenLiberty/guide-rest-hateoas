@@ -252,8 +252,8 @@ The helper builds a link that points to the inventory entry with a [hotspot=self
 
 // Static guide instruction
 ifndef::cloud-hosted[]
-* http://localhost:9080/inventory/hosts/<hostname>
-* http://<hostname>:9080/system/properties
+* \http://localhost:9080/inventory/hosts/<hostname>
+* \http://<hostname>:9080/system/properties
 endif::[]
 
 // Cloud hosted guide instruction
