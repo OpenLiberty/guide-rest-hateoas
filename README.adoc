@@ -138,8 +138,8 @@ endif::[]
 
 // Cloud hosted guide instruction
 ifdef::cloud-hosted[]
-Open another command-line session by selecting **Terminal** > **New Terminal** from the menu of the IDE.
 After the server runs, you can find your hypermedia-driven **inventory** service at the **/inventory/hosts** endpoint.
+Open another command-line session by selecting **Terminal** > **New Terminal** from the menu of the IDE.
 Run the following curl command:
 ```
 curl -s http://localhost:9080/inventory/hosts | jq
