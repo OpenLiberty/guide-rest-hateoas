@@ -305,17 +305,10 @@ endif::[]
 
 == Testing the hypermedia-driven RESTful web service
 
-// Static guide instruction
-ifndef::cloud-hosted[]
-At the following URLs, access the `inventory` service that is now driven by hypermedia:
-
-* http://localhost:9080/inventory/hosts[http://localhost:9080/inventory/hosts^]
-* http://localhost:9080/inventory/hosts/localhost[http://localhost:9080/inventory/hosts/localhost^]
-endif::[]
-
 // Cloud hosted guide instruction
 ifdef::cloud-hosted[]
-Run the following curl commands to access the **inventory** service that is now driven by hypermedia: 
+If the servers are running, you can test the application manually by
+running the following curl commands to access the **inventory** service that is now driven by hypermedia: 
 ```
 curl -s http://localhost:9080/inventory/hosts | jq
 ```
@@ -327,8 +320,17 @@ curl -s http://localhost:9080/inventory/hosts/localhost| jq
 {: codeblock}
 endif::[]
 
+// Static guide instruction
+ifndef::cloud-hosted[]
+At the following URLs, access the `inventory` service that is now driven by hypermedia:
+
+* http://localhost:9080/inventory/hosts[http://localhost:9080/inventory/hosts^]
+* http://localhost:9080/inventory/hosts/localhost[http://localhost:9080/inventory/hosts/localhost^]
+
 If the servers are running, you can point your browser to each of the previous URLs to test the
-application manually. Nevertheless, you should rely on automated tests since they are more reliable
+application manually. 
+endif::[]
+Nevertheless, you should rely on automated tests since they are more reliable
 and trigger a failure if a change introduces a defect.
 
 === Setting up your tests
