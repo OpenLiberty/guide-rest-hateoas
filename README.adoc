@@ -194,7 +194,7 @@ The `.../inventory/hosts/` URL will no longer respond with a JSON representation
 
 // Static guide instruction
 ifndef::cloud-hosted[]
-The contents of your inventory are now under the asterisk `(*)` wildcard and reside at the http://localhost:9080/inventory/hosts/`*` URL.
+The contents of your inventory are now under the asterisk (\*) wildcard and reside at the `\http://localhost:9080/inventory/hosts/*` URL.
 endif::[]
 
 // Cloud hosted guide instruction
