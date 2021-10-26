@@ -284,7 +284,7 @@ include::{common-includes}/devmode-build.adoc[]
 
 // Static guide instruction
 ifndef::cloud-hosted[]
-After the server updates, you can find your new hypermedia-driven **inventory** service at the following URL:
+After the server updates, you can find your new hypermedia-driven `inventory` service at the following URL:
 
 * http://localhost:9080/inventory/hosts[http://localhost:9080/inventory/hosts^]
 endif::[]
