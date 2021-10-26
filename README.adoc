@@ -130,6 +130,13 @@ include::{common-includes}/gitclone.adoc[]
 
 include::{common-includes}/twyb-intro.adoc[]
 
+// Static guide instruction
+ifndef::cloud-hosted[]
+After the server runs, you can find your hypermedia-driven `inventory` service at the following URL:
+
+* http://localhost:9080/inventory/hosts[^]
+endif::[]
+
 // Cloud hosted guide instruction
 ifdef::cloud-hosted[]
 Open another command-line session by selecting **Terminal** > **New Terminal** from the menu of the IDE.
@@ -138,13 +145,6 @@ After the server runs, you can find your hypermedia-driven **inventory** service
 curl -s http://localhost:9080/inventory/hosts | jq
 ```
 {: codeblock}
-endif::[]
-
-// Static guide instruction
-ifndef::cloud-hosted[]
-After the server runs, you can find your hypermedia-driven `inventory` service at the following URL:
-
-* http://localhost:9080/inventory/hosts[^]
 endif::[]
 
 [role=command]
