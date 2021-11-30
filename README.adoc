@@ -330,7 +330,7 @@ At the following URLs, access the `inventory` service that is now driven by hype
 If the servers are running, you can point your browser to each of the previous URLs to test the
 application manually. 
 endif::[]
-Nevertheless, you should rely on automated tests since they are more reliable
+Nevertheless, you should rely on automated tests because they are more reliable
 and trigger a failure if a change introduces a defect.
 
 === Setting up your tests
