@@ -22,13 +22,11 @@
 [.hidden]
 NOTE: This repository contains the guide documentation source. To view the guide in published form, view it on the https://openliberty.io/guides/{projectid}.html[Open Liberty website].
 
-// =================================================================================================
-// Introduction
-// =================================================================================================
+You'll explore how to use Hypermedia As The Engine Of Application State (HATEOAS) to drive your RESTful web service on Open Liberty.
 
-You'll explore how to use Hypermedia As The Engine Of Application State (HATEOAS) to drive your
-RESTful web service on Open Liberty.
-
+// ==================================================================================
+// What you'll learn
+// ==================================================================================
 == What you'll learn
 
 You will learn how to use hypermedia to create a specific style of a response JSON, which has contents
@@ -131,9 +129,23 @@ include::{common-includes}/gitclone.adoc[]
 
 include::{common-includes}/twyb-intro.adoc[]
 
+// Static guide instruction
+ifndef::cloud-hosted[]
 After the server runs, you can find your hypermedia-driven `inventory` service at the following URL:
 
 * http://localhost:9080/inventory/hosts[^]
+endif::[]
+
+// Cloud hosted guide instruction
+ifdef::cloud-hosted[]
+After the server runs, you can find your hypermedia-driven **inventory** service at the **/inventory/hosts** endpoint.
+Open another command-line session by selecting **Terminal** > **New Terminal** from the menu of the IDE.
+Run the following curl command:
+```
+curl -s http://localhost:9080/inventory/hosts | jq
+```
+{: codeblock}
+endif::[]
 
 [role=command]
 include::{common-includes}/twyb-end.adoc[]
@@ -146,6 +158,13 @@ include::{common-includes}/twyb-end.adoc[]
 == Creating the response JSON
 
 Navigate to the `start` directory.
+// Cloud hosted guide instruction
+ifdef::cloud-hosted[]
+```
+cd /home/project/guide-rest-hateoas/start
+```
+{: codeblock}
+endif::[]
 
 [role=command]
 include::{common-includes}/devmode-lmp33-start.adoc[]
@@ -172,7 +191,15 @@ The `.../inventory/hosts/` URL will no longer respond with a JSON representation
 `src/main/java/io/openliberty/guides/microprofile/InventoryResource.java`
 ----
 
+// Static guide instruction
+ifndef::cloud-hosted[]
 The contents of your inventory are now under the asterisk (\*) wildcard and reside at the `\http://localhost:9080/inventory/hosts/*` URL.
+endif::[]
+
+// Cloud hosted guide instruction
+ifdef::cloud-hosted[]
+The contents of your inventory are now under the asterisk (`*`) wildcard and reside at the `http://localhost:9080/inventory/hosts/*` URL.
+endif::[]
 
 The [hotspot=handler file=0]`GET` request handler is responsible for handling all [hotspot=handler file=0]`GET` requests that are
 made to the target URL. This method responds with a JSON that contains HATEOAS links.
@@ -223,8 +250,17 @@ include::finish/src/main/java/io/openliberty/guides/microprofile/util/InventoryU
 
 The helper builds a link that points to the inventory entry with a [hotspot=self file=1]`self` relationship. The helper also builds a link that points to the `system` service with a [hotspot=properties file=1]`properties` relationship:
 
+// Static guide instruction
+ifndef::cloud-hosted[]
 * \http://localhost:9080/inventory/hosts/<hostname>
 * \http://<hostname>:9080/system/properties
+endif::[]
+
+// Cloud hosted guide instruction
+ifdef::cloud-hosted[]
+* `http://localhost:9080/inventory/hosts/<hostname>`
+* `http://<hostname>:9080/system/properties`
+endif::[]
 
 === Linking to inactive services or unavailable resources
 InventoryUtil.java
@@ -246,10 +282,22 @@ Hence, the account holder should not be linked to a resource that provides money
 [role=command]
 include::{common-includes}/devmode-build.adoc[]
 
+// Static guide instruction
+ifndef::cloud-hosted[]
 After the server updates, you can find your new hypermedia-driven `inventory` service at the following URL:
 
 * http://localhost:9080/inventory/hosts[http://localhost:9080/inventory/hosts^]
+endif::[]
 
+// Cloud hosted guide instruction
+ifdef::cloud-hosted[]
+After the server updates, you can find your new hypermedia-driven **inventory** service at the **/inventory/hosts** endpoint.
+Run the following curl command by another command-line session:
+```
+curl -s http://localhost:9080/inventory/hosts | jq
+```
+{: codeblock}
+endif::[]
 
 // =================================================================================================
 // Testing
@@ -257,13 +305,32 @@ After the server updates, you can find your new hypermedia-driven `inventory` se
 
 == Testing the hypermedia-driven RESTful web service
 
+// Cloud hosted guide instruction
+ifdef::cloud-hosted[]
+If the servers are running, you can test the application manually by
+running the following curl commands to access the **inventory** service that is now driven by hypermedia: 
+```
+curl -s http://localhost:9080/inventory/hosts | jq
+```
+{: codeblock}
+
+```
+curl -s http://localhost:9080/inventory/hosts/localhost| jq
+```
+{: codeblock}
+endif::[]
+
+// Static guide instruction
+ifndef::cloud-hosted[]
 At the following URLs, access the `inventory` service that is now driven by hypermedia:
 
 * http://localhost:9080/inventory/hosts[http://localhost:9080/inventory/hosts^]
 * http://localhost:9080/inventory/hosts/localhost[http://localhost:9080/inventory/hosts/localhost^]
 
 If the servers are running, you can point your browser to each of the previous URLs to test the
-application manually. Nevertheless, you should rely on automated tests since they are more reliable
+application manually. 
+endif::[]
+Nevertheless, you should rely on automated tests because they are more reliable
 and trigger a failure if a change introduces a defect.
 
 === Setting up your tests
