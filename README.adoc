@@ -66,7 +66,7 @@ of HATEOAS links:
 
 === What is HATEOAS?
 
-HATEOAS is a constrained form of REST application architecture.
+HATEOAS is a constraint of REST application architectures.
 With HATEOAS, the client receives information about the available resources from the REST application.
 The client does not need to be hardcoded to a fixed set of resources, and the application
 and client can evolve independently. In other words, the application tells the client where it can go
