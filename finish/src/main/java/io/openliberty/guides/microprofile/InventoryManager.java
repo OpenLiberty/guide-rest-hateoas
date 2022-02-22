@@ -1,6 +1,6 @@
 // tag::comment[]
 /*******************************************************************************
- * Copyright (c) 2017, 2019 IBM Corporation and others.
+ * Copyright (c) 2017, 2022 IBM Corporation and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -15,21 +15,21 @@ package io.openliberty.guides.microprofile;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.json.Json;
-import javax.json.JsonArray;
-import javax.json.JsonArrayBuilder;
-import javax.json.JsonObject;
-import javax.json.JsonObjectBuilder;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.json.Json;
+import jakarta.json.JsonArray;
+import jakarta.json.JsonArrayBuilder;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonObjectBuilder;
 
 import io.openliberty.guides.microprofile.util.ReadyJson;
 import io.openliberty.guides.microprofile.util.InventoryUtil;
 
 @ApplicationScoped
-public class InventoryManager { 
-    
+public class InventoryManager {
+
     private ConcurrentMap<String, JsonObject> inv = new ConcurrentHashMap<>();
-    
+
     public JsonObject get(String hostname) {
         JsonObject properties = inv.get(hostname);
         if (properties == null) {
@@ -42,11 +42,11 @@ public class InventoryManager {
         }
         return properties;
     }
-    
+
     public void add(String hostname, JsonObject systemProps) {
         inv.putIfAbsent(hostname, systemProps);
     }
-    
+
     public JsonObject list() {
         JsonObjectBuilder systems = Json.createObjectBuilder();
         inv.forEach((host, props) -> {
@@ -55,23 +55,23 @@ public class InventoryManager {
                                          .add("user.name", props.getString("user.name"))
                                          .build();
             systems.add(host, systemProps);
-        }); 
+        });
         systems.add("hosts", systems);
         systems.add("total", inv.size());
         return systems.build();
     }
-    
+
     // tag::getSystems[]
     public JsonObject getSystems(String url) {
         // inventory content
         JsonObjectBuilder systems = Json.createObjectBuilder();
         systems.add("*", InventoryUtil.buildLinksForHost("*", url));
-        
+
         // collecting systems jsons
         for (String host : inv.keySet()) {
             systems.add(host, InventoryUtil.buildLinksForHost(host, url));
         }
-        
+
         return systems.build();
     }
     // end::getSystems[]
