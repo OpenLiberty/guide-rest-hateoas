@@ -19,8 +19,11 @@ import jakarta.ws.rs.client.Client;
 import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.core.Response;
 
-
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.TestMethodOrders;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -62,7 +65,7 @@ public class EndpointIT {
     // end::setup[]
 
     /**
-     * Checks if the HATEOAS link for the inventory contents (hostname=*) 
+     * Checks if the HATEOAS link for the inventory contents (hostname=*)
      * is as expected.
      */
     // tag::Test1[]
