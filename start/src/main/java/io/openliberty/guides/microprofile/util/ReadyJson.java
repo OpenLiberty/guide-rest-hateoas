@@ -1,4 +1,4 @@
-// tag::comment[]
+// tag::copyright[]
 /*******************************************************************************
  * Copyright (c) 2017, 2022 IBM Corporation and others.
  * All rights reserved. This program and the accompanying materials
@@ -9,7 +9,7 @@
  * Contributors:
  *     IBM Corporation - Initial implementation
  *******************************************************************************/
- // end::comment[]
+// end::copyright[]
 package io.openliberty.guides.microprofile.util;
 
 import jakarta.json.Json;
@@ -22,7 +22,7 @@ public enum ReadyJson {
     private JsonObject json;
 
     public JsonObject getJson() {
-        switch(this) {
+        switch (this) {
             case SERVICE_UNREACHABLE:
                 this.serviceUnreachable();
                 break;
@@ -34,7 +34,8 @@ public enum ReadyJson {
 
     private void serviceUnreachable() {
         json = Json.createObjectBuilder()
-                .add("ERROR", "Unknown hostname or the resource may not be running on the host machine")
+                .add("ERROR", "Unknown hostname or the resource may"
+                     + "not be running on the host machine")
                 .build();
     }
 

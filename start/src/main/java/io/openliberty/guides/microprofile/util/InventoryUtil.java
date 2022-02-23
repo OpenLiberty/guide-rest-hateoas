@@ -1,4 +1,4 @@
-// tag::comment[]
+// tag::copyright[]
 /*******************************************************************************
  * Copyright (c) 2017, 2022 IBM Corporation and others.
  * All rights reserved. This program and the accompanying materials
@@ -9,7 +9,7 @@
  * Contributors:
  *     IBM Corporation - Initial implementation
  *******************************************************************************/
- // end::comment[]
+// end::copyright[]
 package io.openliberty.guides.microprofile.util;
 
 import java.net.HttpURLConnection;
@@ -31,7 +31,9 @@ public class InventoryUtil {
     public static JsonObject getProperties(String hostname) {
         Client client = ClientBuilder.newClient();
         URI propURI = InventoryUtil.buildUri(hostname);
-        return client.target(propURI).request(MediaType.APPLICATION_JSON).get(JsonObject.class);
+        return client.target(propURI)
+                     .request(MediaType.APPLICATION_JSON)
+                     .get(JsonObject.class);
     }
 
     public static boolean responseOk(String hostname) {

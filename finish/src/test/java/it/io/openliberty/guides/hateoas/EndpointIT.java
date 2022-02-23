@@ -1,4 +1,4 @@
-// tag::comment[]
+// tag::copyright[]
 /*******************************************************************************
  * Copyright (c) 2017, 2022 IBM Corporation and others.
  * All rights reserved. This program and the accompanying materials
@@ -9,7 +9,7 @@
  * Contributors:
  *     IBM Corporation - Initial implementation
  *******************************************************************************/
- // end::comment[]
+// end::copyright[]
 package it.io.openliberty.guides.hateoas;
 
 import jakarta.json.JsonArray;
@@ -62,7 +62,8 @@ public class EndpointIT {
     // end::setup[]
 
     /**
-     * Checks if the HATEOAS link for the inventory contents (hostname=*) is as expected.
+     * Checks if the HATEOAS link for the inventory contents (hostname=*) 
+     * is as expected.
      */
     // tag::Test1[]
     @Test
@@ -73,14 +74,16 @@ public class EndpointIT {
     // tag::testLinkForInventoryContents[]
     public void testLinkForInventoryContents() {
         Response response = this.getResponse(baseUrl + INVENTORY_HOSTS);
-        assertEquals(200, response.getStatus(), "Incorrect response code from " + baseUrl);
+        assertEquals(200, response.getStatus(),
+                    "Incorrect response code from " + baseUrl);
 
         // tag::jsonobj[]
         JsonObject systems = response.readEntity(JsonObject.class);
         // end::jsonobj[]
 
         // tag::assertAndClose[]
-        String expected, actual;
+        String expected;
+        String actual;
         boolean isFound = false;
 
 
@@ -123,11 +126,13 @@ public class EndpointIT {
         this.visitLocalhost();
 
         Response response = this.getResponse(baseUrl + INVENTORY_HOSTS);
-        assertEquals(200, response.getStatus(), "Incorrect response code from " + baseUrl);
+        assertEquals(200, response.getStatus(),
+                     "Incorrect response code from " + baseUrl);
 
         JsonObject systems = response.readEntity(JsonObject.class);
 
-        String expected, actual;
+        String expected;
+        String actual;
         boolean isHostnameFound = false;
 
 
@@ -176,10 +181,12 @@ public class EndpointIT {
      */
     private void visitLocalhost() {
         Response response = this.getResponse(baseUrl + SYSTEM_PROPERTIES);
-        assertEquals(200, response.getStatus(), "Incorrect response code from " + baseUrl);
+        assertEquals(200, response.getStatus(),
+                     "Incorrect response code from " + baseUrl);
         response.close();
         // tag::targetResponse[]
-        Response targetResponse = client.target(baseUrl + INVENTORY_HOSTS + "/localhost")
+        Response targetResponse =
+        client.target(baseUrl + INVENTORY_HOSTS + "/localhost")
                                         .request()
                                         .get();
         // end::targetResponse[]
