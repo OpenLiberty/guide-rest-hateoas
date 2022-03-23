@@ -164,18 +164,18 @@ As mentioned before, your starting point is an existing simple inventory REST se
 
 Look at the request handlers in the [hotspot file=0]`InventoryResource.java` file.
 
-InventoryResource.java
-[source, java, linenums, role='code_column hide_tags=comment']
-----
-include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryResource.java[]
-----
-
 The `.../inventory/hosts/` URL will no longer respond with a JSON representation of your inventory contents, so you can discard the `listContents` method and integrate it into the [hotspot=PropertiesForHost file=0]`getPropertiesForHost` method.
 
 [role="code_command hotspot" subs="quotes"]
 ----
 #Replace the `InventoryResource` class.#
 `src/main/java/io/openliberty/guides/microprofile/InventoryResource.java`
+----
+
+InventoryResource.java
+[source, java, linenums, role='code_column hide_tags=comment']
+----
+include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryResource.java[]
 ----
 
 // Static guide instruction
@@ -309,16 +309,16 @@ Nevertheless, you should rely on automated tests because they are more reliable 
 
 === Setting up your tests
 
-EndpointIT.java
-[source, java, linenums, role='code_column hide_tags=comment']
-----
-include::finish/src/test/java/it/io/openliberty/guides/hateoas/EndpointIT.java[]
-----
-
 [role="code_command hotspot" subs="quotes"]
 ----
 #Create the `EndpointIT` class.#
 `src/test/java/it/io/openliberty/guides/hateoas/EndpointIT.java`
+----
+
+EndpointIT.java
+[source, java, linenums, role='code_column hide_tags=comment']
+----
+include::finish/src/test/java/it/io/openliberty/guides/hateoas/EndpointIT.java[]
 ----
 
 The [hotspot=Before]`@BeforeEach` and [hotspot=After]`@AfterEach` annotations are placed on setup and teardown tasks that are run for each individual test.
