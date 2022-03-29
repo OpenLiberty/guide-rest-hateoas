@@ -127,11 +127,10 @@ endif::[]
 
 // Cloud hosted guide instruction
 ifdef::cloud-hosted[]
-After the server runs, you can find your hypermedia-driven **inventory** service at the **/inventory/hosts** endpoint. Open another command-line session by selecting **Terminal** > **New Terminal** from the menu of the IDE. Run the following curl command:
-```
+After the server runs, you can find your hypermedia-driven ***inventory*** service at the ***/inventory/hosts*** endpoint. Open another command-line session by selecting **Terminal** > **New Terminal** from the menu of the IDE. Run the following curl command:
+```bash
 curl -s http://localhost:9080/inventory/hosts | jq
 ```
-{: codeblock}
 endif::[]
 
 [role=command]
@@ -147,10 +146,9 @@ include::{common-includes}/twyb-end.adoc[]
 Navigate to the `start` directory.
 // Cloud hosted guide instruction
 ifdef::cloud-hosted[]
-```
+```bash
 cd /home/project/guide-rest-hateoas/start
 ```
-{: codeblock}
 endif::[]
 
 [role=command]
@@ -269,11 +267,10 @@ endif::[]
 
 // Cloud hosted guide instruction
 ifdef::cloud-hosted[]
-After the server updates, you can find your new hypermedia-driven **inventory** service at the **/inventory/hosts** endpoint. Run the following curl command by another command-line session:
-```
+After the server updates, you can find your new hypermedia-driven ***inventory*** service at the ***/inventory/hosts*** endpoint. Run the following curl command by another command-line session:
+```bash
 curl -s http://localhost:9080/inventory/hosts | jq
 ```
-{: codeblock}
 endif::[]
 
 // =================================================================================================
@@ -285,15 +282,13 @@ endif::[]
 // Cloud hosted guide instruction
 ifdef::cloud-hosted[]
 If the servers are running, you can test the application manually by running the following curl commands to access the **inventory** service that is now driven by hypermedia: 
-```
+```bash
 curl -s http://localhost:9080/inventory/hosts | jq
 ```
-{: codeblock}
 
-```
+```bash
 curl -s http://localhost:9080/inventory/hosts/localhost| jq
 ```
-{: codeblock}
 endif::[]
 
 // Static guide instruction
