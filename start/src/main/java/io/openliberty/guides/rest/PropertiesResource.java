@@ -1,6 +1,6 @@
-// tag::comment[]
+// tag::copyright[]
 /*******************************************************************************
- * Copyright (c) 2017 IBM Corporation and others.
+ * Copyright (c) 2017, 2022 IBM Corporation and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -9,19 +9,19 @@
  * Contributors:
  *     IBM Corporation - Initial implementation
  *******************************************************************************/
- // end::comment[]
+// end::copyright[]
 package io.openliberty.guides.rest;
 
-import javax.ws.rs.Path;
-import javax.ws.rs.core.MediaType;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.core.MediaType;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Produces;
-import javax.json.Json;
-import javax.json.JsonObject;
-import javax.json.JsonObjectBuilder;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.Produces;
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonObjectBuilder;
 
-import javax.enterprise.context.RequestScoped;
+import jakarta.enterprise.context.RequestScoped;
 
 //tag::class[]
 @RequestScoped
@@ -38,8 +38,8 @@ public class PropertiesResource {
         System.getProperties()
               .entrySet()
               .stream()
-              .forEach(entry -> builder.add((String)entry.getKey(),
-                                            (String)entry.getValue()));
+              .forEach(entry -> builder.add((String) entry.getKey(),
+                                            (String) entry.getValue()));
 
         return builder.build();
     }

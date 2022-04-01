@@ -1,6 +1,6 @@
-// tag::comment[]
+// tag::copyright[]
 /*******************************************************************************
- * Copyright (c) 2017, 2019 IBM Corporation and others.
+ * Copyright (c) 2017, 2022 IBM Corporation and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -9,21 +9,21 @@
  * Contributors:
  *     IBM Corporation - Initial implementation
  *******************************************************************************/
- // end::comment[]
+// end::copyright[]
 package io.openliberty.guides.microprofile.util;
 
 import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
 
-import javax.json.Json;
-import javax.json.JsonArray;
-import javax.json.JsonArrayBuilder;
-import javax.json.JsonObject;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.UriBuilder;
+import jakarta.json.Json;
+import jakarta.json.JsonArray;
+import jakarta.json.JsonArrayBuilder;
+import jakarta.json.JsonObject;
+import jakarta.ws.rs.client.Client;
+import jakarta.ws.rs.client.ClientBuilder;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.UriBuilder;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -40,18 +40,18 @@ public class InventoryUtil {
                      .request(MediaType.APPLICATION_JSON)
                      .get(JsonObject.class);
     }
-    
+
     // tag::buildLinksForHost[]
     public static JsonArray buildLinksForHost(String hostname, String invUri) {
-        
-        JsonArrayBuilder links = Json.createArrayBuilder(); 
-        
+
+        JsonArrayBuilder links = Json.createArrayBuilder();
+
         links.add(Json.createObjectBuilder()
                       .add("href", StringUtils.appendIfMissing(invUri, "/") + hostname)
                       // tag::self[]
                       .add("rel", "self"));
                       // end::self[]
-        
+
         if (!hostname.equals("*")) {
             links.add(Json.createObjectBuilder()
                  .add("href", InventoryUtil.buildUri(hostname).toString())
@@ -59,11 +59,11 @@ public class InventoryUtil {
                  .add("rel", "properties"));
                  // end::properties[]
         }
-        
+
         return links.build();
     }
     // end::buildLinksForHost[]
-    
+
     public static boolean responseOk(String hostname) {
         try {
             URL target = new URL(buildUri(hostname).toString());

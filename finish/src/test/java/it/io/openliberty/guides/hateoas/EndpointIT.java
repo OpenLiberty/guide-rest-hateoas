@@ -1,6 +1,6 @@
-// tag::comment[]
+// tag::copyright[]
 /*******************************************************************************
- * Copyright (c) 2017, 2020 IBM Corporation and others.
+ * Copyright (c) 2017, 2022 IBM Corporation and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -9,19 +9,21 @@
  * Contributors:
  *     IBM Corporation - Initial implementation
  *******************************************************************************/
- // end::comment[]
+// end::copyright[]
 package it.io.openliberty.guides.hateoas;
 
-import javax.json.JsonArray;
-import javax.json.JsonObject;
-import javax.json.JsonValue;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.core.Response;
+import jakarta.json.JsonArray;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonValue;
+import jakarta.ws.rs.client.Client;
+import jakarta.ws.rs.client.ClientBuilder;
+import jakarta.ws.rs.core.Response;
 
-import org.apache.cxf.jaxrs.provider.jsrjsonp.JsrJsonpProvider;
-
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -34,12 +36,12 @@ public class EndpointIT {
     // tag::setup[]
     private String port;
     private String baseUrl;
-    
+
     private Client client;
-    
+
     private final String SYSTEM_PROPERTIES = "system/properties";
     private final String INVENTORY_HOSTS = "inventory/hosts";
-    
+
     // tag::Before[]
     @BeforeEach
     // end::Before[]
@@ -48,13 +50,12 @@ public class EndpointIT {
         port = System.getProperty("http.port");
         baseUrl = "http://localhost:" + port + "/";
         // end::urlCreation[]
-        
+
         // tag::clientInit[]
         client = ClientBuilder.newClient();
-        client.register(JsrJsonpProvider.class);
         // end::clientInit[]
     }
-    
+
     // tag::After[]
     @AfterEach
     // end::After[]
@@ -62,9 +63,10 @@ public class EndpointIT {
         client.close();
     }
     // end::setup[]
-    
+
     /**
-     * Checks if the HATEOAS link for the inventory contents (hostname=*) is as expected.
+     * Checks if the HATEOAS link for the inventory contents (hostname=*)
+     * is as expected.
      */
     // tag::Test1[]
     @Test
@@ -75,14 +77,16 @@ public class EndpointIT {
     // tag::testLinkForInventoryContents[]
     public void testLinkForInventoryContents() {
         Response response = this.getResponse(baseUrl + INVENTORY_HOSTS);
-        assertEquals(200, response.getStatus(), "Incorrect response code from " + baseUrl);
-        
+        assertEquals(200, response.getStatus(),
+                    "Incorrect response code from " + baseUrl);
+
         // tag::jsonobj[]
         JsonObject systems = response.readEntity(JsonObject.class);
         // end::jsonobj[]
-        
+
         // tag::assertAndClose[]
-        String expected, actual;
+        String expected;
+        String actual;
         boolean isFound = false;
 
 
@@ -100,18 +104,18 @@ public class EndpointIT {
             actual = links.getJsonObject(0).getString("rel");
             assertEquals(expected, actual, "Incorrect rel");
         }
-        
+
 
         // If the hostname '*' was not even found, need to fail the testcase
         assertTrue(isFound, "Could not find system with hostname *");
-        
+
         response.close();
         // end::assertAndClose[]
     }
     // end::testLinkForInventoryContents[]
-    
+
     /**
-     * Checks that the HATEOAS links, with relationships 'self' and 'properties' for 
+     * Checks that the HATEOAS links, with relationships 'self' and 'properties' for
      * a simple localhost system is as expected.
      */
     // tag::Test2[]
@@ -123,16 +127,18 @@ public class EndpointIT {
     // tag::testLinksForSystem[]
     public void testLinksForSystem() {
         this.visitLocalhost();
-        
+
         Response response = this.getResponse(baseUrl + INVENTORY_HOSTS);
-        assertEquals(200, response.getStatus(), "Incorrect response code from " + baseUrl);
-        
+        assertEquals(200, response.getStatus(),
+                     "Incorrect response code from " + baseUrl);
+
         JsonObject systems = response.readEntity(JsonObject.class);
 
-        String expected, actual;
+        String expected;
+        String actual;
         boolean isHostnameFound = false;
 
-        
+
         // Try to find the JSON object for hostname localhost
         if (!systems.isNull("localhost")) {
             isHostnameFound = true;
@@ -157,7 +163,7 @@ public class EndpointIT {
 
             assertEquals(expected, actual, "Incorrect rel");
         }
-        
+
 
         // If the hostname 'localhost' was not even found, need to fail the testcase
         assertTrue(isHostnameFound, "Could not find system with hostname *");
@@ -165,23 +171,25 @@ public class EndpointIT {
 
     }
     // end::testLinksForSystem[]
-    
+
     /**
      * Returns a Response object for the specified URL.
      */
     private Response getResponse(String url) {
         return client.target(url).request().get();
     }
-     
+
     /**
      * Makes a GET request to localhost at the Inventory service.
      */
     private void visitLocalhost() {
         Response response = this.getResponse(baseUrl + SYSTEM_PROPERTIES);
-        assertEquals(200, response.getStatus(), "Incorrect response code from " + baseUrl);
+        assertEquals(200, response.getStatus(),
+                     "Incorrect response code from " + baseUrl);
         response.close();
         // tag::targetResponse[]
-        Response targetResponse = client.target(baseUrl + INVENTORY_HOSTS + "/localhost")
+        Response targetResponse =
+        client.target(baseUrl + INVENTORY_HOSTS + "/localhost")
                                         .request()
                                         .get();
         // end::targetResponse[]
