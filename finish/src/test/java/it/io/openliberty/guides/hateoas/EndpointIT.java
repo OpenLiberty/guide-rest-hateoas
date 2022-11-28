@@ -166,7 +166,7 @@ public class EndpointIT {
 
 
         // If the hostname 'localhost' was not even found, need to fail the testcase
-        assertTrue(isHostnameFound, "Could not find system with hostname *");
+        assertTrue(isHostnameFound, "Could not find system with hostname localhost");
         response.close();
 
     }
