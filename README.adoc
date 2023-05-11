@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2022 IBM Corporation and others.
+// Copyright (c) 2017, 2023 IBM Corporation and others.
 // Licensed under Creative Commons Attribution-NoDerivatives
 // 4.0 International (CC BY-ND 4.0)
 //   https://creativecommons.org/licenses/by-nd/4.0/
@@ -171,7 +171,7 @@ The `.../inventory/hosts/` URL will no longer respond with a JSON representation
 ----
 
 InventoryResource.java
-[source, java, linenums, role='code_column hide_tags=comment']
+[source, java, linenums, role='code_column hide_tags=comment,copyright']
 ----
 include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryResource.java[]
 ----
@@ -195,7 +195,7 @@ The [hotspot=Context file=0]`@Context` annotation is a part of CDI and indicates
 Your new [hotspot=InventoryResource file=0]`InventoryResource` class is now replaced. Next, you will implement the [hotspot=getSystems file=1]`getSystems` method and build the response JSON object.
 
 InventoryManager.java
-[source, java, linenums, role='code_column hide_tags=comment']
+[source, java, linenums, role='code_column hide_tags=comment,copyright']
 ----
 include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryManager.java[]
 ----
@@ -211,7 +211,7 @@ Take a look at your [hotspot file=0]`InventoryManager` and [hotspot file=1]`Inve
 ----
 
 InventoryManager.java
-[source, java, linenums, role='code_column hide_tags=comment']
+[source, java, linenums, role='code_column hide_tags=comment,copyright']
 ----
 include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryManager.java[]
 ----
@@ -225,7 +225,7 @@ The [hotspot=getSystems file=0]`getSystems` method accepts a target URL as an ar
 ----
 
 InventoryUtil.java
-[source, java, linenums, role='code_column hide_tags=comment']
+[source, java, linenums, role='code_column hide_tags=comment,copyright']
 ----
 include::finish/src/main/java/io/openliberty/guides/microprofile/util/InventoryUtil.java[]
 ----
@@ -246,7 +246,7 @@ endif::[]
 
 === Linking to inactive services or unavailable resources
 InventoryUtil.java
-[source, java, linenums, role='code_column hide_tags=comment']
+[source, java, linenums, role='code_column hide_tags=comment,copyright']
 ----
 include::finish/src/main/java/io/openliberty/guides/microprofile/util/InventoryUtil.java[]
 ----
@@ -311,7 +311,7 @@ Nevertheless, you should rely on automated tests because they are more reliable 
 ----
 
 EndpointIT.java
-[source, java, linenums, role='code_column hide_tags=comment']
+[source, java, linenums, role='code_column hide_tags=comment,copyright']
 ----
 include::finish/src/test/java/it/io/openliberty/guides/hateoas/EndpointIT.java[]
 ----
