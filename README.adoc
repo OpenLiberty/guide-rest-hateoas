@@ -346,7 +346,7 @@ Integration tests finished.
 ----
 
 [role=command]
-include::{common-includes}/devmode-quit.adoc[]
+include::{common-includes}/devmode-quit-ctrlc.adoc[]
 
 == Great work! You're done!
 
