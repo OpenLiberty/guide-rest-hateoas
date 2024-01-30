@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2022 IBM Corporation and others.
+// Copyright (c) 2017, 2023 IBM Corporation and others.
 // Licensed under Creative Commons Attribution-NoDerivatives
 // 4.0 International (CC BY-ND 4.0)
 //   https://creativecommons.org/licenses/by-nd/4.0/
@@ -120,14 +120,14 @@ include::{common-includes}/twyb-intro.adoc[]
 
 // Static guide instruction
 ifndef::cloud-hosted[]
-After the server runs, you can find your hypermedia-driven `inventory` service at the following URL:
+After the Liberty instance runs, you can find your hypermedia-driven `inventory` service at the following URL:
 
 * http://localhost:9080/inventory/hosts[^]
 endif::[]
 
 // Cloud hosted guide instruction
 ifdef::cloud-hosted[]
-After the server runs, you can find your hypermedia-driven ***inventory*** service at the ***/inventory/hosts*** endpoint. Open another command-line session by selecting **Terminal** > **New Terminal** from the menu of the IDE. Run the following curl command:
+After the Liberty instance runs, you can find your hypermedia-driven ***inventory*** service at the ***/inventory/hosts*** endpoint. Open another command-line session by selecting **Terminal** > **New Terminal** from the menu of the IDE. Run the following curl command:
 ```bash
 curl -s http://localhost:9080/inventory/hosts | jq
 ```
@@ -171,7 +171,7 @@ The `.../inventory/hosts/` URL will no longer respond with a JSON representation
 ----
 
 InventoryResource.java
-[source, java, linenums, role='code_column hide_tags=comment']
+[source, java, linenums, role='code_column hide_tags=comment,copyright']
 ----
 include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryResource.java[]
 ----
@@ -195,7 +195,7 @@ The [hotspot=Context file=0]`@Context` annotation is a part of CDI and indicates
 Your new [hotspot=InventoryResource file=0]`InventoryResource` class is now replaced. Next, you will implement the [hotspot=getSystems file=1]`getSystems` method and build the response JSON object.
 
 InventoryManager.java
-[source, java, linenums, role='code_column hide_tags=comment']
+[source, java, linenums, role='code_column hide_tags=comment,copyright']
 ----
 include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryManager.java[]
 ----
@@ -211,7 +211,7 @@ Take a look at your [hotspot file=0]`InventoryManager` and [hotspot file=1]`Inve
 ----
 
 InventoryManager.java
-[source, java, linenums, role='code_column hide_tags=comment']
+[source, java, linenums, role='code_column hide_tags=comment,copyright']
 ----
 include::finish/src/main/java/io/openliberty/guides/microprofile/InventoryManager.java[]
 ----
@@ -225,7 +225,7 @@ The [hotspot=getSystems file=0]`getSystems` method accepts a target URL as an ar
 ----
 
 InventoryUtil.java
-[source, java, linenums, role='code_column hide_tags=comment']
+[source, java, linenums, role='code_column hide_tags=comment,copyright']
 ----
 include::finish/src/main/java/io/openliberty/guides/microprofile/util/InventoryUtil.java[]
 ----
@@ -246,7 +246,7 @@ endif::[]
 
 === Linking to inactive services or unavailable resources
 InventoryUtil.java
-[source, java, linenums, role='code_column hide_tags=comment']
+[source, java, linenums, role='code_column hide_tags=comment,copyright']
 ----
 include::finish/src/main/java/io/openliberty/guides/microprofile/util/InventoryUtil.java[]
 ----
@@ -260,14 +260,14 @@ include::{common-includes}/devmode-build.adoc[]
 
 // Static guide instruction
 ifndef::cloud-hosted[]
-After the server updates, you can find your new hypermedia-driven `inventory` service at the following URL:
+After the Liberty instance updates, you can find your new hypermedia-driven `inventory` service at the following URL:
 
 * http://localhost:9080/inventory/hosts[http://localhost:9080/inventory/hosts^]
 endif::[]
 
 // Cloud hosted guide instruction
 ifdef::cloud-hosted[]
-After the server updates, you can find your new hypermedia-driven ***inventory*** service at the ***/inventory/hosts*** endpoint. Run the following curl command by another command-line session:
+After the Liberty instance updates, you can find your new hypermedia-driven ***inventory*** service at the ***/inventory/hosts*** endpoint. Run the following curl command by another command-line session:
 ```bash
 curl -s http://localhost:9080/inventory/hosts | jq
 ```
@@ -281,7 +281,7 @@ endif::[]
 
 // Cloud hosted guide instruction
 ifdef::cloud-hosted[]
-If the servers are running, you can test the application manually by running the following curl commands to access the **inventory** service that is now driven by hypermedia: 
+If the Liberty instances are running, you can test the application manually by running the following curl commands to access the **inventory** service that is now driven by hypermedia: 
 ```bash
 curl -s http://localhost:9080/inventory/hosts | jq
 ```
@@ -298,7 +298,7 @@ At the following URLs, access the `inventory` service that is now driven by hype
 * http://localhost:9080/inventory/hosts[http://localhost:9080/inventory/hosts^]
 * http://localhost:9080/inventory/hosts/localhost[http://localhost:9080/inventory/hosts/localhost^]
 
-If the servers are running, you can point your browser to each of the previous URLs to test the application manually. 
+If the Liberty instances are running, you can point your browser to each of the previous URLs to test the application manually. 
 endif::[]
 Nevertheless, you should rely on automated tests because they are more reliable and trigger a failure if a change introduces a defect.
 
@@ -311,7 +311,7 @@ Nevertheless, you should rely on automated tests because they are more reliable 
 ----
 
 EndpointIT.java
-[source, java, linenums, role='code_column hide_tags=comment']
+[source, java, linenums, role='code_column hide_tags=comment,copyright']
 ----
 include::finish/src/test/java/it/io/openliberty/guides/hateoas/EndpointIT.java[]
 ----
@@ -346,7 +346,7 @@ Integration tests finished.
 ----
 
 [role=command]
-include::{common-includes}/devmode-quit.adoc[]
+include::{common-includes}/devmode-quit-ctrlc.adoc[]
 
 == Great work! You're done!
 
