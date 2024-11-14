@@ -1,10 +1,11 @@
 <server description="Sample Liberty server">
 
   <featureManager>
-    <feature>restfulWS-3.1</feature>
-    <feature>jsonb-3.0</feature>
-    <feature>jsonp-2.1</feature>
-    <feature>cdi-4.0</feature>
+    <platform>jakartaee-10.0</platform>
+    <feature>restfulWS</feature>
+    <feature>jsonb</feature>
+    <feature>jsonp</feature>
+    <feature>cdi</feature>
   </featureManager>
 
   <httpEndpoint host="*" httpPort="${http.port}" httpsPort="${https.port}" id="defaultHttpEndpoint"/>
