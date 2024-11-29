@@ -71,7 +71,7 @@ public class InventoryUtil {
             HttpURLConnection http = (HttpURLConnection) target.openConnection();
             http.setConnectTimeout(50);
             int response = http.getResponseCode();
-            return (response != 200) ? false : true;
+            return response == 200;
         } catch (Exception e) {
             return false;
         }
