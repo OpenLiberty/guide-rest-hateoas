@@ -43,6 +43,7 @@ public class InventoryManager {
     public void add(String hostname, JsonObject systemProps) {
         inv.putIfAbsent(hostname, systemProps);
     }
+
     public JsonObject list() {
         JsonObjectBuilder systems = Json.createObjectBuilder();
         inv.forEach((host, props) -> {
