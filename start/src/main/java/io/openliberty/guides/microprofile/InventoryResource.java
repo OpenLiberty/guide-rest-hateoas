@@ -1,6 +1,6 @@
 // tag::copyright[]
 /*******************************************************************************
- * Copyright (c) 2017, 2022 IBM Corporation and others.
+ * Copyright (c) 2017, 2025 IBM Corporation and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License 2.0
  * which accompanies this distribution, and is available at
@@ -20,38 +20,23 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 
-// tag::header[]
-// tag::cdi-scope[]
 @ApplicationScoped
-// end::cdi-scope[]
 @Path("hosts")
 public class InventoryResource {
-// end::header[]
-
-    // tag::injection[]
     @Inject
     InventoryManager manager;
-    // end::injection[]
 
-    // tag::getPropertiesForHost[]
     @GET
     @Path("{hostname}")
     @Produces(MediaType.APPLICATION_JSON)
     public JsonObject getPropertiesForHost(@PathParam("hostname") String hostname) {
-        // tag::method-contents[]
         return manager.get(hostname);
-        // end::method-contents[]
     }
-    // end::getPropertiesForHost[]
 
-    // tag::listContents[]
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public JsonObject listContents() {
-        // tag::method-contents[]
         return manager.list();
-        // end::method-contents[]
     }
-    // end::listContents[]
 
 }

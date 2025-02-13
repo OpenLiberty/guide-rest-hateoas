@@ -1,6 +1,6 @@
 // tag::copyright[]
 /*******************************************************************************
- * Copyright (c) 2017, 2022 IBM Corporation and others.
+ * Copyright (c) 2017, 2025 IBM Corporation and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License 2.0
  * which accompanies this distribution, and is available at
@@ -30,9 +30,11 @@ public class InventoryUtil {
     public static JsonObject getProperties(String hostname) {
         Client client = ClientBuilder.newClient();
         URI propURI = InventoryUtil.buildUri(hostname);
-        return client.target(propURI)
-                     .request(MediaType.APPLICATION_JSON)
-                     .get(JsonObject.class);
+        JsonObject properties = client.target(propURI)
+                                      .request(MediaType.APPLICATION_JSON)
+                                      .get(JsonObject.class);
+        client.close();
+        return properties;
     }
 
     public static boolean responseOk(String hostname) {
@@ -41,7 +43,7 @@ public class InventoryUtil {
             HttpURLConnection http = (HttpURLConnection) target.openConnection();
             http.setConnectTimeout(50);
             int response = http.getResponseCode();
-            return (response != 200) ? false : true;
+            return response == 200;
         } catch (Exception e) {
             return false;
         }
