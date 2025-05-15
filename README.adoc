@@ -116,7 +116,7 @@ Although you should stick to the previous format for the purpose of this guide, 
 [role=command]
 include::{common-includes}/gitclone.adoc[]
 
-include::{common-includes}/twyb-intro.adoc[]
+include::{common-includes}/twyb-intro-mvnw.adoc[]
 
 // Static guide instruction
 ifndef::cloud-hosted[]
@@ -134,7 +134,7 @@ curl -s http://localhost:9080/inventory/hosts | jq
 endif::[]
 
 [role=command]
-include::{common-includes}/twyb-end.adoc[]
+include::{common-includes}/twyb-end-mvnw.adoc[]
 
 
 // =================================================================================================
@@ -152,7 +152,7 @@ cd /home/project/guide-rest-hateoas/start
 endif::[]
 
 [role=command]
-include::{common-includes}/devmode-lmp33-start.adoc[]
+include::{common-includes}/devmode-mvnw-start.adoc[]
 
 Begin by building your response JSON, which is composed of the name of the host machine and its list of HATEOAS links.
 
