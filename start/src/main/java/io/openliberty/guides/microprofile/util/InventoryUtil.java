@@ -39,7 +39,7 @@ public class InventoryUtil {
 
     public static boolean responseOk(String hostname) {
         try {
-            URL target = new URL(buildUri(hostname).toString());
+            URL target = buildUri(hostname).toURL();
             HttpURLConnection http = (HttpURLConnection) target.openConnection();
             http.setConnectTimeout(50);
             int response = http.getResponseCode();
